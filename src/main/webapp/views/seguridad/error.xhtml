@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	manifest="/negosys/resources/negosys.appcache">
+
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</f:facet>
+	<link rel="icon" type="image/png"
+		href="/tesisControlGasolina/resources/ronin-layout/imagenes/favicon.png" />
+	<title>Distrito</title>
+	<h:outputScript name="js/layout.js" library="ronin-layout" />
+	<ui:insert name="head" />
+</h:head>
+
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</f:facet>
+	<title>Distrito-Error</title>
+	<ui:insert name="head" />
+</h:head>
+
+<h:body class="loginbody">
+	<div class="Wid25 MarAuto DispBlock OvHidden Responsive100"
+		style="margin-top: 12%;">
+		<div class="ContainerIndent">
+			<div class="Wid90 MarAuto">
+				<div
+					class="ShadowBox whiteback TexAlCenter RedBorderedBox BordRad15">
+					<div class="EmptyBox30"></div>
+					<i class="red Fs100 fa fa-bomb"></i>
+					<div class="EmptyBox10"></div>
+					<div class="Wid100 red Fs30 FontDosisSemiBold">Error ocurrio
+						un problema</div>
+					<div class="Wid100 navyblue Fs18">Por favor contacte con el
+						administrador.</div>
+					<div class="EmptyBox30"></div>
+					<div class="Seperator"></div>
+					<div class="EmptyBox30"></div>
+					<div class="Wid100">
+						<p:button value="Regresar" icon="fa fa-dropbox Fs18 white"
+							styleClass="Wid60 RedButton" href="../home.xhtml" />
+					</div>
+					<div class="EmptyBox30"></div>
+				</div>
+				<div
+					class="Wid100 TexAlCenter MarTop20 softgray Fs14 FontDosisRegular">
+					<i class="fa fa-copyright"></i> Paulina Garcia <br />
+					Todos los derechos reservados.
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<h:outputStylesheet name="css/core-layout.css" library="ronin-layout" />
+	<h:outputStylesheet name="css/font-awesome.css" library="ronin-layout" />
+	<h:outputStylesheet name="css/animate.css" library="ronin-layout" />
+	<h:outputStylesheet name="css/ronin-layout.css" library="ronin-layout" />
+</h:body>
+
+</html>
