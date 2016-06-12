@@ -20,13 +20,6 @@
 			</roles>
 		</developer>
 	</developers>
-	<repositories>
-		<repository>
-			<id>jarLocales</id>
-			<name>Librerias Locales</name>
-			<url>file:${project.basedir}/repositorio</url>
-		</repository>
-	</repositories>
 
 	<build>
 		<plugins>
