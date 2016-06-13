@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.seguridad.entity;
+package ec.com.hoteleraWeb.safari.seguridad.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import ec.com.distrito.tesisControlGasolina.control.entity.Chofer;
+import ec.com.hoteleraWeb.safari.control.entity.Chofer;
 
 @Entity
 @Table(name = "bitacora")
@@ -23,7 +23,7 @@ public class Bitacora implements Serializable {
 	private Long id;
 	private Timestamp fecha;
 	private String metodo;
-	private Chofer chofer;
+	private Usuario chofer;
 
 	public Bitacora() {
 	}

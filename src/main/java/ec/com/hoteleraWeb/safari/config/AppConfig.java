@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.config;
+package ec.com.hoteleraWeb.safari.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

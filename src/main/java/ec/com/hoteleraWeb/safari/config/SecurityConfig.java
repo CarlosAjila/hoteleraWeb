@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.config;
+package ec.com.hoteleraWeb.safari.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -20,65 +20,48 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf()
-				.disable()
-				.authorizeRequests()
-				.antMatchers("/javax.faces.resource/**", "/resources/**",
-						"/login.jsf").permitAll()
-				.antMatchers("/views/home.jsf").access("isAuthenticated()")
+		http.csrf().disable().authorizeRequests().antMatchers("/javax.faces.resource/**", "/resources/**", "/login.jsf")
+				.permitAll().antMatchers("/views/home.jsf").access("isAuthenticated()")
 
-				.antMatchers("/views/choferes/listadoChoferes.jsf")
-				.hasAnyAuthority("ADMINISTRADOR", "SECRETARIA")
+				.antMatchers("/views/choferes/listadoChoferes.jsf").hasAnyAuthority("ADMINISTRADOR", "SECRETARIA")
 
-				.antMatchers("/views/vehiculos/listadoVehiculos.jsf")
-				.hasAnyAuthority("ADMINISTRADOR", "SECRETARIA")
+				.antMatchers("/views/vehiculos/listadoVehiculos.jsf").hasAnyAuthority("ADMINISTRADOR", "SECRETARIA")
 
-				.antMatchers("/views/control/listadoOrdenes.jsf")
-				.hasAnyAuthority("ADMINISTRADOR", "SECRETARIA")
+				.antMatchers("/views/control/listadoOrdenes.jsf").hasAnyAuthority("ADMINISTRADOR", "SECRETARIA")
 
-				.antMatchers("/views/matriculacion/bitacora.jsf")
-				.hasAnyAuthority("ADMINISTRADOR")
+				.antMatchers("/views/matriculacion/bitacora.jsf").hasAnyAuthority("ADMINISTRADOR")
 
-				.antMatchers("/views/seguridad/404.jsf")
-				.access("isAuthenticated()")
-				.antMatchers("/views/seguridad/accesoDenegado.jsf")
-				.access("isAuthenticated()")
-				.antMatchers("/views/seguridad/cambiarClave.jsf")
-				.access("isAuthenticated()")
-				.antMatchers("/views/seguridad/cambiarClaveNueva.jsf")
-				.access("isAuthenticated()")
-				.antMatchers("/views/seguridad/error.jsf")
-				.access("isAuthenticated()")
+				.antMatchers("/views/seguridad/404.jsf").access("isAuthenticated()")
+				.antMatchers("/views/seguridad/accesoDenegado.jsf").access("isAuthenticated()")
+				.antMatchers("/views/seguridad/cambiarClave.jsf").access("isAuthenticated()")
+				.antMatchers("/views/seguridad/cambiarClaveNueva.jsf").access("isAuthenticated()")
+				.antMatchers("/views/seguridad/error.jsf").access("isAuthenticated()")
 
-				.and().formLogin().loginPage("/login.jsf")
-				.defaultSuccessUrl("/views/home.jsf").and().logout()
-				.logoutUrl("/logout.jsf").logoutSuccessUrl("/login.jsf")
-				.invalidateHttpSession(true).deleteCookies("JSESSIONID").and()
-				.sessionManagement().invalidSessionUrl("/login.jsf")
+				.and().formLogin().loginPage("/login.jsf").defaultSuccessUrl("/views/home.jsf").and().logout()
+				.logoutUrl("/logout.jsf").logoutSuccessUrl("/login.jsf").invalidateHttpSession(true)
+				.deleteCookies("JSESSIONID").and().sessionManagement().invalidSessionUrl("/login.jsf")
 				.maximumSessions(1);
 	}
 
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth)
-			throws Exception {
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		PersistenceConfig persistenceConfig = new PersistenceConfig();
 
-		//encriptacion de la clave
+		// encriptacion de la clave
 		auth.jdbcAuthentication().dataSource(persistenceConfig.dataSource())
-				.passwordEncoder(new ShaPasswordEncoder(256))
-				.usersByUsernameQuery(getUserQuery())
+				.passwordEncoder(new ShaPasswordEncoder(256)).usersByUsernameQuery(getUserQuery())
 				.authoritiesByUsernameQuery(getAuthoritiesQuery());
 	}
-	//consulta para saber los roles o permisos de ese usuario
+
+	// consulta para saber los roles o permisos de ese usuario
 	private String getAuthoritiesQuery() {
 		return "select c.cedula , r.nombre "
 				+ "from distrito.chofer as c, distrito.rol as r, distrito.rolusuario as ur "
 				+ "where c.choferid = ur.choferid and r.rolid = ur.rolid and ur.activo=true and c.cedula = ?";
 	}
 
-	//consulta para el login 
+	// consulta para el login
 	private String getUserQuery() {
-		return "select cedula, password, activo from distrito.chofer "
-				+ "where cedula = ?";
+		return "select cedula, password, activo from distrito.chofer " + "where cedula = ?";
 	}
 }
