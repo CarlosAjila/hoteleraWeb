@@ -1,38 +1,42 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-/**
- * The persistent class for the cliente database table.
- * 
- */
 @Entity
-@NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
+@Table(name = "cliente")
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="cli_codigo")
+	@SequenceGenerator(allocationSize = 1, name = "cliente_cli_codigo_seq", sequenceName = "cliente_cli_codigo_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_cli_codigo_seq")
+	@Column(name = "cli_codigo")
 	private Integer cliCodigo;
 
-	@Column(name="cli_apellido")
+	@Column(name = "cli_apellido")
 	private String cliApellido;
 
-	@Column(name="cli_cedula")
+	@Column(name = "cli_cedula")
 	private String cliCedula;
 
-	@Column(name="cli_direccion")
+	@Column(name = "cli_direccion")
 	private String cliDireccion;
 
-	@Column(name="cli_movil")
+	@Column(name = "cli_movil")
 	private String cliMovil;
 
-	@Column(name="cli_nombre")
+	@Column(name = "cli_nombre")
 	private String cliNombre;
 
-	@Column(name="cli_telefono")
+	@Column(name = "cli_telefono")
 	private String cliTelefono;
 
 	public Cliente() {

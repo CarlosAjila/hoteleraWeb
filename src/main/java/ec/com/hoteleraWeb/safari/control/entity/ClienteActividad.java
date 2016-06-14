@@ -1,30 +1,33 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-/**
- * The persistent class for the cliente_actividad database table.
- * 
- */
 @Entity
-@Table(name="cliente_actividad")
-@NamedQuery(name="ClienteActividad.findAll", query="SELECT c FROM ClienteActividad c")
+@Table(name = "cliente_actividad")
 public class ClienteActividad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="cli_act_id")
+	@SequenceGenerator(allocationSize = 1, name = "cliente_actividad_cli_act_id_seq", sequenceName = "cliente_actividad_cli_act_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_actividad_cli_act_id_seq")
+	@Column(name = "cli_act_id")
 	private Integer cliActId;
 
-	@Column(name="act_codigo")
+	@Column(name = "act_codigo")
 	private Integer actCodigo;
 
-	@Column(name="num_persona")
+	@Column(name = "num_persona")
 	private Integer numPersona;
 
-	@Column(name="res_codigo")
+	@Column(name = "res_codigo")
 	private Integer resCodigo;
 
 	public ClienteActividad() {

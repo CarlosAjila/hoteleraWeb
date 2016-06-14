@@ -1,49 +1,55 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-/**
- * The persistent class for the reservacion database table.
- * 
- */
 @Entity
-@NamedQuery(name="Reservacion.findAll", query="SELECT r FROM Reservacion r")
+@Table(name = "reservacion")
 public class Reservacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="res_codigo")
+	@SequenceGenerator(allocationSize = 1, name = "reservacion_res_codigo_seq", sequenceName = "reservacion_res_codigo_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservacion_res_codigo_seq")
+	@Column(name = "res_codigo")
 	private Integer resCodigo;
 
-	@Column(name="cli_codigo")
+	@Column(name = "cli_codigo")
 	private Integer cliCodigo;
 
-	@Column(name="emp_codigo")
+	@Column(name = "emp_codigo")
 	private Integer empCodigo;
 
-	@Column(name="res_abono")
+	@Column(name = "res_abono")
 	private BigDecimal resAbono;
 
-	@Column(name="res_cancelada")
+	@Column(name = "res_cancelada")
 	private Boolean resCancelada;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="res_fecha_ingreso")
+	@Column(name = "res_fecha_ingreso")
 	private Date resFechaIngreso;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="res_fecha_reserva")
+	@Column(name = "res_fecha_reserva")
 	private Date resFechaReserva;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="res_fecha_salido")
+	@Column(name = "res_fecha_salido")
 	private Date resFechaSalido;
 
-	@Column(name="res_instancia")
+	@Column(name = "res_instancia")
 	private Boolean resInstancia;
 
 	public Reservacion() {

@@ -13,8 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import ec.com.hoteleraWeb.safari.control.entity.Chofer;
-
 @Entity
 @Table(name = "bitacora")
 public class Bitacora implements Serializable {
@@ -23,15 +21,15 @@ public class Bitacora implements Serializable {
 	private Long id;
 	private Timestamp fecha;
 	private String metodo;
-	private Usuario chofer;
+	private Usuario usuario;
 
 	public Bitacora() {
 	}
 
-	public Bitacora(Timestamp fecha, String metodo, Chofer chofer) {
+	public Bitacora(Timestamp fecha, String metodo, Usuario usuario) {
 		this.fecha = fecha;
 		this.metodo = metodo;
-		this.chofer = chofer;
+		this.usuario = usuario;
 	}
 
 	@Override
@@ -71,9 +69,9 @@ public class Bitacora implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "choferid", nullable = false)
-	public Chofer getChofer() {
-		return chofer;
+	@JoinColumn(name = "usuario_id", nullable = false)
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
 	@Override
@@ -100,8 +98,8 @@ public class Bitacora implements Serializable {
 		this.metodo = metodo;
 	}
 
-	public void setChofer(Chofer chofer) {
-		this.chofer = chofer;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

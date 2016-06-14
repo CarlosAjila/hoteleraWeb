@@ -1,33 +1,37 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-/**
- * The persistent class for the suplemento database table.
- * 
- */
 @Entity
-@NamedQuery(name="Suplemento.findAll", query="SELECT s FROM Suplemento s")
+@Table(name = "suplemento")
 public class Suplemento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="sup_codigo")
+	@SequenceGenerator(allocationSize = 1, name = "suplemento_sup_codigo_seq", sequenceName = "suplemento_sup_codigo_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "suplemento_sup_codigo_seq")
+	@Column(name = "sup_codigo")
 	private Integer supCodigo;
 
-	@Column(name="sup_activo")
+	@Column(name = "sup_activo")
 	private Boolean supActivo;
 
-	@Column(name="sup_detalle")
+	@Column(name = "sup_detalle")
 	private String supDetalle;
 
-	@Column(name="sup_temporada")
+	@Column(name = "sup_temporada")
 	private Boolean supTemporada;
 
-	@Column(name="sup_valor")
+	@Column(name = "sup_valor")
 	private BigDecimal supValor;
 
 	public Suplemento() {

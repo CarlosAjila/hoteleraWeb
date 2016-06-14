@@ -1,35 +1,39 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-/**
- * The persistent class for the hotel database table.
- * 
- */
 @Entity
-@NamedQuery(name="Hotel.findAll", query="SELECT h FROM Hotel h")
+@Table(name = "hotel")
 public class Hotel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="hot_codigo")
+	@SequenceGenerator(allocationSize = 1, name = "hotel_hot_codigo_seq", sequenceName = "hotel_hot_codigo_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hotel_hot_codigo_seq")
+	@Column(name = "hot_codigo")
 	private Integer hotCodigo;
 
-	@Column(name="hot_direccion")
+	@Column(name = "hot_direccion")
 	private String hotDireccion;
 
-	@Column(name="hot_estrella")
+	@Column(name = "hot_estrella")
 	private Long hotEstrella;
 
-	@Column(name="hot_nombre")
+	@Column(name = "hot_nombre")
 	private String hotNombre;
 
-	@Column(name="hot_ruc")
+	@Column(name = "hot_ruc")
 	private String hotRuc;
 
-	@Column(name="hot_telefono")
+	@Column(name = "hot_telefono")
 	private String hotTelefono;
 
 	public Hotel() {

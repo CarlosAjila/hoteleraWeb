@@ -1,32 +1,36 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-/**
- * The persistent class for the calendario database table.
- * 
- */
 @Entity
-@NamedQuery(name="Calendario.findAll", query="SELECT c FROM Calendario c")
+@Table(name = "calendario")
 public class Calendario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="cal_codigo")
+	@SequenceGenerator(allocationSize = 1, name = "calendario_cal_codigo_seq", sequenceName = "calendario_cal_codigo_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "calendario_cal_codigo_seq")
+	@Column(name = "cal_codigo")
 	private Integer calCodigo;
 
-	@Column(name="act_codigo")
+	@Column(name = "act_codigo")
 	private Integer actCodigo;
 
-	@Column(name="cal_dia")
+	@Column(name = "cal_dia")
 	private String calDia;
 
-	@Column(name="cal_hora_fin")
+	@Column(name = "cal_hora_fin")
 	private Long calHoraFin;
 
-	@Column(name="cal_hora_inicio")
+	@Column(name = "cal_hora_inicio")
 	private String calHoraInicio;
 
 	public Calendario() {

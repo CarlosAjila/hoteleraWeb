@@ -1,62 +1,68 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-/**
- * The persistent class for the factura database table.
- * 
- */
 @Entity
-@NamedQuery(name="Factura.findAll", query="SELECT f FROM Factura f")
+@Table(name = "factura")
 public class Factura implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="fac_codigo")
+	@SequenceGenerator(allocationSize = 1, name = "factura_fac_codigo_seq", sequenceName = "factura_fac_codigo_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "factura_fac_codigo_seq")
+	@Column(name = "fac_codigo")
 	private Integer facCodigo;
 
-	@Column(name="fac_anulada")
+	@Column(name = "fac_anulada")
 	private Boolean facAnulada;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fac_fecha")
+	@Column(name = "fac_fecha")
 	private Date facFecha;
 
-	@Column(name="fac_iva_vigente")
+	@Column(name = "fac_iva_vigente")
 	private BigDecimal facIvaVigente;
 
-	@Column(name="fac_montoiva")
+	@Column(name = "fac_montoiva")
 	private BigDecimal facMontoiva;
 
-	@Column(name="fac_numero")
+	@Column(name = "fac_numero")
 	private String facNumero;
 
-	@Column(name="fac_sub_total_base_imponible")
+	@Column(name = "fac_sub_total_base_imponible")
 	private BigDecimal facSubTotalBaseImponible;
 
-	@Column(name="fac_sub_total_base0")
+	@Column(name = "fac_sub_total_base0")
 	private BigDecimal facSubTotalBase0;
 
-	@Column(name="fac_total")
+	@Column(name = "fac_total")
 	private BigDecimal facTotal;
 
-	@Column(name="fac_total_actividad")
+	@Column(name = "fac_total_actividad")
 	private Long facTotalActividad;
 
-	@Column(name="fac_total_habitaciones")
+	@Column(name = "fac_total_habitaciones")
 	private BigDecimal facTotalHabitaciones;
 
-	@Column(name="fac_total_suplemento")
+	@Column(name = "fac_total_suplemento")
 	private BigDecimal facTotalSuplemento;
 
-	@Column(name="fac_total_suplemento_temporada")
+	@Column(name = "fac_total_suplemento_temporada")
 	private Long facTotalSuplementoTemporada;
 
-	@Column(name="res_codigo")
+	@Column(name = "res_codigo")
 	private Integer resCodigo;
 
 	public Factura() {

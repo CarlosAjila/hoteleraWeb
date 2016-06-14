@@ -1,31 +1,34 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-/**
- * The persistent class for the habitacion_detalle database table.
- * 
- */
 @Entity
-@Table(name="habitacion_detalle")
-@NamedQuery(name="HabitacionDetalle.findAll", query="SELECT h FROM HabitacionDetalle h")
+@Table(name = "habitacion_detalle")
 public class HabitacionDetalle implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="hab_det_id")
+	@SequenceGenerator(allocationSize = 1, name = "habitacion_detalle_hab_det_id_seq", sequenceName = "habitacion_detalle_hab_det_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habitacion_detalle_hab_det_id_seq")
+	@Column(name = "hab_det_id")
 	private Integer habDetId;
 
-	@Column(name="hab_codigo")
+	@Column(name = "hab_codigo")
 	private Integer habCodigo;
 
-	@Column(name="hab_det_valor")
+	@Column(name = "hab_det_valor")
 	private BigDecimal habDetValor;
 
-	@Column(name="res_codigo")
+	@Column(name = "res_codigo")
 	private Integer resCodigo;
 
 	public HabitacionDetalle() {
