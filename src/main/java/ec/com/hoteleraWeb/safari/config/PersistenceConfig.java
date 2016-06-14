@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("ec.com.distrito")
+@ComponentScan("ec.com.hoteleraWeb")
 public class PersistenceConfig {
 
 	@Autowired
@@ -26,12 +26,11 @@ public class PersistenceConfig {
 	@Bean
 	public DataSource dataSource() {
 		String lenguajeBaseDatos = "postgresql";
-
 		String nombreServidor = "localhost";
 		String puertoServidor = "5432";
-		String nombreBaseDatos = "distrito";
-		String username = "distrito";
-		String password = "12345";
+		String nombreBaseDatos = "safari";
+		String username = "administradores";
+		String password = "@dm1n$t0d0c0mPU$";
 
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("org.postgresql.Driver");
@@ -54,7 +53,7 @@ public class PersistenceConfig {
 			{
 				setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 				setProperty("hibernate.show_sql", "true");
-				setProperty("hibernate.default_schema", "distrito");
+				setProperty("hibernate.default_schema", "public");
 			}
 		};
 	}
@@ -63,7 +62,7 @@ public class PersistenceConfig {
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan(new String[] { "ec.com.distrito" });
+		sessionFactory.setPackagesToScan(new String[] { "ec.com.hoteleraWeb" });
 		sessionFactory.setHibernateProperties(hibernateProperties());
 
 		return sessionFactory;
