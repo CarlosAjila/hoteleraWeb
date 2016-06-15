@@ -29,7 +29,7 @@ public class GenericDaoImpl<T, K extends Serializable> implements
 			Object o = t;
 			String idOriginal;
 			try {
-				idOriginal = String.valueOf(o.getClass().getMethod("getId")
+				idOriginal = String.valueOf(o.getClass().getMethod("getUsuId")
 						.invoke(o));
 				if (idOriginal.compareTo(id) == 0) {
 					evict(t);

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import ec.com.hoteleraWeb.safari.control.service.ChoferService;
+import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
 import ec.com.hoteleraWeb.safari.seguridad.dao.BitacoraDao;
 import ec.com.hoteleraWeb.safari.seguridad.entity.Bitacora;
 
@@ -26,10 +26,10 @@ public class BitacoraAspect implements Serializable {
 	public BitacoraDao bitacoraDao;
 
 	@Autowired
-	public ChoferService choferService;
+	public UsuarioService usuarioService;
 
-	@After("execution(public * ec.com.distrito.tesisControlGasolina.control.service..*.eliminar(..)) "
-			+ "|| execution(public * ec.com.distrito.tesisControlGasolina.control.service..*.eliminar(..)) ")
+	@After("execution(public * ec.com.hoteleraWeb.safari.control.service..*.eliminar(..)) "
+			+ "|| execution(public * ec.com.hoteleraWeb.safari.control.service..*.eliminar(..)) ")
 	public void auditarEliminar(JoinPoint joinPoint) {
 		Object obj = (joinPoint.getArgs())[0];
 		String mensaje = "";
@@ -51,7 +51,7 @@ public class BitacoraAspect implements Serializable {
 		String cedula = SecurityContextHolder.getContext().getAuthentication().getName();
 		if (cedula.compareTo("0123456789") != 0)
 			bitacoraDao.insertar(new Bitacora(new Timestamp((new Date()).getTime()), mensaje,
-					choferService.obtenerPorCedula(cedula)));
+					usuarioService.obtenerPorCedula(cedula)));
 	}
 
 	@After("execution(public * ec.com.distrito.tesisControlGasolina.control.service..*.insertar(..)) "
@@ -71,7 +71,7 @@ public class BitacoraAspect implements Serializable {
 		System.out.println(cedula);
 		if (cedula.compareTo("0123456789") != 0)
 			bitacoraDao.insertar(new Bitacora(new Timestamp((new Date()).getTime()), mensaje,
-					choferService.obtenerPorCedula(cedula)));
+					usuarioService.obtenerPorCedula(cedula)));
 	}
 
 	@After("execution(public * ec.com.distrito.tesisControlGasolina.seguridad.service.MenuService.obtenerPorUsuario(..)) ")
@@ -79,6 +79,6 @@ public class BitacoraAspect implements Serializable {
 		String cedula = SecurityContextHolder.getContext().getAuthentication().getName();
 		if (cedula.compareTo("0123456789") != 0)
 			bitacoraDao.insertar(new Bitacora(new Timestamp((new Date()).getTime()), "Ingresó al Sistema",
-					choferService.obtenerActivoPorCedula(cedula)));
+					usuarioService.obtenerActivoPorCedula(cedula)));
 	}
 }

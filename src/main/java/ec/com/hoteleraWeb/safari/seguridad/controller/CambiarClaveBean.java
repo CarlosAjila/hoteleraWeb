@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import ec.com.hoteleraWeb.safari.control.service.ChoferService;
+import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
 
 @Controller
 @Scope("session")
 public class CambiarClaveBean implements Serializable {
 
 	@Autowired
-	private ChoferService personaService;
+	private UsuarioService personaService;
 
 	private static final long serialVersionUID = 1L;
 	private String claveActual;

@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
 import ec.com.hoteleraWeb.safari.seguridad.entity.Bitacora;
+import ec.com.hoteleraWeb.safari.seguridad.entity.Usuario;
 import ec.com.hoteleraWeb.safari.seguridad.service.BitacoraService;
 
 @Controller
@@ -25,29 +27,29 @@ public class BitacoraBean implements Serializable {
 	BitacoraService bitacoraService;
 
 	@Autowired
-	ChoferService choferService;
+	UsuarioService usuarioService;
 
-	private Chofer chofer;
+	private Usuario usuario;
 	private String criterio;
 	private Date fechaInicio;
 
 	List<Bitacora> listaBitacora;
-	List<Chofer> listachoferes;
+	List<Usuario> listausuarioes;
 
 	public BitacoraBean() {
 	}
 
 	public void buscarUsuario() {
-		listachoferes = choferService.obtenerTodosPorBusqueda(criterio);
+		listausuarioes = usuarioService.obtenerTodosPorBusqueda(criterio);
 	}
 
 	public void cargarUsuario(SelectEvent event) {
-		chofer = choferService.obtenerPorChoferId(chofer.getId());
+		usuario = usuarioService.obtenerPorUsuarioId(usuario.getUsuId());
 	}
 
 	public void consultar() {
 		listaBitacora = new ArrayList<Bitacora>();
-		listaBitacora = bitacoraService.obtener(chofer.getId(), fechaInicio);
+		listaBitacora = bitacoraService.obtener(usuario.getUsuId(), fechaInicio);
 	}
 
 	public String getCriterio() {
@@ -62,17 +64,17 @@ public class BitacoraBean implements Serializable {
 		return listaBitacora;
 	}
 
-	public List<Chofer> getListachoferes() {
-		return listachoferes;
+	public List<Usuario> getListausuarioes() {
+		return listausuarioes;
 	}
 
-	public Chofer getchofer() {
-		return chofer;
+	public Usuario getusuario() {
+		return usuario;
 	}
 
 	@PostConstruct
 	public void init() {
-		chofer = new Chofer();
+		usuario = new Usuario();
 		fechaInicio = new Date();
 	}
 
@@ -88,12 +90,12 @@ public class BitacoraBean implements Serializable {
 		this.listaBitacora = listaBitacora;
 	}
 
-	public void setListachoferes(List<Chofer> listachoferes) {
-		this.listachoferes = listachoferes;
+	public void setListausuarioes(List<Usuario> listausuarioes) {
+		this.listausuarioes = listausuarioes;
 	}
 
-	public void setchofer(Chofer chofer) {
-		this.chofer = chofer;
+	public void setusuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

@@ -1,7 +1,7 @@
 package ec.com.hoteleraWeb.safari.seguridad.entity;
 
 import java.io.Serializable;
-import java.sql.Time;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,16 +22,22 @@ public class Bitacora implements Serializable {
 	@Column(name = "bit_cod")
 	private Integer bitCod;
 
-	@Column(name = "bit_empleado")
-	private String bitEmpleado;
-
 	@Column(name = "bit_fecha")
-	private Time bitFecha;
+	private Timestamp bitFecha;
 
 	@Column(name = "bit_metodo")
 	private String bitMetodo;
 
+	@Column(name = "bit_usuario")
+	private Usuario bitUsuario;
+
 	public Bitacora() {
+	}
+
+	public Bitacora(Timestamp bitFecha, String bitMetodo, Usuario bitUsuario) {
+		this.bitFecha = bitFecha;
+		this.bitMetodo = bitMetodo;
+		this.bitUsuario = bitUsuario;
 	}
 
 	public Integer getBitCod() {
@@ -42,19 +48,19 @@ public class Bitacora implements Serializable {
 		this.bitCod = bitCod;
 	}
 
-	public String getBitEmpleado() {
-		return this.bitEmpleado;
+	public Usuario getBitUsuario() {
+		return this.bitUsuario;
 	}
 
-	public void setBitEmpleado(String bitEmpleado) {
-		this.bitEmpleado = bitEmpleado;
+	public void setBitUsuario(Usuario bitUsuario) {
+		this.bitUsuario = bitUsuario;
 	}
 
-	public Time getBitFecha() {
+	public Timestamp getBitFecha() {
 		return this.bitFecha;
 	}
 
-	public void setBitFecha(Time bitFecha) {
+	public void setBitFecha(Timestamp bitFecha) {
 		this.bitFecha = bitFecha;
 	}
 

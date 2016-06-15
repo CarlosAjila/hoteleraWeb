@@ -15,8 +15,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
-import ec.com.hoteleraWeb.safari.control.service.ChoferService;
+import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
 import ec.com.hoteleraWeb.safari.seguridad.entity.Menu;
+import ec.com.hoteleraWeb.safari.seguridad.entity.Usuario;
 import ec.com.hoteleraWeb.safari.seguridad.service.MenuService;
 import ec.com.hoteleraWeb.safari.utils.UtilsAplicacion;
 
@@ -30,7 +31,7 @@ public class MenuBean implements Serializable {
 	private MenuService menuService;
 
 	@Autowired
-	private ChoferService choferService;
+	private UsuarioService usuarioService;
 
 	private MenuModel menuModel;
 	private String nombreUsuario;
@@ -54,30 +55,30 @@ public class MenuBean implements Serializable {
 			List<Menu> listMenu = menuService
 					.obtenerPorUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
 			for (Menu menu : listMenu) {
-				if (menu.getVista().compareTo("-") == 0) {
-					if (menu.getNivel() == 1) {
-						padre1 = menu.getId();
-						subMenu1 = new DefaultSubMenu(menu.getNombre(), "fa " + menu.getIcono());
+				if (menu.getMenVista().compareTo("-") == 0) {
+					if (menu.getMenNivel() == 1) {
+						padre1 = menu.getMenId();
+						subMenu1 = new DefaultSubMenu(menu.getMenNombre(), "fa " + menu.getMenIcono());
 						menuModel.addElement(subMenu1);
 						menuModel.addElement(new DefaultSeparator());
-					} else if (menu.getNivel() == 2) {
-						padre2 = menu.getId();
-						subMenu2 = new DefaultSubMenu(menu.getNombre(), "fa " + menu.getIcono());
+					} else if (menu.getMenNivel() == 2) {
+						padre2 = menu.getMenId();
+						subMenu2 = new DefaultSubMenu(menu.getMenNombre(), "fa " + menu.getMenIcono());
 						subMenu1.addElement(subMenu2);
-					} else if (menu.getNivel() == 3) {
-						padre3 = menu.getId();
-						subMenu3 = new DefaultSubMenu(menu.getNombre(), "fa " + menu.getIcono());
+					} else if (menu.getMenNivel() == 3) {
+						padre3 = menu.getMenId();
+						subMenu3 = new DefaultSubMenu(menu.getMenNombre(), "fa " + menu.getMenIcono());
 						subMenu2.addElement(subMenu3);
 					}
 				} else {
-					menuItem = new DefaultMenuItem(menu.getNombre(), "fa " + menu.getIcono(), menu.getVista());
+					menuItem = new DefaultMenuItem(menu.getMenNombre(), "fa " + menu.getMenIcono(), menu.getMenVista());
 					menuItem.setAjax(true);
 					menuItem.setUpdate("centro");
-					if (padre1 == menu.getPadre())
+					if (padre1 == menu.getMenPadre())
 						subMenu1.addElement(menuItem);
-					else if (padre2 == menu.getPadre())
+					else if (padre2 == menu.getMenPadre())
 						subMenu2.addElement(menuItem);
-					else if (padre3 == menu.getPadre())
+					else if (padre3 == menu.getMenPadre())
 						subMenu3.addElement(menuItem);
 				}
 			}
@@ -94,10 +95,10 @@ public class MenuBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		UtilsAplicacion.actualizarPaginaWeb("www.educacion.gob.ec");
-		Chofer p = choferService
+		UtilsAplicacion.actualizarPaginaWeb("www.carlosajila.com.ec");
+		Usuario u = usuarioService
 				.obtenerActivoPorCedula(SecurityContextHolder.getContext().getAuthentication().getName());
-		setNombreUsuario(p.getNombre() + " " + p.getApellido());
+		setNombreUsuario(u.getUsuNombre());
 		cargarMenu();
 	}
 
