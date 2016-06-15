@@ -2,12 +2,16 @@ package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -34,8 +38,18 @@ public class Habitacione implements Serializable {
 	@Column(name = "hab_tipo")
 	private String habTipo;
 
-	@Column(name = "hot_codigo")
-	private Integer hotCodigo;
+	// bi-directional many-to-one association to HabitacionDetalle
+	@OneToMany(mappedBy = "habitacione")
+	private List<HabitacionDetalle> habitacionDetalles;
+
+	// bi-directional many-to-one association to HabitacionSuplemento
+	@OneToMany(mappedBy = "habitacione")
+	private List<HabitacionSuplemento> habitacionSuplementos;
+
+	// bi-directional many-to-one association to Hotel
+	@ManyToOne
+	@JoinColumn(name = "hot_codigo")
+	private Hotel hotel;
 
 	public Habitacione() {
 	}
@@ -80,12 +94,56 @@ public class Habitacione implements Serializable {
 		this.habTipo = habTipo;
 	}
 
-	public Integer getHotCodigo() {
-		return this.hotCodigo;
+	public List<HabitacionDetalle> getHabitacionDetalles() {
+		return this.habitacionDetalles;
 	}
 
-	public void setHotCodigo(Integer hotCodigo) {
-		this.hotCodigo = hotCodigo;
+	public void setHabitacionDetalles(List<HabitacionDetalle> habitacionDetalles) {
+		this.habitacionDetalles = habitacionDetalles;
+	}
+
+	public HabitacionDetalle addHabitacionDetalle(HabitacionDetalle habitacionDetalle) {
+		getHabitacionDetalles().add(habitacionDetalle);
+		habitacionDetalle.setHabitacione(this);
+
+		return habitacionDetalle;
+	}
+
+	public HabitacionDetalle removeHabitacionDetalle(HabitacionDetalle habitacionDetalle) {
+		getHabitacionDetalles().remove(habitacionDetalle);
+		habitacionDetalle.setHabitacione(null);
+
+		return habitacionDetalle;
+	}
+
+	public List<HabitacionSuplemento> getHabitacionSuplementos() {
+		return this.habitacionSuplementos;
+	}
+
+	public void setHabitacionSuplementos(List<HabitacionSuplemento> habitacionSuplementos) {
+		this.habitacionSuplementos = habitacionSuplementos;
+	}
+
+	public HabitacionSuplemento addHabitacionSuplemento(HabitacionSuplemento habitacionSuplemento) {
+		getHabitacionSuplementos().add(habitacionSuplemento);
+		habitacionSuplemento.setHabitacione(this);
+
+		return habitacionSuplemento;
+	}
+
+	public HabitacionSuplemento removeHabitacionSuplemento(HabitacionSuplemento habitacionSuplemento) {
+		getHabitacionSuplementos().remove(habitacionSuplemento);
+		habitacionSuplemento.setHabitacione(null);
+
+		return habitacionSuplemento;
+	}
+
+	public Hotel getHotel() {
+		return this.hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
 	}
 
 }

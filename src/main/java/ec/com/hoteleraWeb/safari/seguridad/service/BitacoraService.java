@@ -1,11 +1,11 @@
-package ec.com.distrito.tesisControlGasolina.seguridad.service;
+package ec.com.hoteleraWeb.safari.seguridad.service;
 
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import ec.com.distrito.tesisControlGasolina.seguridad.entity.Bitacora;
+import ec.com.hoteleraWeb.safari.seguridad.entity.Bitacora;
 
 public interface BitacoraService {
 	@Transactional

@@ -1,6 +1,6 @@
-package ec.com.distrito.tesisControlGasolina.utils.service;
+package ec.com.hoteleraWeb.safari.utils.service;
 
-import static ec.com.distrito.tesisControlGasolina.utils.UtilsAplicacion.presentaMensaje;
+import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
 
 import java.io.File;
 import java.io.FileInputStream;

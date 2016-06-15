@@ -1,9 +1,8 @@
-package ec.com.distrito.tesisControlGasolina.seguridad.entity;
+package ec.com.hoteleraWeb.safari.seguridad.entity;
 
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,22 +17,59 @@ import javax.persistence.Table;
 public class Rol implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Integer id;
-	private String nombre;
-	private String descripcion;
+	@Id
+	@SequenceGenerator(allocationSize = 1, name = "rol_rol_id_seq", sequenceName = "rol_rol_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_rol_id_seq")
+	@Column(name = "rol_id")
+	private Integer rolId;
+
+	@Column(name = "rol_nombre")
+	private String rolNombre;
+
+	@Column(name = "rol_rescripcion")
+	private String rolRescripcion;
+
+	// bi-directional many-to-one association to RolMenu
+	@OneToMany(mappedBy = "rol")
 	private List<RolMenu> rolMenus;
+
+	// bi-directional many-to-one association to RolUsuario
+	@OneToMany(mappedBy = "rol")
 	private List<RolUsuario> rolUsuarios;
 
 	public Rol() {
 	}
 
-	public Rol(Integer id, String nombre, String descripcion,
-			List<RolMenu> rolMenus, List<RolUsuario> rolUsuarios) {
-		this.id = id;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
+	public Integer getRolId() {
+		return this.rolId;
+	}
+
+	public void setRolId(Integer rolId) {
+		this.rolId = rolId;
+	}
+
+	public String getRolNombre() {
+		return this.rolNombre;
+	}
+
+	public void setRolNombre(String rolNombre) {
+		this.rolNombre = rolNombre;
+	}
+
+	public String getRolRescripcion() {
+		return this.rolRescripcion;
+	}
+
+	public void setRolRescripcion(String rolRescripcion) {
+		this.rolRescripcion = rolRescripcion;
+	}
+
+	public List<RolMenu> getRolMenus() {
+		return this.rolMenus;
+	}
+
+	public void setRolMenus(List<RolMenu> rolMenus) {
 		this.rolMenus = rolMenus;
-		this.rolUsuarios = rolUsuarios;
 	}
 
 	public RolMenu addRolMenus(RolMenu rolMenus) {
@@ -43,67 +79,6 @@ public class Rol implements Serializable {
 		return rolMenus;
 	}
 
-	public RolUsuario addRolUsuario(RolUsuario rolUsuario) {
-		getRolUsuarios().add(rolUsuario);
-		rolUsuario.setRol(this);
-
-		return rolUsuario;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Rol other = (Rol) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Column(length = 100)
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	@Id
-	@SequenceGenerator(allocationSize = 1, name = "ROL_ROLID_GENERATOR", sequenceName = "ROL_ROLID_SEQ")
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROL_ROLID_GENERATOR")
-	@Column(name = "rolid", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
-
-	@Column(nullable = false, length = 20)
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "rol")
-	public List<RolMenu> getRolMenus() {
-		return this.rolMenus;
-	}
-
-	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "rol")
-	public List<RolUsuario> getRolUsuarios() {
-		return this.rolUsuarios;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
 	public RolMenu removeRolMenus(RolMenu rolMenus) {
 		getRolMenus().remove(rolMenus);
 		rolMenus.setRol(null);
@@ -111,31 +86,26 @@ public class Rol implements Serializable {
 		return rolMenus;
 	}
 
+	public List<RolUsuario> getRolUsuarios() {
+		return this.rolUsuarios;
+	}
+
+	public void setRolUsuarios(List<RolUsuario> rolUsuarios) {
+		this.rolUsuarios = rolUsuarios;
+	}
+
+	public RolUsuario addRolUsuario(RolUsuario rolUsuario) {
+		getRolUsuarios().add(rolUsuario);
+		rolUsuario.setRol(this);
+
+		return rolUsuario;
+	}
+
 	public RolUsuario removeRolUsuario(RolUsuario rolUsuario) {
 		getRolUsuarios().remove(rolUsuario);
 		rolUsuario.setRol(null);
 
 		return rolUsuario;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public void setRolMenus(List<RolMenu> rolMenus) {
-		this.rolMenus = rolMenus;
-	}
-
-	public void setRolUsuarios(List<RolUsuario> rolUsuarios) {
-		this.rolUsuarios = rolUsuarios;
 	}
 
 }

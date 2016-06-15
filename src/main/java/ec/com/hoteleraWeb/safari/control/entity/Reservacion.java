@@ -3,12 +3,16 @@ package ec.com.hoteleraWeb.safari.control.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,12 +28,6 @@ public class Reservacion implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservacion_res_codigo_seq")
 	@Column(name = "res_codigo")
 	private Integer resCodigo;
-
-	@Column(name = "cli_codigo")
-	private Integer cliCodigo;
-
-	@Column(name = "emp_codigo")
-	private Integer empCodigo;
 
 	@Column(name = "res_abono")
 	private BigDecimal resAbono;
@@ -52,6 +50,28 @@ public class Reservacion implements Serializable {
 	@Column(name = "res_instancia")
 	private Boolean resInstancia;
 
+	// bi-directional many-to-one association to ClienteActividad
+	@OneToMany(mappedBy = "reservacion")
+	private List<ClienteActividad> clienteActividads;
+
+	// bi-directional many-to-one association to Factura
+	@OneToMany(mappedBy = "reservacion")
+	private List<Factura> facturas;
+
+	// bi-directional many-to-one association to HabitacionDetalle
+	@OneToMany(mappedBy = "reservacion")
+	private List<HabitacionDetalle> habitacionDetalles;
+
+	// bi-directional many-to-one association to Cliente
+	@ManyToOne
+	@JoinColumn(name = "cli_codigo")
+	private Cliente cliente;
+
+	// bi-directional many-to-one association to Empleado
+	@ManyToOne
+	@JoinColumn(name = "emp_codigo")
+	private Empleado empleado;
+
 	public Reservacion() {
 	}
 
@@ -61,22 +81,6 @@ public class Reservacion implements Serializable {
 
 	public void setResCodigo(Integer resCodigo) {
 		this.resCodigo = resCodigo;
-	}
-
-	public Integer getCliCodigo() {
-		return this.cliCodigo;
-	}
-
-	public void setCliCodigo(Integer cliCodigo) {
-		this.cliCodigo = cliCodigo;
-	}
-
-	public Integer getEmpCodigo() {
-		return this.empCodigo;
-	}
-
-	public void setEmpCodigo(Integer empCodigo) {
-		this.empCodigo = empCodigo;
 	}
 
 	public BigDecimal getResAbono() {
@@ -125,6 +129,88 @@ public class Reservacion implements Serializable {
 
 	public void setResInstancia(Boolean resInstancia) {
 		this.resInstancia = resInstancia;
+	}
+
+	public List<ClienteActividad> getClienteActividads() {
+		return this.clienteActividads;
+	}
+
+	public void setClienteActividads(List<ClienteActividad> clienteActividads) {
+		this.clienteActividads = clienteActividads;
+	}
+
+	public ClienteActividad addClienteActividad(ClienteActividad clienteActividad) {
+		getClienteActividads().add(clienteActividad);
+		clienteActividad.setReservacion(this);
+
+		return clienteActividad;
+	}
+
+	public ClienteActividad removeClienteActividad(ClienteActividad clienteActividad) {
+		getClienteActividads().remove(clienteActividad);
+		clienteActividad.setReservacion(null);
+
+		return clienteActividad;
+	}
+
+	public List<Factura> getFacturas() {
+		return this.facturas;
+	}
+
+	public void setFacturas(List<Factura> facturas) {
+		this.facturas = facturas;
+	}
+
+	public Factura addFactura(Factura factura) {
+		getFacturas().add(factura);
+		factura.setReservacion(this);
+
+		return factura;
+	}
+
+	public Factura removeFactura(Factura factura) {
+		getFacturas().remove(factura);
+		factura.setReservacion(null);
+
+		return factura;
+	}
+
+	public List<HabitacionDetalle> getHabitacionDetalles() {
+		return this.habitacionDetalles;
+	}
+
+	public void setHabitacionDetalles(List<HabitacionDetalle> habitacionDetalles) {
+		this.habitacionDetalles = habitacionDetalles;
+	}
+
+	public HabitacionDetalle addHabitacionDetalle(HabitacionDetalle habitacionDetalle) {
+		getHabitacionDetalles().add(habitacionDetalle);
+		habitacionDetalle.setReservacion(this);
+
+		return habitacionDetalle;
+	}
+
+	public HabitacionDetalle removeHabitacionDetalle(HabitacionDetalle habitacionDetalle) {
+		getHabitacionDetalles().remove(habitacionDetalle);
+		habitacionDetalle.setReservacion(null);
+
+		return habitacionDetalle;
+	}
+
+	public Cliente getCliente() {
+		return this.cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Empleado getEmpleado() {
+		return this.empleado;
+	}
+
+	public void setEmpleado(Empleado empleado) {
+		this.empleado = empleado;
 	}
 
 }

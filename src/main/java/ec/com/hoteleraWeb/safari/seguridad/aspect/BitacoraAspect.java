@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.seguridad.aspect;
+package ec.com.hoteleraWeb.safari.seguridad.aspect;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import ec.com.distrito.tesisControlGasolina.control.service.ChoferService;
-import ec.com.distrito.tesisControlGasolina.seguridad.dao.BitacoraDao;
-import ec.com.distrito.tesisControlGasolina.seguridad.entity.Bitacora;
+import ec.com.hoteleraWeb.safari.control.service.ChoferService;
+import ec.com.hoteleraWeb.safari.seguridad.dao.BitacoraDao;
+import ec.com.hoteleraWeb.safari.seguridad.entity.Bitacora;
 
 @Component
 @Aspect

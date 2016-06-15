@@ -1,10 +1,10 @@
-package ec.com.distrito.tesisControlGasolina.seguridad.service;
+package ec.com.hoteleraWeb.safari.seguridad.service;
 
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import ec.com.distrito.tesisControlGasolina.seguridad.entity.Rol;
+import ec.com.hoteleraWeb.safari.seguridad.entity.Rol;
 
 public interface RolService {
 	@Transactional

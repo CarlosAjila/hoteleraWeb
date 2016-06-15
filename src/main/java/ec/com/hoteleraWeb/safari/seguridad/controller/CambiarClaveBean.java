@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.seguridad.controller;
+package ec.com.hoteleraWeb.safari.seguridad.controller;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import ec.com.distrito.tesisControlGasolina.control.service.ChoferService;
+import ec.com.hoteleraWeb.safari.control.service.ChoferService;
 
 @Controller
 @Scope("session")

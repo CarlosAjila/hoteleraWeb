@@ -1,12 +1,16 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -20,7 +24,6 @@ public class Empleado implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "empleado_emp_codigo_seq")
 	@Column(name = "emp_codigo")
 	private Integer empCodigo;
-
 	@Column(name = "emp_apellido")
 	private String empApellido;
 
@@ -39,8 +42,18 @@ public class Empleado implements Serializable {
 	@Column(name = "emp_titulo")
 	private String empTitulo;
 
-	@Column(name = "hot_codigo")
-	private Integer hotCodigo;
+	// bi-directional many-to-one association to Actividad
+	@OneToMany(mappedBy = "empleado")
+	private List<Actividad> actividads;
+
+	// bi-directional many-to-one association to Hotel
+	@ManyToOne
+	@JoinColumn(name = "hot_codigo")
+	private Hotel hotel;
+
+	// bi-directional many-to-one association to Reservacion
+	@OneToMany(mappedBy = "empleado")
+	private List<Reservacion> reservacions;
 
 	public Empleado() {
 	}
@@ -101,12 +114,56 @@ public class Empleado implements Serializable {
 		this.empTitulo = empTitulo;
 	}
 
-	public Integer getHotCodigo() {
-		return this.hotCodigo;
+	public List<Actividad> getActividads() {
+		return this.actividads;
 	}
 
-	public void setHotCodigo(Integer hotCodigo) {
-		this.hotCodigo = hotCodigo;
+	public void setActividads(List<Actividad> actividads) {
+		this.actividads = actividads;
+	}
+
+	public Actividad addActividad(Actividad actividad) {
+		getActividads().add(actividad);
+		actividad.setEmpleado(this);
+
+		return actividad;
+	}
+
+	public Actividad removeActividad(Actividad actividad) {
+		getActividads().remove(actividad);
+		actividad.setEmpleado(null);
+
+		return actividad;
+	}
+
+	public Hotel getHotel() {
+		return this.hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
+	public List<Reservacion> getReservacions() {
+		return this.reservacions;
+	}
+
+	public void setReservacions(List<Reservacion> reservacions) {
+		this.reservacions = reservacions;
+	}
+
+	public Reservacion addReservacion(Reservacion reservacion) {
+		getReservacions().add(reservacion);
+		reservacion.setEmpleado(this);
+
+		return reservacion;
+	}
+
+	public Reservacion removeReservacion(Reservacion reservacion) {
+		getReservacions().remove(reservacion);
+		reservacion.setEmpleado(null);
+
+		return reservacion;
 	}
 
 }

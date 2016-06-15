@@ -1,6 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.seguridad.controller;
-
-import static ec.com.distrito.tesisControlGasolina.utils.UtilsAplicacion.redireccionar;
+package ec.com.hoteleraWeb.safari.seguridad.controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,11 +15,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
-import ec.com.distrito.tesisControlGasolina.control.entity.Chofer;
-import ec.com.distrito.tesisControlGasolina.control.service.ChoferService;
-import ec.com.distrito.tesisControlGasolina.seguridad.entity.Menu;
-import ec.com.distrito.tesisControlGasolina.seguridad.service.MenuService;
-import ec.com.distrito.tesisControlGasolina.utils.UtilsAplicacion;
+import ec.com.hoteleraWeb.safari.control.service.ChoferService;
+import ec.com.hoteleraWeb.safari.seguridad.entity.Menu;
+import ec.com.hoteleraWeb.safari.seguridad.service.MenuService;
+import ec.com.hoteleraWeb.safari.utils.UtilsAplicacion;
 
 @Controller
 @Scope("session")

@@ -55,13 +55,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	// consulta para saber los roles o permisos de ese usuario
 	private String getAuthoritiesQuery() {
-		return "select u.nick , r.nombre "
-				+ "from public.usuario as u, public.rol as r, public.rolusuario as ur "
-				+ "where u.usu_id = ur.usuario_id and r.rol_id = ur.rol_id and ur.rus_activo=true and u.nick = ?";
+		return "select u.usu_nick , r.rol_nombre "
+				+ "from public.usuario as u, public.rol as r, public.rol_usuario as ur "
+				+ "where u.usu_id = ur.usuario_id and r.rol_id = ur.rol_id and ur.rus_activo=true and u.usu_nick = ?";
 	}
 
 	// consulta para el login
 	private String getUserQuery() {
-		return "select usu_nick, usu_password, usu_activo from public.usuario " + "where nick = ?";
+		return "select usu_nick, usu_password, usu_activo from public.usuario " + "where usu_nick = ?";
 	}
 }

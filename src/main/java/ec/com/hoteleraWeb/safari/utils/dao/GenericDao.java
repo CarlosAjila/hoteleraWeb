@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.utils.dao;
+package ec.com.hoteleraWeb.safari.utils.dao;
 
 import java.io.Serializable;
 import java.util.List;

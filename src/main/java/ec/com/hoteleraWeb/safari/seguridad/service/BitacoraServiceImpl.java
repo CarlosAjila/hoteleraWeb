@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.seguridad.service;
+package ec.com.hoteleraWeb.safari.seguridad.service;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ec.com.distrito.tesisControlGasolina.seguridad.dao.BitacoraDao;
-import ec.com.distrito.tesisControlGasolina.seguridad.entity.Bitacora;
+import ec.com.hoteleraWeb.safari.seguridad.dao.BitacoraDao;
+import ec.com.hoteleraWeb.safari.seguridad.entity.Bitacora;
 
 @Service
 public class BitacoraServiceImpl implements BitacoraService, Serializable {

@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.seguridad.controller;
+package ec.com.hoteleraWeb.safari.seguridad.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import ec.com.distrito.tesisControlGasolina.control.entity.Chofer;
-import ec.com.distrito.tesisControlGasolina.control.service.ChoferService;
-import ec.com.distrito.tesisControlGasolina.seguridad.entity.Bitacora;
-import ec.com.distrito.tesisControlGasolina.seguridad.service.BitacoraService;
+import ec.com.hoteleraWeb.safari.seguridad.entity.Bitacora;
+import ec.com.hoteleraWeb.safari.seguridad.service.BitacoraService;
 
 @Controller
 @Scope("session")

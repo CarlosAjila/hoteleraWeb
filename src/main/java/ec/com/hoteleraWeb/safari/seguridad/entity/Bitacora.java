@@ -1,15 +1,13 @@
 package ec.com.hoteleraWeb.safari.seguridad.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.sql.Time;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -18,88 +16,54 @@ import javax.persistence.Table;
 public class Bitacora implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Long id;
-	private Timestamp fecha;
-	private String metodo;
-	private Usuario usuario;
+	@Id
+	@SequenceGenerator(allocationSize = 1, name = "bitacora_bit_cod_seq", sequenceName = "bitacora_bit_cod_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bitacora_bit_cod_seq")
+	@Column(name = "bit_cod")
+	private Integer bitCod;
+
+	@Column(name = "bit_empleado")
+	private String bitEmpleado;
+
+	@Column(name = "bit_fecha")
+	private Time bitFecha;
+
+	@Column(name = "bit_metodo")
+	private String bitMetodo;
 
 	public Bitacora() {
 	}
 
-	public Bitacora(Timestamp fecha, String metodo, Usuario usuario) {
-		this.fecha = fecha;
-		this.metodo = metodo;
-		this.usuario = usuario;
+	public Integer getBitCod() {
+		return this.bitCod;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Bitacora other = (Bitacora) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+	public void setBitCod(Integer bitCod) {
+		this.bitCod = bitCod;
 	}
 
-	@Column(nullable = false)
-	public Timestamp getFecha() {
-		return this.fecha;
+	public String getBitEmpleado() {
+		return this.bitEmpleado;
 	}
 
-	@Id
-	@SequenceGenerator(allocationSize = 1, name = "BITACORA_BITACORAID_GENERATOR", sequenceName = "BITACORA_BITACORAID_SEQ")
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BITACORA_BITACORAID_GENERATOR")
-	@Column(name = "bitacoraid", unique = true, nullable = false)
-	public Long getId() {
-		return this.id;
+	public void setBitEmpleado(String bitEmpleado) {
+		this.bitEmpleado = bitEmpleado;
 	}
 
-	@Column(nullable = false, length = 100)
-	public String getMetodo() {
-		return this.metodo;
+	public Time getBitFecha() {
+		return this.bitFecha;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "usuario_id", nullable = false)
-	public Usuario getUsuario() {
-		return usuario;
+	public void setBitFecha(Time bitFecha) {
+		this.bitFecha = bitFecha;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public String getBitMetodo() {
+		return this.bitMetodo;
 	}
 
-	public void setBitacoraid(Long id) {
-		this.id = id;
-	}
-
-	public void setFecha(Timestamp fecha) {
-		this.fecha = fecha;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setMetodo(String metodo) {
-		this.metodo = metodo;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setBitMetodo(String bitMetodo) {
+		this.bitMetodo = bitMetodo;
 	}
 
 }

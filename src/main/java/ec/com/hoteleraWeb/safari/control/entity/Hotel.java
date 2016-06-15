@@ -1,14 +1,18 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import ec.com.hoteleraWeb.safari.seguridad.entity.Usuario;
 
 @Entity
 @Table(name = "hotel")
@@ -35,6 +39,18 @@ public class Hotel implements Serializable {
 
 	@Column(name = "hot_telefono")
 	private String hotTelefono;
+
+	// bi-directional many-to-one association to Empleado
+	@OneToMany(mappedBy = "hotel")
+	private List<Empleado> empleados;
+
+	// bi-directional many-to-one association to Habitacione
+	@OneToMany(mappedBy = "hotel")
+	private List<Habitacione> habitaciones;
+
+	// bi-directional many-to-one association to Usuario
+	@OneToMany(mappedBy = "hotel")
+	private List<Usuario> usuarios;
 
 	public Hotel() {
 	}
@@ -85,6 +101,72 @@ public class Hotel implements Serializable {
 
 	public void setHotTelefono(String hotTelefono) {
 		this.hotTelefono = hotTelefono;
+	}
+
+	public List<Empleado> getEmpleados() {
+		return this.empleados;
+	}
+
+	public void setEmpleados(List<Empleado> empleados) {
+		this.empleados = empleados;
+	}
+
+	public Empleado addEmpleado(Empleado empleado) {
+		getEmpleados().add(empleado);
+		empleado.setHotel(this);
+
+		return empleado;
+	}
+
+	public Empleado removeEmpleado(Empleado empleado) {
+		getEmpleados().remove(empleado);
+		empleado.setHotel(null);
+
+		return empleado;
+	}
+
+	public List<Habitacione> getHabitaciones() {
+		return this.habitaciones;
+	}
+
+	public void setHabitaciones(List<Habitacione> habitaciones) {
+		this.habitaciones = habitaciones;
+	}
+
+	public Habitacione addHabitacione(Habitacione habitacione) {
+		getHabitaciones().add(habitacione);
+		habitacione.setHotel(this);
+
+		return habitacione;
+	}
+
+	public Habitacione removeHabitacione(Habitacione habitacione) {
+		getHabitaciones().remove(habitacione);
+		habitacione.setHotel(null);
+
+		return habitacione;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return this.usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public Usuario addUsuario(Usuario usuario) {
+		getUsuarios().add(usuario);
+		usuario.setHotel(this);
+
+		return usuario;
+	}
+
+	public Usuario removeUsuario(Usuario usuario) {
+		getUsuarios().remove(usuario);
+		usuario.setHotel(null);
+
+		return usuario;
 	}
 
 }

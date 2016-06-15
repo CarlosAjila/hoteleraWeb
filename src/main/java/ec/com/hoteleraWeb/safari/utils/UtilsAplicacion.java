@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.utils;
+package ec.com.hoteleraWeb.safari.utils;
 
 import java.util.List;
 

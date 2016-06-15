@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,14 +23,18 @@ public class ClienteActividad implements Serializable {
 	@Column(name = "cli_act_id")
 	private Integer cliActId;
 
-	@Column(name = "act_codigo")
-	private Integer actCodigo;
-
 	@Column(name = "num_persona")
 	private Integer numPersona;
 
-	@Column(name = "res_codigo")
-	private Integer resCodigo;
+	// bi-directional many-to-one association to Actividad
+	@ManyToOne
+	@JoinColumn(name = "act_codigo")
+	private Actividad actividad;
+
+	// bi-directional many-to-one association to Reservacion
+	@ManyToOne
+	@JoinColumn(name = "res_codigo")
+	private Reservacion reservacion;
 
 	public ClienteActividad() {
 	}
@@ -41,14 +47,6 @@ public class ClienteActividad implements Serializable {
 		this.cliActId = cliActId;
 	}
 
-	public Integer getActCodigo() {
-		return this.actCodigo;
-	}
-
-	public void setActCodigo(Integer actCodigo) {
-		this.actCodigo = actCodigo;
-	}
-
 	public Integer getNumPersona() {
 		return this.numPersona;
 	}
@@ -57,12 +55,20 @@ public class ClienteActividad implements Serializable {
 		this.numPersona = numPersona;
 	}
 
-	public Integer getResCodigo() {
-		return this.resCodigo;
+	public Actividad getActividad() {
+		return this.actividad;
 	}
 
-	public void setResCodigo(Integer resCodigo) {
-		this.resCodigo = resCodigo;
+	public void setActividad(Actividad actividad) {
+		this.actividad = actividad;
+	}
+
+	public Reservacion getReservacion() {
+		return this.reservacion;
+	}
+
+	public void setReservacion(Reservacion reservacion) {
+		this.reservacion = reservacion;
 	}
 
 }

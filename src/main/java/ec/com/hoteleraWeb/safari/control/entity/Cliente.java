@@ -1,12 +1,14 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -38,6 +40,10 @@ public class Cliente implements Serializable {
 
 	@Column(name = "cli_telefono")
 	private String cliTelefono;
+
+	// bi-directional many-to-one association to Reservacion
+	@OneToMany(mappedBy = "cliente")
+	private List<Reservacion> reservacions;
 
 	public Cliente() {
 	}
@@ -96,6 +102,28 @@ public class Cliente implements Serializable {
 
 	public void setCliTelefono(String cliTelefono) {
 		this.cliTelefono = cliTelefono;
+	}
+
+	public List<Reservacion> getReservacions() {
+		return this.reservacions;
+	}
+
+	public void setReservacions(List<Reservacion> reservacions) {
+		this.reservacions = reservacions;
+	}
+
+	public Reservacion addReservacion(Reservacion reservacion) {
+		getReservacions().add(reservacion);
+		reservacion.setCliente(this);
+
+		return reservacion;
+	}
+
+	public Reservacion removeReservacion(Reservacion reservacion) {
+		getReservacions().remove(reservacion);
+		reservacion.setCliente(null);
+
+		return reservacion;
 	}
 
 }

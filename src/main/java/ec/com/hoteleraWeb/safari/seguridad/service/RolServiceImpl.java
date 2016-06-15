@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.seguridad.service;
+package ec.com.hoteleraWeb.safari.seguridad.service;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ec.com.distrito.tesisControlGasolina.seguridad.dao.RolDao;
-import ec.com.distrito.tesisControlGasolina.seguridad.entity.Rol;
+import ec.com.hoteleraWeb.safari.seguridad.dao.RolDao;
+import ec.com.hoteleraWeb.safari.seguridad.entity.Rol;
 
 @Service
 public class RolServiceImpl implements RolService, Serializable {

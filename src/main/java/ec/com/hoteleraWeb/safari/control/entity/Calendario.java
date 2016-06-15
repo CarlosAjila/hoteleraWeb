@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,9 +23,6 @@ public class Calendario implements Serializable {
 	@Column(name = "cal_codigo")
 	private Integer calCodigo;
 
-	@Column(name = "act_codigo")
-	private Integer actCodigo;
-
 	@Column(name = "cal_dia")
 	private String calDia;
 
@@ -32,6 +31,11 @@ public class Calendario implements Serializable {
 
 	@Column(name = "cal_hora_inicio")
 	private String calHoraInicio;
+
+	// bi-directional many-to-one association to Actividad
+	@ManyToOne
+	@JoinColumn(name = "act_codigo")
+	private Actividad actividad;
 
 	public Calendario() {
 	}
@@ -42,14 +46,6 @@ public class Calendario implements Serializable {
 
 	public void setCalCodigo(Integer calCodigo) {
 		this.calCodigo = calCodigo;
-	}
-
-	public Integer getActCodigo() {
-		return this.actCodigo;
-	}
-
-	public void setActCodigo(Integer actCodigo) {
-		this.actCodigo = actCodigo;
 	}
 
 	public String getCalDia() {
@@ -74,6 +70,14 @@ public class Calendario implements Serializable {
 
 	public void setCalHoraInicio(String calHoraInicio) {
 		this.calHoraInicio = calHoraInicio;
+	}
+
+	public Actividad getActividad() {
+		return this.actividad;
+	}
+
+	public void setActividad(Actividad actividad) {
+		this.actividad = actividad;
 	}
 
 }

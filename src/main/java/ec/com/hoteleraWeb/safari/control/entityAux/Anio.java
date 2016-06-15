@@ -1,4 +1,4 @@
-package ec.com.distrito.tesisControlGasolina.control.entityAux;
+package ec.com.hoteleraWeb.safari.control.entityAux;
 
 public enum Anio {
 

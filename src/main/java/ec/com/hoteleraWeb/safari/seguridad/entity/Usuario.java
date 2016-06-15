@@ -1,36 +1,56 @@
 package ec.com.hoteleraWeb.safari.seguridad.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
+import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 
 /**
  * The persistent class for the usuario database table.
  * 
  */
 @Entity
-@NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
+@NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+//
 	@Id
-	@Column(name="usu_id")
+	@SequenceGenerator(allocationSize = 1, name = "usuario_usu_id_seq", sequenceName = "usuario_usu_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_usu_id_seq")
+	@Column(name = "usu_id")
 	private Integer usuId;
 
-	@Column(name="hot_codigo")
-	private Integer hotCodigo;
-
-	@Column(name="usu_activo")
+	@Column(name = "usu_activo")
 	private Boolean usuActivo;
 
-	@Column(name="usu_nick")
+	@Column(name = "usu_nick")
 	private String usuNick;
 
-	@Column(name="usu_nombre")
+	@Column(name = "usu_nombre")
 	private String usuNombre;
 
-	@Column(name="usu_password")
+	@Column(name = "usu_password")
 	private String usuPassword;
+
+	// bi-directional many-to-one association to RolUsuario
+	@OneToMany(mappedBy = "usuario")
+	private List<RolUsuario> rolUsuarios;
+
+	// bi-directional many-to-one association to Hotel
+	@ManyToOne
+	@JoinColumn(name = "hot_codigo")
+	private Hotel hotel;
 
 	public Usuario() {
 	}
@@ -41,14 +61,6 @@ public class Usuario implements Serializable {
 
 	public void setUsuId(Integer usuId) {
 		this.usuId = usuId;
-	}
-
-	public Integer getHotCodigo() {
-		return this.hotCodigo;
-	}
-
-	public void setHotCodigo(Integer hotCodigo) {
-		this.hotCodigo = hotCodigo;
 	}
 
 	public Boolean getUsuActivo() {
@@ -81,6 +93,36 @@ public class Usuario implements Serializable {
 
 	public void setUsuPassword(String usuPassword) {
 		this.usuPassword = usuPassword;
+	}
+
+	public List<RolUsuario> getRolUsuarios() {
+		return this.rolUsuarios;
+	}
+
+	public void setRolUsuarios(List<RolUsuario> rolUsuarios) {
+		this.rolUsuarios = rolUsuarios;
+	}
+
+	public RolUsuario addRolUsuario(RolUsuario rolUsuario) {
+		getRolUsuarios().add(rolUsuario);
+		rolUsuario.setUsuario(this);
+
+		return rolUsuario;
+	}
+
+	public RolUsuario removeRolUsuario(RolUsuario rolUsuario) {
+		getRolUsuarios().remove(rolUsuario);
+		rolUsuario.setUsuario(null);
+
+		return rolUsuario;
+	}
+
+	public Hotel getHotel() {
+		return this.hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
 	}
 
 }

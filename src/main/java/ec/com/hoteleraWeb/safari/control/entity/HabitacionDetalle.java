@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -22,14 +24,18 @@ public class HabitacionDetalle implements Serializable {
 	@Column(name = "hab_det_id")
 	private Integer habDetId;
 
-	@Column(name = "hab_codigo")
-	private Integer habCodigo;
-
 	@Column(name = "hab_det_valor")
 	private BigDecimal habDetValor;
 
-	@Column(name = "res_codigo")
-	private Integer resCodigo;
+	// bi-directional many-to-one association to Habitacione
+	@ManyToOne
+	@JoinColumn(name = "hab_codigo")
+	private Habitacione habitacione;
+
+	// bi-directional many-to-one association to Reservacion
+	@ManyToOne
+	@JoinColumn(name = "res_codigo")
+	private Reservacion reservacion;
 
 	public HabitacionDetalle() {
 	}
@@ -42,14 +48,6 @@ public class HabitacionDetalle implements Serializable {
 		this.habDetId = habDetId;
 	}
 
-	public Integer getHabCodigo() {
-		return this.habCodigo;
-	}
-
-	public void setHabCodigo(Integer habCodigo) {
-		this.habCodigo = habCodigo;
-	}
-
 	public BigDecimal getHabDetValor() {
 		return this.habDetValor;
 	}
@@ -58,12 +56,20 @@ public class HabitacionDetalle implements Serializable {
 		this.habDetValor = habDetValor;
 	}
 
-	public Integer getResCodigo() {
-		return this.resCodigo;
+	public Habitacione getHabitacione() {
+		return this.habitacione;
 	}
 
-	public void setResCodigo(Integer resCodigo) {
-		this.resCodigo = resCodigo;
+	public void setHabitacione(Habitacione habitacione) {
+		this.habitacione = habitacione;
+	}
+
+	public Reservacion getReservacion() {
+		return this.reservacion;
+	}
+
+	public void setReservacion(Reservacion reservacion) {
+		this.reservacion = reservacion;
 	}
 
 }

@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -62,8 +64,10 @@ public class Factura implements Serializable {
 	@Column(name = "fac_total_suplemento_temporada")
 	private Long facTotalSuplementoTemporada;
 
-	@Column(name = "res_codigo")
-	private Integer resCodigo;
+	// bi-directional many-to-one association to Reservacion
+	@ManyToOne
+	@JoinColumn(name = "res_codigo")
+	private Reservacion reservacion;
 
 	public Factura() {
 	}
@@ -172,12 +176,12 @@ public class Factura implements Serializable {
 		this.facTotalSuplementoTemporada = facTotalSuplementoTemporada;
 	}
 
-	public Integer getResCodigo() {
-		return this.resCodigo;
+	public Reservacion getReservacion() {
+		return this.reservacion;
 	}
 
-	public void setResCodigo(Integer resCodigo) {
-		this.resCodigo = resCodigo;
+	public void setReservacion(Reservacion reservacion) {
+		this.reservacion = reservacion;
 	}
 
 }
