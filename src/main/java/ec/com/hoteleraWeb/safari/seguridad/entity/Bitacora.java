@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import ec.com.hoteleraWeb.safari.control.entity.Usuario;
+
 @Entity
 @Table(name = "bitacora")
 public class Bitacora implements Serializable {

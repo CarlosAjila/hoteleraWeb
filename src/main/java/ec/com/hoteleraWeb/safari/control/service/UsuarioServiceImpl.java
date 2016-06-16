@@ -20,9 +20,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import ec.com.hoteleraWeb.safari.control.dao.UsuarioDao;
+import ec.com.hoteleraWeb.safari.control.entity.Usuario;
 import ec.com.hoteleraWeb.safari.seguridad.entity.Rol;
 import ec.com.hoteleraWeb.safari.seguridad.entity.RolUsuario;
-import ec.com.hoteleraWeb.safari.seguridad.entity.Usuario;
 import ec.com.hoteleraWeb.safari.seguridad.service.RolService;
 
 @Service

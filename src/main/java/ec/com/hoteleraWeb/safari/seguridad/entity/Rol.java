@@ -40,6 +40,15 @@ public class Rol implements Serializable {
 	public Rol() {
 	}
 
+	public Rol(Integer rolId, String rolNombre, String rolRescripcion, List<RolMenu> rolMenus,
+			List<RolUsuario> rolUsuarios) {
+		this.rolId = rolId;
+		this.rolNombre = rolNombre;
+		this.rolRescripcion = rolRescripcion;
+		this.rolMenus = rolMenus;
+		this.rolUsuarios = rolUsuarios;
+	}
+
 	public Integer getRolId() {
 		return this.rolId;
 	}

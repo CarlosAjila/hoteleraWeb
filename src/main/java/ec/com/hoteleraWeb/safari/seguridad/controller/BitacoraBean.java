@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import ec.com.hoteleraWeb.safari.control.entity.Usuario;
 import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
 import ec.com.hoteleraWeb.safari.seguridad.entity.Bitacora;
-import ec.com.hoteleraWeb.safari.seguridad.entity.Usuario;
 import ec.com.hoteleraWeb.safari.seguridad.service.BitacoraService;
 
 @Controller

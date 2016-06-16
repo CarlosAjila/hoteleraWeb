@@ -24,7 +24,7 @@ public class HabitacionSuplemento implements Serializable {
 	private Integer habSupId;
 	@ManyToOne
 	@JoinColumn(name = "hab_codigo")
-	private Habitacione habitacione;
+	private Habitacion habitacione;
 
 	// bi-directional many-to-one association to Suplemento
 	@ManyToOne
@@ -42,11 +42,11 @@ public class HabitacionSuplemento implements Serializable {
 		this.habSupId = habSupId;
 	}
 
-	public Habitacione getHabitacione() {
+	public Habitacion getHabitacione() {
 		return this.habitacione;
 	}
 
-	public void setHabitacione(Habitacione habitacione) {
+	public void setHabitacione(Habitacion habitacione) {
 		this.habitacione = habitacione;
 	}
 

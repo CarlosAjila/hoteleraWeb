@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import ec.com.hoteleraWeb.safari.seguridad.entity.Usuario;
+import ec.com.hoteleraWeb.safari.control.entity.Usuario;
 
 public interface UsuarioService {
 	@Transactional

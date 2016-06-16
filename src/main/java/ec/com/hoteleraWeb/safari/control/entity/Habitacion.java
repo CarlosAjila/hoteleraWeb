@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "habitaciones")
-public class Habitacione implements Serializable {
+public class Habitacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -51,7 +51,7 @@ public class Habitacione implements Serializable {
 	@JoinColumn(name = "hot_codigo")
 	private Hotel hotel;
 
-	public Habitacione() {
+	public Habitacion() {
 	}
 
 	public Integer getHabCodigo() {

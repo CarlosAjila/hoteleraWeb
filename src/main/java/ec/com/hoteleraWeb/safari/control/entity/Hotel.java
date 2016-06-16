@@ -12,8 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import ec.com.hoteleraWeb.safari.seguridad.entity.Usuario;
-
 @Entity
 @Table(name = "hotel")
 public class Hotel implements Serializable {
@@ -46,7 +44,7 @@ public class Hotel implements Serializable {
 
 	// bi-directional many-to-one association to Habitacione
 	@OneToMany(mappedBy = "hotel")
-	private List<Habitacione> habitaciones;
+	private List<Habitacion> habitaciones;
 
 	// bi-directional many-to-one association to Usuario
 	@OneToMany(mappedBy = "hotel")
@@ -125,22 +123,22 @@ public class Hotel implements Serializable {
 		return empleado;
 	}
 
-	public List<Habitacione> getHabitaciones() {
+	public List<Habitacion> getHabitaciones() {
 		return this.habitaciones;
 	}
 
-	public void setHabitaciones(List<Habitacione> habitaciones) {
+	public void setHabitaciones(List<Habitacion> habitaciones) {
 		this.habitaciones = habitaciones;
 	}
 
-	public Habitacione addHabitacione(Habitacione habitacione) {
+	public Habitacion addHabitacione(Habitacion habitacione) {
 		getHabitaciones().add(habitacione);
 		habitacione.setHotel(this);
 
 		return habitacione;
 	}
 
-	public Habitacione removeHabitacione(Habitacione habitacione) {
+	public Habitacion removeHabitacione(Habitacion habitacione) {
 		getHabitaciones().remove(habitacione);
 		habitacione.setHotel(null);
 

@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 import org.springframework.stereotype.Repository;
 
-import ec.com.hoteleraWeb.safari.control.entity.Usuario;
+import ec.com.hoteleraWeb.safari.control.entity.Actividad;
 import ec.com.hoteleraWeb.safari.utils.dao.GenericDaoImpl;
 
 @Repository
-public class UsuarioDaoImpl extends GenericDaoImpl<Usuario, Integer> implements UsuarioDao, Serializable {
+public class ActividadDaoImpl extends GenericDaoImpl<Actividad, Integer> implements ActividadDao, Serializable {
 
 	private static final long serialVersionUID = 1L;
 }

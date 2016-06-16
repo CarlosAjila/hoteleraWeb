@@ -12,8 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import ec.com.hoteleraWeb.safari.control.entity.Usuario;
+
 @Entity
-@Table(name = "rolusuario")
+@Table(name = "rol_usuario")
 public class RolUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,7 +23,7 @@ public class RolUsuario implements Serializable {
 	@SequenceGenerator(allocationSize = 1, name = "rol_usuario_emp_rol_id_seq", sequenceName = "rol_usuario_emp_rol_id_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_usuario_emp_rol_id_seq")
 	@Column(name = "emp_rol_id")
-	private Integer empRolId;
+	private Integer rolUsuId;
 
 	@Column(name = "rol_usul_ativo")
 	private Boolean rolUsulAtivo;
@@ -39,12 +41,12 @@ public class RolUsuario implements Serializable {
 	public RolUsuario() {
 	}
 
-	public Integer getEmpRolId() {
-		return this.empRolId;
+	public Integer getRolUsuId() {
+		return this.rolUsuId;
 	}
 
-	public void setEmpRolId(Integer empRolId) {
-		this.empRolId = empRolId;
+	public void setRolUsuId(Integer rolUsuId) {
+		this.rolUsuId = rolUsuId;
 	}
 
 	public Boolean getRolUsulAtivo() {

@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
+import ec.com.hoteleraWeb.safari.control.entity.Usuario;
 import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
 import ec.com.hoteleraWeb.safari.seguridad.entity.Menu;
-import ec.com.hoteleraWeb.safari.seguridad.entity.Usuario;
 import ec.com.hoteleraWeb.safari.seguridad.service.MenuService;
 import ec.com.hoteleraWeb.safari.utils.UtilsAplicacion;
 

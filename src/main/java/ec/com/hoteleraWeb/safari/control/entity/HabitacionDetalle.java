@@ -30,7 +30,7 @@ public class HabitacionDetalle implements Serializable {
 	// bi-directional many-to-one association to Habitacione
 	@ManyToOne
 	@JoinColumn(name = "hab_codigo")
-	private Habitacione habitacione;
+	private Habitacion habitacione;
 
 	// bi-directional many-to-one association to Reservacion
 	@ManyToOne
@@ -56,11 +56,11 @@ public class HabitacionDetalle implements Serializable {
 		this.habDetValor = habDetValor;
 	}
 
-	public Habitacione getHabitacione() {
+	public Habitacion getHabitacione() {
 		return this.habitacione;
 	}
 
-	public void setHabitacione(Habitacione habitacione) {
+	public void setHabitacione(Habitacion habitacione) {
 		this.habitacione = habitacione;
 	}
 

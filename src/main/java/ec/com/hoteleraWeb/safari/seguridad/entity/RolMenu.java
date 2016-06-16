@@ -13,7 +13,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rolmenu")
+@Table(name = "rol_menu")
 public class RolMenu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
