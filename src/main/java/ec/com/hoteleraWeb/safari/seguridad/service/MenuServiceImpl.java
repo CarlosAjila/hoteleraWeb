@@ -35,11 +35,11 @@ public class MenuServiceImpl implements MenuService, Serializable {
 		return menuDao.obtener(Menu.class, "orden", null);
 	}
 
-	public List<Menu> obtenerPorUsuario(String cedulaRuc) {
+	public List<Menu> obtenerPorUsuario(String nick) {
 		return menuDao.obtenerPorHql(
 				"select distinct m from Menu m " + "inner join m.rolMenus rm inner join rm.rol r "
 						+ "inner join r.rolUsuarios ru inner join ru.chofer ch "
 						+ "where ru.activo=true and m.visible=true and ch.cedula=?1 order by m.id",
-				new Object[] { cedulaRuc });
+				new Object[] { nick });
 	}
 }

@@ -96,6 +96,7 @@ public class MenuBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		UtilsAplicacion.actualizarPaginaWeb("www.carlosajila.com.ec");
+		System.out.println("nick " + SecurityContextHolder.getContext().getAuthentication().getName());
 		Usuario u = usuarioService
 				.obtenerActivoPorCedula(SecurityContextHolder.getContext().getAuthentication().getName());
 		setNombreUsuario(u.getUsuNombre());

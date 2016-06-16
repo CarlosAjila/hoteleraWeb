@@ -3,6 +3,7 @@ package ec.com.hoteleraWeb.safari.seguridad.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import ec.com.distrito.tesisControlGasolina.seguridad.entity.Bitacora;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 
 /**
@@ -51,6 +53,9 @@ public class Usuario implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "hot_codigo")
 	private Hotel hotel;
+	
+	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "usuario")
+	private List<Bitacora> bitacoras;
 
 	public Usuario() {
 	}
@@ -124,5 +129,29 @@ public class Usuario implements Serializable {
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
 	}
+	
+	public List<Bitacora> getBitacoras() {
+		return bitacoras;
+	}
+	
+	public void setBitacoras(List<Bitacora> bitacoras) {
+		this.bitacoras = bitacoras;
+	}
+	
+	public Bitacora removeBitacora(Bitacora bitacora) {
+		getBitacoras().remove(bitacora);
+		bitacora.setChofer(null);
+
+		return bitacora;
+	}
+	
+	public Bitacora addBitacora(Bitacora bitacora) {
+		getBitacoras().add(bitacora);
+		bitacora.setChofer(this);
+
+		return bitacora;
+	}
+	
+	
 
 }

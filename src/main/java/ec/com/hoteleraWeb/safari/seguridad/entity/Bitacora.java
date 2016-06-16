@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -28,7 +30,8 @@ public class Bitacora implements Serializable {
 	@Column(name = "bit_metodo")
 	private String bitMetodo;
 
-	@Column(name = "bit_usuario")
+	@ManyToOne
+	@JoinColumn(name = "usu_id", nullable = false)
 	private Usuario bitUsuario;
 
 	public Bitacora() {

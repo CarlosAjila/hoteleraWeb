@@ -166,22 +166,22 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 	}
 
 	public List<Usuario> obtener(Boolean activo) {
-		List<Usuario> lista = usuarioDao.obtenerPorHql("select c from Usuario c order by c.apellido, c.nombre",
+		List<Usuario> lista = usuarioDao.obtenerPorHql("select u from Usuario u order by u.apellido, u.nombre",
 				new Object[] {});
 		return lista;
 	}
 
-	public Usuario obtenerActivoPorCedula(String cedula) {
-		List<Usuario> usuario = usuarioDao.obtenerPorHql("select c from Usuario c where c.cedula=?1 and c.activo=true",
-				new Object[] { cedula });
+	public Usuario obtenerActivoPorCedula(String nick) {
+		List<Usuario> usuario = usuarioDao.obtenerPorHql(
+				"select u from Usuario u where u.usuNick=?1 and u.usuActivo=true", new Object[] { nick });
 		if (usuario != null && usuario.size() == 1)
 			return usuario.get(0);
 		return null;
 	}
 
-	public Usuario obtenerPorCedula(String cedula) {
-		List<Usuario> usuario = usuarioDao.obtenerPorHql("select c from Usuario c where c.cedula=?1 and c.activo=true",
-				new Object[] { cedula });
+	public Usuario obtenerPorCedula(String nick) {
+		List<Usuario> usuario = usuarioDao.obtenerPorHql(
+				"select u from Usuario u where u.usuNick=?1 and u.usuActivo=true", new Object[] { nick });
 		if (usuario != null)
 			if (usuario.size() != 0)
 				return usuario.get(0);
@@ -190,7 +190,7 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 	}
 
 	public Usuario obtenerPorUsuarioId(Integer usuarioId) {
-		Usuario usuario = usuarioDao.obtenerPorHql("select c from Usuario c " + "where c.id=?1 and c.activo=true",
+		Usuario usuario = usuarioDao.obtenerPorHql("select u from Usuario u " + "where u.usuId=?1 and u.usuActivo=true",
 				new Object[] { usuarioId }).get(0);
 		return usuario;
 	}
@@ -205,9 +205,8 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 			if (criterioBusquedaUsuario.length() >= 3) {
 				if (criterioBusquedaUsuario.compareToIgnoreCase("") != 0)
 					lista = usuarioDao.obtenerPorHql(
-							"select distinct c from Usuario c "
-									+ "where (c.cedula like ?1 or c.nombre like ?1 or c.apellido like ?1 or c.licencia like ?1 ) "
-									+ "order by c.apellido, c.nombre",
+							"select distinct u from Usuario u " + "where (u.usuNick like ?1 or u.usuNombre like ?1 ) "
+									+ "order by u.usuNombre, u.usuNick",
 							new Object[] { "%" + criterioBusquedaUsuario + "%" });
 				if (lista.isEmpty())
 					presentaMensaje(FacesMessage.SEVERITY_INFO, "NO SE ENCONTRO NINGUNA COINCIDENCIA");
@@ -232,10 +231,11 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 		if (criterioUsuarioBusqueda.length() >= 0 && criterioUsuarioBusqueda.length() < 3)
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "INGRESE MAS DE 3 CARACTERES");
 		else {
-			lista = usuarioDao.obtenerPorHql(
-					"select distinct p from Usuario p " + "where "
-							+ "(p.cedula like ?1 or p.nombre like ?1 or p.apellido like ?1 ) " + "and p.activo=true",
-					new Object[] { "%" + criterioUsuarioBusqueda + "%" });
+			lista = usuarioDao
+					.obtenerPorHql(
+							"select distinct u from Usuario u " + "where "
+									+ "(u.usuNick like ?1 or u.usuNombre like ?1 ) " + "and u.usuActivo=true",
+							new Object[] { "%" + criterioUsuarioBusqueda + "%" });
 			if (lista.isEmpty())
 				presentaMensaje(FacesMessage.SEVERITY_WARN, "NO SE ENCONTRO NINGUNA COINCIDENCIA");
 		}

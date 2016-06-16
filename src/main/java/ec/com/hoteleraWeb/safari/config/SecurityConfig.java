@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private String getAuthoritiesQuery() {
 		return "select u.usu_nick , r.rol_nombre "
 				+ "from public.usuario as u, public.rol as r, public.rol_usuario as ur "
-				+ "where u.usu_id = ur.usuario_id and r.rol_id = ur.rol_id and ur.rus_activo=true and u.usu_nick = ?";
+				+ "where u.usu_id = ur.usu_id and r.rol_id = ur.rol_id and ur.rol_usul_ativo=true and u.usu_nick = ?";
 	}
 
 	// consulta para el login
