@@ -54,8 +54,8 @@ public class BitacoraAspect implements Serializable {
 					usuarioService.obtenerPorCedula(cedula)));
 	}
 
-	@After("execution(public * ec.com.distrito.tesisControlGasolina.control.service..*.insertar(..)) "
-			+ "|| execution(public * ec.com.distrito.tesisControlGasolina.control.service..*.actualizar(..)) ")
+	@After("execution(public * ec.com.hoteleraWeb.safari.control.service..*.insertar(..)) "
+			+ "|| execution(public * ec.com.hoteleraWeb.safari.control.service..*.actualizar(..)) ")
 	public void auditar(JoinPoint joinPoint) {
 		Object obj = (joinPoint.getArgs())[0];
 		String mensaje = "";
@@ -74,7 +74,7 @@ public class BitacoraAspect implements Serializable {
 					usuarioService.obtenerPorCedula(cedula)));
 	}
 
-	@After("execution(public * ec.com.distrito.tesisControlGasolina.seguridad.service.MenuService.obtenerPorUsuario(..)) ")
+	@After("execution(public * ec.com.hoteleraWeb.safari.seguridad.service.MenuService.obtenerPorUsuario(..)) ")
 	public void ingreso(JoinPoint joinPoint) {
 		String cedula = SecurityContextHolder.getContext().getAuthentication().getName();
 		if (cedula.compareTo("0123456789") != 0)
