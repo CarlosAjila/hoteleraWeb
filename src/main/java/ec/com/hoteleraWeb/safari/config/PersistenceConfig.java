@@ -9,15 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import ec.com.hoteleraWeb.safari.utils.Conexion;
+
 @Configuration
 @EnableTransactionManagement
 @ComponentScan("ec.com.hoteleraWeb")
+@PropertySource("classpath:database.properties")
 public class PersistenceConfig {
 
 	@Autowired
@@ -25,19 +29,18 @@ public class PersistenceConfig {
 
 	@Bean
 	public DataSource dataSource() {
-		String lenguajeBaseDatos = "postgresql";
-		String nombreServidor = "localhost";
-		String puertoServidor = "5432";
-		String nombreBaseDatos = "safari";
-		String username = "administradores";
-		String password = "@dm1n$t0d0c0mPU$";
+		Conexion.iniciarConeccion("postgresql", "org.postgresql.Driver", env.getProperty("jdbc.server"),
+				env.getProperty("jdbc.port"), env.getProperty("jdbc.database"), env.getProperty("jdbc.user"),
+				env.getProperty("jdbc.password"));
+
+		Conexion conexion = Conexion.getConexion();
 
 		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setDriverClassName("org.postgresql.Driver");
-		dataSource.setUrl(
-				"jdbc:" + lenguajeBaseDatos + "://" + nombreServidor + ":" + puertoServidor + "/" + nombreBaseDatos);
-		dataSource.setUsername(username);
-		dataSource.setPassword(password);
+		dataSource.setDriverClassName(conexion.getDriver());
+		dataSource.setUrl("jdbc:" + conexion.getDb() + "://" + conexion.getServer() + ":" + conexion.getPort() + "/"
+				+ conexion.getDatabase());
+		dataSource.setUsername(conexion.getUser());
+		dataSource.setPassword(conexion.getPassword());
 
 		return dataSource;
 	}
@@ -53,7 +56,6 @@ public class PersistenceConfig {
 			{
 				setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 				setProperty("hibernate.show_sql", "true");
-				setProperty("hibernate.default_schema", "public");
 			}
 		};
 	}

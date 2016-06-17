@@ -7,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ec.com.hoteleraWeb.safari.control.entity.Usuario;
 
 public interface UsuarioService {
-	@Transactional
-	public boolean actualizar(Usuario usuario);
 
 	@Transactional
 	public void cambiarClave(String claveActual, String clave1, String clave2);
@@ -30,9 +28,6 @@ public interface UsuarioService {
 
 	@Transactional
 	public boolean insertar(Usuario usuario);
-
-	@Transactional
-	public Usuario insertarActualizar(Usuario usuario);
 
 	@Transactional
 	public String insertarRoles(Usuario usuario, List<String> roles);

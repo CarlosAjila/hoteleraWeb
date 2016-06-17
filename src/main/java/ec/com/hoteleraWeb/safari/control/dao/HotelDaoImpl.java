@@ -13,15 +13,13 @@ import ec.com.hoteleraWeb.safari.utils.dao.GenericSQLDao;
 @Repository
 public class HotelDaoImpl extends GenericDaoImpl<Hotel, Integer> implements HotelDao {
 
-	private static final long serialVersionUID = 1L;
-
 	@Autowired
 	private GenericSQLDao genericSQLDao;
 
 	public List<Hotel> obtenerTodos() {
 		String sql = "Select * FROM public.hotel";
 		List<Hotel> hoteles = new ArrayList<Hotel>();
-		hoteles = genericSQLDao.obtenerPorSql(sql);
+		hoteles = genericSQLDao.obtenerPorSql(sql, Hotel.class);
 		System.out.println("size" + hoteles.size());
 		for (Hotel hotel : hoteles) {
 			System.out.println("hotel.getHotNombre() " + hotel.getHotNombre());

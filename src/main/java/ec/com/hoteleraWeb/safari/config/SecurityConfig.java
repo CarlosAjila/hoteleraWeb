@@ -1,18 +1,24 @@
 package ec.com.hoteleraWeb.safari.config;
 
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import ec.com.hoteleraWeb.safari.utils.Conexion;
+
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@PropertySource("classpath:database.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -24,12 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll().antMatchers("/views/home.jsf").access("isAuthenticated()")
 
 				.antMatchers("/views/sistema/listadoHoteles.jsf").hasAnyAuthority("ADMINISTRADOR")
-
-				.antMatchers("/views/vehiculos/listadoVehiculos.jsf").hasAnyAuthority("ADMINISTRADOR", "SECRETARIA")
-
-				.antMatchers("/views/control/listadoOrdenes.jsf").hasAnyAuthority("ADMINISTRADOR", "SECRETARIA")
-
-				.antMatchers("/views/matriculacion/bitacora.jsf").hasAnyAuthority("ADMINISTRADOR")
 
 				.antMatchers("/views/seguridad/404.jsf").access("isAuthenticated()")
 				.antMatchers("/views/seguridad/accesoDenegado.jsf").access("isAuthenticated()")
@@ -45,12 +45,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		PersistenceConfig persistenceConfig = new PersistenceConfig();
+		auth.jdbcAuthentication().dataSource(this.dataSource()).passwordEncoder(new ShaPasswordEncoder(256))
+				.usersByUsernameQuery(getUserQuery()).authoritiesByUsernameQuery(getAuthoritiesQuery());
+	}
 
-		// encriptacion de la clave
-		auth.jdbcAuthentication().dataSource(persistenceConfig.dataSource())
-				.passwordEncoder(new ShaPasswordEncoder(256)).usersByUsernameQuery(getUserQuery())
-				.authoritiesByUsernameQuery(getAuthoritiesQuery());
+	@Bean
+	public DataSource dataSource() {
+		Conexion.iniciarConeccion("postgresql", "org.postgresql.Driver", env.getProperty("jdbc.server"),
+				env.getProperty("jdbc.port"), env.getProperty("jdbc.database"), env.getProperty("jdbc.user"),
+				env.getProperty("jdbc.password"));
+
+		Conexion conexion = Conexion.getConexion();
+
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setDriverClassName(conexion.getDriver());
+		dataSource.setUrl("jdbc:" + conexion.getDb() + "://" + conexion.getServer() + ":" + conexion.getPort() + "/"
+				+ conexion.getDatabase());
+		dataSource.setUsername(conexion.getUser());
+		dataSource.setPassword(conexion.getPassword());
+
+		return dataSource;
 	}
 
 	// consulta para saber los roles o permisos de ese usuario

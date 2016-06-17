@@ -6,13 +6,8 @@ import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.redireccionar;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.faces.application.FacesMessage;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
@@ -35,27 +30,6 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 
 	@Autowired
 	private RolService rolService;
-
-	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-	private Validator validator = factory.getValidator();
-
-	public boolean actualizar(Usuario usuario) {
-		boolean retorno = false;
-		Set<ConstraintViolation<Usuario>> violationsUsuario = validator.validate(usuario);
-		if (violationsUsuario.size() > 0)
-			for (ConstraintViolation<Usuario> cv : violationsUsuario)
-				presentaMensaje(FacesMessage.SEVERITY_INFO, cv.getMessage());
-		else if (usuarioDao.comprobarIndices(Usuario.class, "usu_nick", usuario.getUsuNick(),
-				String.valueOf(usuario.getUsuId())))
-			presentaMensaje(FacesMessage.SEVERITY_INFO, "LA CÉDULA YA EXISTE", "cerrar", false);
-		else {
-			usuario.setUsuPassword(generarClave(usuario.getUsuNick()));
-			usuarioDao.actualizar(usuario);
-			presentaMensaje(FacesMessage.SEVERITY_INFO, "CHOFER ACTUALIZADO", "cerrar", true);
-			retorno = true;
-		}
-		return retorno;
-	}
 
 	public void cambiarClave(String claveActual, String clave1, String clave2) {
 		Usuario usuario = obtenerActivoPorNick(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -110,29 +84,6 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 	public String generarClave(String clave) {
 		ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
 		return shaPasswordEncoder.encodePassword(clave, null);
-	}
-
-	public Usuario insertarActualizar(Usuario usuario) {
-		Set<ConstraintViolation<Usuario>> violationsUsuario = validator.validate(usuario);
-		if (violationsUsuario.size() > 0)
-			for (ConstraintViolation<Usuario> cv : violationsUsuario)
-				presentaMensaje(FacesMessage.SEVERITY_INFO, cv.getMessage());
-		else {
-			boolean retorno = false;
-			if (usuario.getUsuId() == null)
-				retorno = insertar(usuario);
-			else
-				retorno = actualizar(usuario);
-
-			if (retorno) {
-				List<String> roles = new ArrayList<String>();
-				roles.add("INVITADO");
-				insertarRoles(usuario, roles);
-				presentaMensaje(FacesMessage.SEVERITY_INFO, "CHOFER INSERTADO CORRECTAMENTE", "cerrar", true);
-			}
-		}
-		return usuario;
-
 	}
 
 	public boolean insertar(Usuario usuario) {
