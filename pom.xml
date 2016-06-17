@@ -42,7 +42,7 @@
 		<javax.faces-version>2.2.10</javax.faces-version>
 
 		<primefaces-version>5.2</primefaces-version>
-		<spark-themes-version>1.3</spark-themes-version>
+		<ronin-themes-version>2.1</ronin-themes-version>
 		<commons-fileupload-version>1.3.1</commons-fileupload-version>
 		<commons-io-version>2.4</commons-io-version>
 
@@ -73,11 +73,7 @@
 			<artifactId>spring-aspects</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>1.8.5</version>
-		</dependency>
+	
 
 		<!-- SPRING SECURITY -->
 		<dependency>

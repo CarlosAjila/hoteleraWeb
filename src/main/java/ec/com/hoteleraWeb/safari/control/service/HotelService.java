@@ -1,15 +1,13 @@
-package ec.com.hoteleraWeb.safari.control.dao;
+package ec.com.hoteleraWeb.safari.control.service;
 
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
-import ec.com.hoteleraWeb.safari.utils.dao.GenericDao;
 
-public interface HotelDao extends GenericDao<Hotel, Integer> {
+public interface HotelService {
 
 	@Transactional
 	public List<Hotel> obtenerTodos();
-
 }

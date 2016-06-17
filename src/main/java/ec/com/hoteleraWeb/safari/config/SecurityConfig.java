@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().authorizeRequests().antMatchers("/javax.faces.resource/**", "/resources/**", "/login.jsf")
 				.permitAll().antMatchers("/views/home.jsf").access("isAuthenticated()")
 
-				.antMatchers("/views/choferes/listadoChoferes.jsf").hasAnyAuthority("ADMINISTRADOR", "SECRETARIA")
+				.antMatchers("/views/sistema/listadoHoteles.jsf").hasAnyAuthority("ADMINISTRADOR")
 
 				.antMatchers("/views/vehiculos/listadoVehiculos.jsf").hasAnyAuthority("ADMINISTRADOR", "SECRETARIA")
 

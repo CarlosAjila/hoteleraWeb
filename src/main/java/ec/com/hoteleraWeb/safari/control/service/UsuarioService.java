@@ -41,7 +41,7 @@ public interface UsuarioService {
 	public List<Usuario> obtener(Boolean activo);
 
 	@Transactional
-	public Usuario obtenerActivoPorCedula(String cedula);
+	public Usuario obtenerActivoPorNick(String nick);
 
 	@Transactional
 	public Usuario obtenerPorCedula(String cedula);

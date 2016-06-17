@@ -20,5 +20,5 @@ public interface MenuService {
 	public List<Menu> obtener();
 
 	@Transactional
-	public List<Menu> obtenerPorUsuario(String cedulaRuc);
+	public List<Menu> obtenerPorUsuario(String nick);
 }

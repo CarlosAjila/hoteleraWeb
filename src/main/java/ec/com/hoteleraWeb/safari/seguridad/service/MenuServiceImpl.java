@@ -38,8 +38,8 @@ public class MenuServiceImpl implements MenuService, Serializable {
 	public List<Menu> obtenerPorUsuario(String nick) {
 		return menuDao.obtenerPorHql(
 				"select distinct m from Menu m " + "inner join m.rolMenus rm inner join rm.rol r "
-						+ "inner join r.rolUsuarios ru inner join ru.chofer ch "
-						+ "where ru.activo=true and m.visible=true and ch.cedula=?1 order by m.id",
+						+ "inner join r.rolUsuarios ru inner join ru.usuario u "
+						+ "where ru.rolUsulAtivo=true and m.menVisible=true and u.nick=?1 order by m.menId",
 				new Object[] { nick });
 	}
 }

@@ -58,7 +58,7 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 	}
 
 	public void cambiarClave(String claveActual, String clave1, String clave2) {
-		Usuario usuario = obtenerActivoPorCedula(SecurityContextHolder.getContext().getAuthentication().getName());
+		Usuario usuario = obtenerActivoPorNick(SecurityContextHolder.getContext().getAuthentication().getName());
 		if (claveActual.length() == 0 || clave1.length() == 0 || clave2.length() == 0) {
 			presentaMensaje(FacesMessage.SEVERITY_INFO, "INGRESE TODOS LOS DATOS REQUERIDOS");
 		} else if (clave1.length() < 8 || clave2.length() < 8) {
@@ -171,7 +171,7 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 		return lista;
 	}
 
-	public Usuario obtenerActivoPorCedula(String nick) {
+	public Usuario obtenerActivoPorNick(String nick) {
 		List<Usuario> usuario = usuarioDao.obtenerPorHql(
 				"select u from Usuario u where u.usuNick=?1 and u.usuActivo=true", new Object[] { nick });
 		if (usuario != null && usuario.size() == 1)

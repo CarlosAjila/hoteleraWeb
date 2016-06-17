@@ -15,11 +15,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
-import ec.com.hoteleraWeb.safari.control.entity.Usuario;
 import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
 import ec.com.hoteleraWeb.safari.seguridad.entity.Menu;
 import ec.com.hoteleraWeb.safari.seguridad.service.MenuService;
-import ec.com.hoteleraWeb.safari.utils.UtilsAplicacion;
 
 @Controller
 @Scope("session")
@@ -95,12 +93,17 @@ public class MenuBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		UtilsAplicacion.actualizarPaginaWeb("www.carlosajila.com.ec");
-		System.out.println("nick " + SecurityContextHolder.getContext().getAuthentication().getName());
-		Usuario u = usuarioService
-				.obtenerActivoPorCedula(SecurityContextHolder.getContext().getAuthentication().getName());
-		setNombreUsuario(u.getUsuNombre());
-		cargarMenu();
+		// UtilsAplicacion.actualizarPaginaWeb("www.carlosajila.com.ec");
+		// System.out.println("nick " +
+		// SecurityContextHolder.getContext().getAuthentication().getName());
+		// Usuario u = usuarioService
+		// .obtenerActivoPorNick(SecurityContextHolder.getContext().getAuthentication().getName());
+		// System.out.println("usuario " + usuarioService
+		// .obtenerActivoPorNick(SecurityContextHolder.getContext().getAuthentication().getName()));
+		// setNombreUsuario(u.getUsuNombre());
+		// System.out.println(getNombreUsuario());
+		// System.out.println("entreeeeeeeeeeeee");
+		// cargarMenu();
 	}
 
 	public void cargarSistema() {
