@@ -17,6 +17,13 @@
 					emptyMessage="#{msg['lbl.mensajeTabla']}">
 					<p:column headerText="Codigo.">
 						<p:outputLabel value="#{hotel.hotCodigo}" />
+						<f:facet name="header">
+							<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
+							<p:commandButton update=":formNuevo"
+								oncomplete="mostarPanelInsertar('')"
+								action="#{hotelBean.cargarInsertar}" id="btnNuevo"
+								icon="#{msg['i.nuevo']}" />
+						</f:facet>
 					</p:column>
 					<p:column headerText="Estrella">
 						<p:rating value="#{hotel.hotEstrella}" readonly="true" />
@@ -34,5 +41,60 @@
 				</p:dataTable>
 			</h:form>
 		</p:panel>
+
+		<p:panel id="panelInsertar" header="#{msg['lbl.insertar']}"
+			styleClass="DispNone">
+			<h:form id="formNuevo">
+				<p:outputLabel value="Los campos marcados con * son Obligatorios"
+					styleClass="DispBlock" />
+				<div class="divDatosIzq50">
+					<div id="datosChofer" class="divDatosIzq50">
+						<p:outputLabel value="Datos Hotel" styleClass="subTitulos" />
+						<p:outputLabel value="* Ruc" for="ruc"
+							styleClass="DispBlock" />
+						<p:inputText id="ruc" value="#{hotelBean.hotel.hotRuc}"
+							styleClass="DispBlock Wid90">
+							<p:ajax event="blur" listener="#{hotelBean.comprobarHotel}"
+								update="formNuevo,:mensaje" />
+						</p:inputText>
+						<p:outputLabel value="* Nombre" for="nombre"
+							styleClass="DispBlock" />
+						<p:inputText id="nombre" value="#{hotelBean.hotel.hotNombre}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="* Direccion" for="direccion"
+							styleClass="DispBlock" />
+						<p:inputText id="direccion" value="#{hotelBean.hotel.hotDireccion}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="* Nombres" for="estrellas"
+							styleClass="DispBlock" />
+						<p:inputText id="estrellas" value="#{hotelBean.hotel.hotEstrella}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="Telefono" for="telefono"
+							styleClass="DispBlock" />
+						<p:inputText id="telefono"
+							onblur="this.value = this.value.toUpperCase()"
+							value="#{hotelBean.hotel.hotTelefono}"
+							styleClass="DispBlock Wid90" />
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.guardar']}"
+					update=":formDataTable ,:mensaje, formNuevo"
+					oncomplete="comprobarInsertar(xhr, status, args, '')"
+					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+					actionListener="#{hotelBean.insertar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
+					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+
 	</ui:define>
 </ui:composition>

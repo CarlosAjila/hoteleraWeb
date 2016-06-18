@@ -10,4 +10,7 @@ public interface HotelService {
 
 	@Transactional
 	public List<Hotel> obtenerTodos();
+
+	@Transactional
+	public Hotel obtenerPorRuc(String ruc);
 }

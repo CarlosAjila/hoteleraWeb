@@ -18,7 +18,6 @@ import javax.persistence.Table;
 public class Menu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Integer id;
 	@Id
 	@SequenceGenerator(allocationSize = 1, name = "menu_men_id_seq", sequenceName = "menu_men_id_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menu_men_id_seq")
@@ -38,7 +37,7 @@ public class Menu implements Serializable {
 	private Integer menPadre;
 
 	@Column(name = "men_visible")
-	private String menVisible;
+	private Boolean menVisible;
 
 	@Column(name = "men_vista")
 	private String menVista;
@@ -90,11 +89,11 @@ public class Menu implements Serializable {
 		this.menPadre = menPadre;
 	}
 
-	public String getMenVisible() {
+	public Boolean getMenVisible() {
 		return this.menVisible;
 	}
 
-	public void setMenVisible(String menVisible) {
+	public void setMenVisible(Boolean menVisible) {
 		this.menVisible = menVisible;
 	}
 

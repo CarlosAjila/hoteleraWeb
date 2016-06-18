@@ -17,13 +17,22 @@ public class HotelDaoImpl extends GenericDaoImpl<Hotel, Integer> implements Hote
 	private GenericSQLDao genericSQLDao;
 
 	public List<Hotel> obtenerTodos() {
-		String sql = "Select * FROM public.hotel";
+		String sql = "Select * FROM hotel";
 		List<Hotel> hoteles = new ArrayList<Hotel>();
 		hoteles = genericSQLDao.obtenerPorSql(sql, Hotel.class);
-		System.out.println("size" + hoteles.size());
-		for (Hotel hotel : hoteles) {
-			System.out.println("hotel.getHotNombre() " + hotel.getHotNombre());
-		}
-		return hoteles;
+		if (hoteles != null)
+			if (hoteles.size() != 0)
+				return hoteles;
+		return null;
+	}
+
+	public Hotel obtenerPorRuc(String ruc) {
+		String sql = "select * from hotel where hot_ruc='" + ruc + "'";
+		List<Hotel> hotel = new ArrayList<Hotel>();
+		hotel = genericSQLDao.obtenerPorSql(sql, Hotel.class);
+		if (hotel != null)
+			if (hotel.size() != 0)
+				return hotel.get(0);
+		return null;
 	}
 }

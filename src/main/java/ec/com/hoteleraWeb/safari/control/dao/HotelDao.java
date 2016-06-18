@@ -12,4 +12,7 @@ public interface HotelDao extends GenericDao<Hotel, Integer> {
 	@Transactional
 	public List<Hotel> obtenerTodos();
 
+	@Transactional
+	public Hotel obtenerPorRuc(String ruc);
+
 }
