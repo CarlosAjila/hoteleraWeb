@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">-Chofer</ui:define>
+
+	<ui:define name="content">
+		<p:panel id="panelPrincipal" header="Hoteles">
+			<h:form id="formDataTable">
+				<p:dataTable id="tablaHoteles" var="hotel" scrollable="true"
+					reflow="true" value="#{hotelBean.listaHoteles}" paginator="true"
+					rows="10"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					paginatorPosition="bottom"
+					emptyMessage="#{msg['lbl.mensajeTabla']}">
+					<p:column headerText="Codigo.">
+						<p:outputLabel value="#{hotel.hotCodigo}" />
+					</p:column>
+					<p:column headerText="Estrella">
+						<p:rating value="#{hotel.hotEstrella}" readonly="true" />
+					</p:column>
+					<p:column headerText="Hotel">
+						<p:outputLabel value="#{hotel.hotNombre}" />
+					</p:column>
+					<p:column headerText="Ruc">
+						<p:outputLabel value="#{hotel.hotRuc}" />
+					</p:column>
+					<p:column headerText="Telefono">
+						<p:outputLabel value="#{hotel.hotTelefono}" />
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

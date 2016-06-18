@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">-Empleado</ui:define>
+
+	<ui:define name="content">
+		<p:panel id="panelPrincipal" header="Empleado">
+			<h:form id="formDataTable">
+				<p:dataTable id="tablaEmpleado" var="empleado" scrollable="true"
+					reflow="true" value="#{empleadoBean.listaEmpleados}"
+					paginator="true" rows="10"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					paginatorPosition="bottom"
+					emptyMessage="#{msg['lbl.mensajeTabla']}">
+					<p:column headerText="Cedula.">
+						<p:outputLabel value="#{empleado.empCedula}" />
+					</p:column>
+					<p:column headerText="Apellido Nombre">
+						<p:outputLabel
+							value="#{empleado.empApellido} #{empleado.empNombre} " />
+					</p:column>
+					<p:column headerText="Tipo Cargo">
+						<p:outputLabel value="#{empleado.empTipo}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
