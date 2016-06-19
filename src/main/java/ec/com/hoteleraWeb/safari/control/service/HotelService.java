@@ -13,4 +13,16 @@ public interface HotelService {
 
 	@Transactional
 	public Hotel obtenerPorRuc(String ruc);
+
+	@Transactional
+	public Hotel obtenerPorRuc_Codigo(String ruc, Integer codigo);
+
+	@Transactional
+	public void insertar(Hotel hotel);
+
+	@Transactional
+	public void actualizar(Hotel hotel);
+
+	@Transactional
+	public void eliminar(Hotel hotel);
 }

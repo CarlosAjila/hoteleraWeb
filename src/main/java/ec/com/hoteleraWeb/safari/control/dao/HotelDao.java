@@ -15,4 +15,7 @@ public interface HotelDao extends GenericDao<Hotel, Integer> {
 	@Transactional
 	public Hotel obtenerPorRuc(String ruc);
 
+	@Transactional
+	public Hotel obtenerPorRuc_Codigo(String ruc, Integer codigo);
+
 }

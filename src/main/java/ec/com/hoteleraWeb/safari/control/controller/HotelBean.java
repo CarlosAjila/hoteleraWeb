@@ -51,20 +51,68 @@ public class HotelBean implements Serializable {
 		listaHoteles = hotelService.obtenerTodos();
 	}
 
-	public void comprobarHotel() {
+	public boolean comprobarHotelInsertar() {
+		boolean retorno = false;
 		String ruc = hotel.getHotRuc().trim();
-		hotel = hotelService.obtenerPorRuc(ruc);
-		if (hotel != null) {
-			limpiarObjetos();
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Ya existe un hotel registrado con ese ruc");
+		if (ruc.length() == 13) {
+			if (hotelService.obtenerPorRuc(ruc) != null) {
+				hotel.setHotRuc("");
+				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Ya existe un hotel registrado con ese ruc");
+			} else {
+				hotel.setHotRuc(ruc);
+				retorno = true;
+			}
 		} else {
-			limpiarObjetos();
-			hotel.setHotRuc(ruc);
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un ruc valido de 13 digitos");
+			hotel.setHotRuc("");
 		}
+		return retorno;
+	}
+	
+	public boolean comprobarHotelActualizar() {
+		boolean retorno = false;
+		String ruc = hotel.getHotRuc().trim();
+		if (ruc.length() == 13) {
+			if (hotelService.obtenerPorRuc_Codigo(ruc,hotel.getHotCodigo()) == null) {
+				hotel.setHotRuc("");
+				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Ya existe un hotel registrado con ese ruc");
+			} else {
+				hotel.setHotRuc(ruc);
+				retorno = true;
+			}
+		} else {
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un ruc valido de 13 digitos");
+			hotel.setHotRuc("");
+		}
+		return retorno;
 	}
 
 	public void insertar(ActionEvent actionEvent) {
-		hotelService.insertarActualizar(hotel);
+		if (comprobarHotelInsertar()) {
+			if (hotel.getHotNombre().isEmpty())
+				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un nombre");
+			else if (hotel.getHotEstrella() <= 0)
+				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar el numero de estrellas del hotel");
+			else
+				hotelService.insertar(hotel);
+			listaHoteles = hotelService.obtenerTodos();
+		}
+	}
+
+	public void actualizar(ActionEvent actionEvent) {
+		if (comprobarHotelActualizar()) {
+			if (hotel.getHotNombre().isEmpty())
+				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un nombre");
+			else if (hotel.getHotEstrella() <= 0)
+				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar el numero de estrellas del hotel");
+			else
+				hotelService.actualizar(hotel);
+			listaHoteles = hotelService.obtenerTodos();
+		}
+	}
+	
+	public void eliminar(ActionEvent actionEvent) {
+		hotelService.eliminar(hotel);
 	}
 
 	public List<Hotel> getListaHoteles() {

@@ -38,6 +38,9 @@ public class Hotel implements Serializable {
 	@Column(name = "hot_telefono")
 	private String hotTelefono;
 
+	@Column(name = "hot_activo")
+	private Boolean hotActivo;
+
 	// bi-directional many-to-one association to Empleado
 	@OneToMany(mappedBy = "hotel")
 	private List<Empleado> empleados;
@@ -99,6 +102,14 @@ public class Hotel implements Serializable {
 
 	public void setHotTelefono(String hotTelefono) {
 		this.hotTelefono = hotTelefono;
+	}
+
+	public Boolean getHotActivo() {
+		return hotActivo;
+	}
+
+	public void setHotActivo(Boolean hotActivo) {
+		this.hotActivo = hotActivo;
 	}
 
 	public List<Empleado> getEmpleados() {

@@ -35,4 +35,14 @@ public class HotelDaoImpl extends GenericDaoImpl<Hotel, Integer> implements Hote
 				return hotel.get(0);
 		return null;
 	}
+	
+	public Hotel obtenerPorRuc_Codigo(String ruc,Integer codigo) {
+		String sql = "select * from hotel where hot_ruc='" + ruc + "' and hot_codigo='"+codigo+"'";
+		List<Hotel> hotel = new ArrayList<Hotel>();
+		hotel = genericSQLDao.obtenerPorSql(sql, Hotel.class);
+		if (hotel != null)
+			if (hotel.size() != 0)
+				return hotel.get(0);
+		return null;
+	}
 }

@@ -4,35 +4,52 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">-Chofer</ui:define>
+	<ui:define name="title">-Hoteles</ui:define>
 
 	<ui:define name="content">
-		<p:panel id="panelPrincipal" header="Hoteles">
+		<p:panel id="panelPrincipal" header="Listado de Hoteles">
 			<h:form id="formDataTable">
 				<p:dataTable id="tablaHoteles" var="hotel" scrollable="true"
+					rowStyleClass="#{hotel.hotActivo eq true ? null:'desactivo'}"
 					reflow="true" value="#{hotelBean.listaHoteles}" paginator="true"
 					rows="10"
 					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 					paginatorPosition="bottom"
 					emptyMessage="#{msg['lbl.mensajeTabla']}">
+					<f:facet name="header">
+						<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
+						<p:commandButton update=":formNuevo"
+							oncomplete="mostarPanelInsertar('')"
+							action="#{hotelBean.cargarInsertar}" id="btnNuevo"
+							icon="#{msg['i.nuevo']}" />
+					</f:facet>
+					<p:column headerText="#{msg['lbl.gestionar']}">
+						<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
+						<p:tooltip for="btnEliminar"
+							value="#{hotel.hotActivo eq true ? msg['lbl.desactivar']: msg['lbl.activar']}" />
+						<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
+							oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
+							<f:setPropertyActionListener value="#{hotel}"
+								target="#{hotelBean.hotel}" />
+						</p:commandButton>
+						<p:commandButton id="btnEliminar" update=":mensaje, :formEliminar"
+							oncomplete="mostarPanelEliminar('')"
+							icon="#{hotel.hotActivo eq true ? msg['i.eliminar']: msg['i.activar']}">
+							<f:setPropertyActionListener value="#{hotel}"
+								target="#{hotelBean.hotel}" />
+						</p:commandButton>
+					</p:column>
 					<p:column headerText="Codigo.">
 						<p:outputLabel value="#{hotel.hotCodigo}" />
-						<f:facet name="header">
-							<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
-							<p:commandButton update=":formNuevo"
-								oncomplete="mostarPanelInsertar('')"
-								action="#{hotelBean.cargarInsertar}" id="btnNuevo"
-								icon="#{msg['i.nuevo']}" />
-						</f:facet>
 					</p:column>
-					<p:column headerText="Estrella">
-						<p:rating value="#{hotel.hotEstrella}" readonly="true" />
+					<p:column headerText="Ruc">
+						<p:outputLabel value="#{hotel.hotRuc}" />
 					</p:column>
 					<p:column headerText="Hotel">
 						<p:outputLabel value="#{hotel.hotNombre}" />
 					</p:column>
-					<p:column headerText="Ruc">
-						<p:outputLabel value="#{hotel.hotRuc}" />
+					<p:column headerText="Estrella">
+						<p:rating value="#{hotel.hotEstrella}" readonly="true" />
 					</p:column>
 					<p:column headerText="Telefono">
 						<p:outputLabel value="#{hotel.hotTelefono}" />
@@ -48,30 +65,27 @@
 				<p:outputLabel value="Los campos marcados con * son Obligatorios"
 					styleClass="DispBlock" />
 				<div class="divDatosIzq50">
-					<div id="datosChofer" class="divDatosIzq50">
-						<p:outputLabel value="Datos Hotel" styleClass="subTitulos" />
-						<p:outputLabel value="* Ruc" for="ruc"
-							styleClass="DispBlock" />
+					<div id="datosHotel" class="divDatosIzq50">
+						<p:outputLabel value="Datos del Hotel" styleClass="subTitulos" />
+						<p:outputLabel value="* Ruc" for="ruc" styleClass="DispBlock" />
 						<p:inputText id="ruc" value="#{hotelBean.hotel.hotRuc}"
+							required="true" requiredMessage="Debe ingresar un ruc"
 							styleClass="DispBlock Wid90">
-							<p:ajax event="blur" listener="#{hotelBean.comprobarHotel}"
+							<p:ajax event="blur"
+								listener="#{hotelBean.comprobarHotelInsertar}"
 								update="formNuevo,:mensaje" />
 						</p:inputText>
 						<p:outputLabel value="* Nombre" for="nombre"
 							styleClass="DispBlock" />
 						<p:inputText id="nombre" value="#{hotelBean.hotel.hotNombre}"
-							onblur="this.value = this.value.toUpperCase()"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar un nombre"
 							styleClass="DispBlock Wid90">
 						</p:inputText>
 						<p:outputLabel value="* Direccion" for="direccion"
 							styleClass="DispBlock" />
-						<p:inputText id="direccion" value="#{hotelBean.hotel.hotDireccion}"
-							onblur="this.value = this.value.toUpperCase()"
-							styleClass="DispBlock Wid90">
-						</p:inputText>
-						<p:outputLabel value="* Nombres" for="estrellas"
-							styleClass="DispBlock" />
-						<p:inputText id="estrellas" value="#{hotelBean.hotel.hotEstrella}"
+						<p:inputText id="direccion"
+							value="#{hotelBean.hotel.hotDireccion}"
 							onblur="this.value = this.value.toUpperCase()"
 							styleClass="DispBlock Wid90">
 						</p:inputText>
@@ -81,6 +95,12 @@
 							onblur="this.value = this.value.toUpperCase()"
 							value="#{hotelBean.hotel.hotTelefono}"
 							styleClass="DispBlock Wid90" />
+						<p:outputLabel value="* Estrellas" for="estrellas"
+							styleClass="DispBlock" />
+						<p:rating id="estrellas" value="#{hotelBean.hotel.hotEstrella}"
+							required="true"
+							requiredMessage="Debe ingresar el numero de estrellas"
+							styleClass="DispInlBlock Wid90" stars="7" />
 					</div>
 				</div>
 				<div class="EmptyBox10"></div>
@@ -95,6 +115,84 @@
 					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
 			</h:form>
 		</p:panel>
+
+		<p:panel id="panelEditar" header="#{msg['lbl.editar']}"
+			styleClass="DispNone">
+			<h:form id="formEditar">
+				<p:outputLabel value="Los campos marcados con * son Obligatorios"
+					styleClass="DispBlock" />
+				<div class="divDatosIzq50">
+					<div id="datosHotel" class="divDatosIzq50">
+						<p:outputLabel value="Datos del Hotel" styleClass="subTitulos" />
+						<p:outputLabel value="* Ruc" for="ruc" styleClass="DispBlock" />
+						<p:inputText id="ruc" value="#{hotelBean.hotel.hotRuc}"
+							required="true" requiredMessage="Debe ingresar un ruc"
+							styleClass="DispBlock Wid90">
+							<p:ajax event="blur"
+								listener="#{hotelBean.comprobarHotelActualizar}"
+								update="formNuevo,:mensaje" />
+						</p:inputText>
+						<p:outputLabel value="* Nombre" for="nombre"
+							styleClass="DispBlock" />
+						<p:inputText id="nombre" value="#{hotelBean.hotel.hotNombre}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar un nombre"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="* Direccion" for="direccion"
+							styleClass="DispBlock" />
+						<p:inputText id="direccion"
+							value="#{hotelBean.hotel.hotDireccion}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="Telefono" for="telefono"
+							styleClass="DispBlock" />
+						<p:inputText id="telefono"
+							onblur="this.value = this.value.toUpperCase()"
+							value="#{hotelBean.hotel.hotTelefono}"
+							styleClass="DispBlock Wid90" />
+						<p:outputLabel value="* Estrellas" for="estrellas"
+							styleClass="DispBlock" />
+						<p:rating id="estrellas" value="#{hotelBean.hotel.hotEstrella}"
+							required="true"
+							requiredMessage="Debe ingresar el numero de estrellas"
+							styleClass="DispInlBlock Wid90" stars="7" />
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.guardar']}"
+					update=":formDataTable ,:mensaje, formEditar"
+					oncomplete="comprobarEditar(xhr, status, args, '')"
+					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+					actionListener="#{hotelBean.actualizar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					oncomplete="mostarPanelEditar('')" id="btnNuevolimpiar"
+					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+
+		<p:panel id="panelEliminar"
+			header="#{msg['lbl.activar']}/#{msg['lbl.desactivar']}"
+			styleClass="DispNone">
+			<h:form id="formEliminar">
+				<h:inputHidden value="#{hotelBean.hotel.hotCodigo}" />
+				<div class="EmptyBox30"></div>
+				<p:outputLabel
+					value="¿Desea #{hotelBean.hotel.hotActivo eq true ? msg['lbl.desactivar'] : msg['lbl.activar']} el Hotel: #{hotelBean.hotel.hotRuc} - #{hotelBean.hotel.hotNombre} ?" />
+				<div class="EmptyBox30"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.aceptar']}"
+					update=":formDataTable,:mensaje" icon="#{msg['i.activar']}"
+					oncomplete="mostarPanelEliminar('')"
+					actionListener="#{hotelBean.eliminar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					onclick="mostarPanelEliminar('')" icon="#{msg['i.cancelar']}"
+					styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+
 
 	</ui:define>
 </ui:composition>
