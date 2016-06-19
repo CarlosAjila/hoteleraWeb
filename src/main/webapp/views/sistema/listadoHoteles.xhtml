@@ -24,9 +24,15 @@
 							icon="#{msg['i.nuevo']}" />
 					</f:facet>
 					<p:column headerText="#{msg['lbl.gestionar']}">
+						<p:tooltip for="btnMostrar" value="#{msg['lbl.mostrar']}" />
 						<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
 						<p:tooltip for="btnEliminar"
 							value="#{hotel.hotActivo eq true ? msg['lbl.desactivar']: msg['lbl.activar']}" />
+						<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
+							oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
+							<f:setPropertyActionListener value="#{hotel}"
+								target="#{hotelBean.hotel}" />
+						</p:commandButton>
 						<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
 							oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
 							<f:setPropertyActionListener value="#{hotel}"
@@ -193,6 +199,36 @@
 			</h:form>
 		</p:panel>
 
-
+		<p:panel id="panelMostrar" header="Datos del Hotel"
+			styleClass="DispNone">
+			<h:form id="formMostrar">
+				<div class="divDatosIzq50">
+					<div id="datosHotel" class="divDatosIzq50">
+						<p:outputLabel value="Ruc" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{hotelBean.hotel.hotRuc}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						<p:outputLabel value="Nombre" styleClass="DispBlock negrita" />
+						<p:outputLabel id="nombre" value="#{hotelBean.hotel.hotNombre}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						<p:outputLabel value="Direccion" styleClass="DispBlock negrita" />
+						<p:outputLabel id="direccion"
+							value="#{hotelBean.hotel.hotDireccion}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						<p:outputLabel value="Telefono" styleClass="DispBlock negrita" />
+						<p:outputLabel id="telefono"
+							value="#{hotelBean.hotel.hotTelefono}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						<p:outputLabel value="Estrellas" styleClass="DispBlock negrita" />
+						<p:rating id="estrellas" value="#{hotelBean.hotel.hotEstrella}"
+							styleClass="DispInlBlock Wid90" readonly="true" />
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+			</h:form>
+		</p:panel>
 	</ui:define>
 </ui:composition>

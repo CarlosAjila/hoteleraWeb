@@ -108,6 +108,10 @@
 	margin: 0;
 }
 
+.negrita {
+	font-weight: bold !important;
+}
+
 @media ( min-width : 961px) {
 	#layout-menu>li a i:nth-child(2n) {
 		display: none;

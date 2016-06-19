@@ -68,12 +68,12 @@ public class HotelBean implements Serializable {
 		}
 		return retorno;
 	}
-	
+
 	public boolean comprobarHotelActualizar() {
 		boolean retorno = false;
 		String ruc = hotel.getHotRuc().trim();
 		if (ruc.length() == 13) {
-			if (hotelService.obtenerPorRuc_Codigo(ruc,hotel.getHotCodigo()) == null) {
+			if (hotelService.obtenerPorRuc_Codigo(ruc, hotel.getHotCodigo()) == null) {
 				hotel.setHotRuc("");
 				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Ya existe un hotel registrado con ese ruc");
 			} else {
@@ -110,7 +110,7 @@ public class HotelBean implements Serializable {
 			listaHoteles = hotelService.obtenerTodos();
 		}
 	}
-	
+
 	public void eliminar(ActionEvent actionEvent) {
 		hotelService.eliminar(hotel);
 	}
