@@ -10,6 +10,7 @@
 		<p:panel id="panelPrincipal" header="Listado de Empleados">
 			<h:form id="formDataTable">
 				<p:dataTable id="tablaEmpleado" var="empleado" scrollable="true"
+					rowStyleClass="#{empleado.empActivo eq true ? null:'desactivo'}"
 					reflow="true" value="#{empleadoBean.listaEmpleados}"
 					paginator="true" rows="10"
 					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -22,12 +23,12 @@
 							action="#{empleadoBean.cargarInsertar}" id="btnNuevo"
 							icon="#{msg['i.nuevo']}" />
 					</f:facet>
-						<p:column headerText="#{msg['lbl.gestionar']}">
-						
+					<p:column headerText="#{msg['lbl.gestionar']}">
+
 						<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
 						<p:tooltip for="btnEliminar"
 							value="#{empleado.empActivo eq true ? msg['lbl.desactivar']: msg['lbl.activar']}" />
-					
+
 						<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
 							oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
 							<f:setPropertyActionListener value="#{empleado}"
@@ -63,8 +64,20 @@
 				<div class="divDatosIzq50">
 					<div id="datosEmpleado" class="divDatosIzq50">
 						<p:outputLabel value="Datos del Empleado" styleClass="subTitulos" />
-						<p:outputLabel value="* Cédula" for="cedula"
+
+						<p:outputLabel for="comboEmpresa" value="Hotel"
 							styleClass="DispBlock" />
+						<p:selectOneMenu id="comboEmpresa" required="true"
+							requiredMessage="Debe seleccionar el Hotel"
+							value="#{empleadoBean.hotCodigo}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+							<f:selectItems value="#{empleadoBean.listaHoteles}" var="hotel"
+								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+								<p:ajax event="change" update=":mensaje"/>
+
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Cédula" for="cedula" styleClass="DispBlock" />
 						<p:inputText id="cedula"
 							value="#{empleadoBean.empleado.empCedula}" required="true"
 							requiredMessage="Debe ingresar una Cédula"
@@ -73,15 +86,14 @@
 								listener="#{empleadoBean.comprobarEmpleadoInsertar}"
 								update="formNuevo,:mensaje" />
 						</p:inputText>
-						<p:outputLabel value="* Nombre" for="nombre"
-							styleClass="DispBlock" />
+						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
 						<p:inputText id="nombre"
 							value="#{empleadoBean.empleado.empNombre}"
 							onblur="this.value = this.value.toUpperCase()" required="true"
 							requiredMessage="Debe ingresar el nombre"
 							styleClass="DispBlock Wid90">
 						</p:inputText>
-						<p:outputLabel value="* Apellido" for="apellido"
+						<p:outputLabel value="Apellido" for="apellido"
 							styleClass="DispBlock" />
 						<p:inputText id="apellido"
 							value="#{empleadoBean.empleado.empApellido}"
@@ -89,7 +101,7 @@
 							requiredMessage="Debe ingresar el Apellido"
 							styleClass="DispBlock Wid90">
 						</p:inputText>
-						<p:outputLabel value="* Direccion" for="direccion"
+						<p:outputLabel value="Direccion" for="direccion"
 							styleClass="DispBlock" />
 						<p:inputText id="direccion"
 							value="#{empleadoBean.empleado.empDireccion}"
@@ -97,17 +109,19 @@
 							styleClass="DispBlock Wid90">
 						</p:inputText>
 						<p:outputLabel value="Título" for="titulo" styleClass="DispBlock" />
-						<p:inputText id="titulo"
-							onblur="this.value = this.value.toUpperCase()"
-							value="#{empleadoBean.empleado.empTitulo}"
-							styleClass="DispBlock Wid90" />
+						<p:selectOneMenu id="titulo" required="true"
+							requiredMessage="Debe seleccionar el Titulo"
+							value="#{empleadoBean.empleado.empTitulo}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja un Titulo" itemValue="0" />
+							<f:selectItems value="#{empleadoBean.listaTitulos}" var="titulo"
+								itemValue="#{titulo}" itemLabel="#{titulo.nombre}" />
+						</p:selectOneMenu>
 						<p:outputLabel value="Tipo empleado" for="tipo"
 							styleClass="DispBlock" />
 						<p:inputText id="tipo"
 							onblur="this.value = this.value.toUpperCase()"
 							value="#{empleadoBean.empleado.empTipo}"
 							styleClass="DispBlock Wid90" />
-
 					</div>
 				</div>
 				<div class="EmptyBox10"></div>

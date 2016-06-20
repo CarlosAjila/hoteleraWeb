@@ -33,9 +33,9 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 		return empleadoDao.obtenerPorCedula(cedula);
 	}
 
-	public void insertar(Empleado empleado) {
-
-		Hotel hotel = hotelDao.obtenerPorRuc("1101884953001");
+	public void insertar(Empleado empleado, Integer hotCodigo) {
+		System.out.println(">>>>>>>> hotCodigo  "+hotCodigo);
+		Hotel hotel = hotelDao.obtenerPorId(Hotel.class, hotCodigo);
 		empleado.setHotel(hotel);
 		empleado.setEmpActivo(true);
 		empleadoDao.insertar(empleado);

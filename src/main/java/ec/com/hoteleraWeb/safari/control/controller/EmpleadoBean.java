@@ -15,7 +15,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entity.Empleado;
+import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.service.EmpleadoService;
+import ec.com.hoteleraWeb.safari.control.service.HotelService;
+import ec.com.hoteleraWeb.safari.utils.enums.Titulo;
 
 @Controller
 @Scope("session")
@@ -27,7 +30,15 @@ public class EmpleadoBean implements Serializable {
 	private EmpleadoService empleadoService;
 
 	private List<Empleado> listaEmpleados;
+
+	private List<Hotel> listaHoteles;
+
+	@Autowired
+	private HotelService hotelService;
+
 	private Empleado empleado;
+
+	private Integer hotCodigo;
 
 	public EmpleadoBean() {
 	}
@@ -37,18 +48,24 @@ public class EmpleadoBean implements Serializable {
 		limpiarObjetos();
 		obtenerEmpleados();
 	}
-	
+
 	public void cargarInsertar() {
 		limpiarObjetos();
+		obtenerHoteles();
 	}
 
 	public void limpiarObjetos() {
 		empleado = new Empleado();
 		listaEmpleados = new ArrayList<Empleado>();
+		listaHoteles = new ArrayList<Hotel>();
 	}
 
 	public void obtenerEmpleados() {
 		listaEmpleados = empleadoService.obtenerTodos();
+	}
+
+	public void obtenerHoteles() {
+		listaHoteles = hotelService.obtenerTodos();
 	}
 
 	public boolean comprobarEmpleadoInsertar() {
@@ -81,7 +98,7 @@ public class EmpleadoBean implements Serializable {
 				retorno = true;
 			}
 		} else {
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un ruc valido de 13 digitos");
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una cedula valida");
 			empleado.setEmpCedula("");
 		}
 		return retorno;
@@ -95,7 +112,7 @@ public class EmpleadoBean implements Serializable {
 			else if (empleado.getEmpApellido().isEmpty())
 				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar el apellido del Empleado");
 			else
-				empleadoService.insertar(empleado);
+				empleadoService.insertar(empleado, hotCodigo);
 			listaEmpleados = empleadoService.obtenerTodos();
 		}
 	}
@@ -109,6 +126,7 @@ public class EmpleadoBean implements Serializable {
 			else
 				empleadoService.actualizar(empleado);
 			listaEmpleados = empleadoService.obtenerTodos();
+			System.out.println(Titulo.PRIMARIA);
 		}
 	}
 
@@ -120,8 +138,16 @@ public class EmpleadoBean implements Serializable {
 		return listaEmpleados;
 	}
 
-	public void setListaHoteles(List<Empleado> listaEmpleados) {
+	public void setListaEmpleados(List<Empleado> listaEmpleados) {
 		this.listaEmpleados = listaEmpleados;
+	}
+
+	public List<Hotel> getListaHoteles() {
+		return listaHoteles;
+	}
+
+	public void setListaHoteles(List<Hotel> listaHoteles) {
+		this.listaHoteles = listaHoteles;
 	}
 
 	public Empleado getEmpleado() {
@@ -130,6 +156,18 @@ public class EmpleadoBean implements Serializable {
 
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
+	}
+
+	public Integer getHotCodigo() {
+		return hotCodigo;
+	}
+
+	public void setHotCodigo(Integer hotCodigo) {
+		this.hotCodigo = hotCodigo;
+	}
+
+	public Titulo[] getListaTitulos() {
+		return Titulo.values();
 	}
 
 }
