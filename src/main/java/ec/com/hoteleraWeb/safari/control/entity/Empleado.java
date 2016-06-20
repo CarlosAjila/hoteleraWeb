@@ -41,6 +41,9 @@ public class Empleado implements Serializable {
 
 	@Column(name = "emp_titulo")
 	private String empTitulo;
+	
+	@Column(name = "emp_activo")
+	private Boolean empActivo;
 
 	// bi-directional many-to-one association to Actividad
 	@OneToMany(mappedBy = "empleado")
@@ -57,6 +60,17 @@ public class Empleado implements Serializable {
 
 	public Empleado() {
 	}
+
+	
+	public Boolean getEmpActivo() {
+		return empActivo;
+	}
+
+
+	public void setEmpActivo(Boolean empActivo) {
+		this.empActivo = empActivo;
+	}
+
 
 	public Integer getEmpCodigo() {
 		return this.empCodigo;

@@ -4,10 +4,10 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">-Empleado</ui:define>
+	<ui:define name="title">-Empleados</ui:define>
 
 	<ui:define name="content">
-		<p:panel id="panelPrincipal" header="Empleado">
+		<p:panel id="panelPrincipal" header="Listado de Empleados">
 			<h:form id="formDataTable">
 				<p:dataTable id="tablaEmpleado" var="empleado" scrollable="true"
 					reflow="true" value="#{empleadoBean.listaEmpleados}"
@@ -15,6 +15,32 @@
 					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 					paginatorPosition="bottom"
 					emptyMessage="#{msg['lbl.mensajeTabla']}">
+					<f:facet name="header">
+						<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
+						<p:commandButton update=":formNuevo"
+							oncomplete="mostarPanelInsertar('')"
+							action="#{empleadoBean.cargarInsertar}" id="btnNuevo"
+							icon="#{msg['i.nuevo']}" />
+					</f:facet>
+						<p:column headerText="#{msg['lbl.gestionar']}">
+						
+						<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
+						<p:tooltip for="btnEliminar"
+							value="#{empleado.empActivo eq true ? msg['lbl.desactivar']: msg['lbl.activar']}" />
+					
+						<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
+							oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
+							<f:setPropertyActionListener value="#{empleado}"
+								target="#{empleadoBean.empleado}" />
+						</p:commandButton>
+						<p:commandButton id="btnEliminar" update=":mensaje, :formEliminar"
+							oncomplete="mostarPanelEliminar('')"
+							icon="#{empleado.empActivo eq true ? msg['i.eliminar']: msg['i.activar']}">
+							<f:setPropertyActionListener value="#{empleado}"
+								target="#{empleadoBean.empleado}" />
+						</p:commandButton>
+					</p:column>
+
 					<p:column headerText="Cedula.">
 						<p:outputLabel value="#{empleado.empCedula}" />
 					</p:column>
@@ -28,5 +54,164 @@
 				</p:dataTable>
 			</h:form>
 		</p:panel>
+
+		<p:panel id="panelInsertar" header="#{msg['lbl.insertar']}"
+			styleClass="DispNone">
+			<h:form id="formNuevo">
+				<p:outputLabel value="Los campos marcados con * son Obligatorios"
+					styleClass="DispBlock" />
+				<div class="divDatosIzq50">
+					<div id="datosEmpleado" class="divDatosIzq50">
+						<p:outputLabel value="Datos del Empleado" styleClass="subTitulos" />
+						<p:outputLabel value="* Cédula" for="cedula"
+							styleClass="DispBlock" />
+						<p:inputText id="cedula"
+							value="#{empleadoBean.empleado.empCedula}" required="true"
+							requiredMessage="Debe ingresar una Cédula"
+							styleClass="DispBlock Wid90">
+							<p:ajax event="blur"
+								listener="#{empleadoBean.comprobarEmpleadoInsertar}"
+								update="formNuevo,:mensaje" />
+						</p:inputText>
+						<p:outputLabel value="* Nombre" for="nombre"
+							styleClass="DispBlock" />
+						<p:inputText id="nombre"
+							value="#{empleadoBean.empleado.empNombre}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el nombre"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="* Apellido" for="apellido"
+							styleClass="DispBlock" />
+						<p:inputText id="apellido"
+							value="#{empleadoBean.empleado.empApellido}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el Apellido"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="* Direccion" for="direccion"
+							styleClass="DispBlock" />
+						<p:inputText id="direccion"
+							value="#{empleadoBean.empleado.empDireccion}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="Título" for="titulo" styleClass="DispBlock" />
+						<p:inputText id="titulo"
+							onblur="this.value = this.value.toUpperCase()"
+							value="#{empleadoBean.empleado.empTitulo}"
+							styleClass="DispBlock Wid90" />
+						<p:outputLabel value="Tipo empleado" for="tipo"
+							styleClass="DispBlock" />
+						<p:inputText id="tipo"
+							onblur="this.value = this.value.toUpperCase()"
+							value="#{empleadoBean.empleado.empTipo}"
+							styleClass="DispBlock Wid90" />
+
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.guardar']}"
+					update=":formDataTable ,:mensaje, formNuevo"
+					oncomplete="comprobarInsertar(xhr, status, args, '')"
+					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+					actionListener="#{empleadoBean.insertar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
+					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+
+		<p:panel id="panelEditar" header="#{msg['lbl.editar']}"
+			styleClass="DispNone">
+			<h:form id="formEditar">
+				<p:outputLabel value="Los campos marcados con * son Obligatorios"
+					styleClass="DispBlock" />
+				<div class="divDatosIzq50">
+					<div id="datosEmpleado" class="divDatosIzq50">
+						<p:outputLabel value="Datos del Empleado" styleClass="subTitulos" />
+						<p:outputLabel value="* Cédula" for="cedula"
+							styleClass="DispBlock" />
+						<p:inputText id="cedula"
+							value="#{empleadoBean.empleado.empCedula}" required="true"
+							requiredMessage="Debe ingresar la Cédula"
+							styleClass="DispBlock Wid90">
+							<p:ajax event="blur"
+								listener="#{empleadoBean.comprobarEmpleadoActualizar}"
+								update="formNuevo,:mensaje" />
+						</p:inputText>
+						<p:outputLabel value="* Nombre" for="nombre"
+							styleClass="DispBlock" />
+						<p:inputText id="nombre"
+							value="#{empleadoBean.empleado.empNombre}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el nombre"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="* Apellido" for="apellido"
+							styleClass="DispBlock" />
+						<p:inputText id="apellido"
+							value="#{empleadoBean.empleado.empApellido}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el Apellido"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="* Direccion" for="direccion"
+							styleClass="DispBlock" />
+						<p:inputText id="direccion"
+							value="#{empleadoBean.empleado.empDireccion}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Título" for="titulo" styleClass="DispBlock" />
+						<p:inputText id="titulo"
+							onblur="this.value = this.value.toUpperCase()"
+							value="#{empleadoBean.empleado.empTitulo}"
+							styleClass="DispBlock Wid90" />
+
+						<p:outputLabel value="Tipo empleado" for="tipo"
+							styleClass="DispBlock" />
+						<p:inputText id="tipo"
+							onblur="this.value = this.value.toUpperCase()"
+							value="#{empleadoBean.empleado.empTipo}"
+							styleClass="DispBlock Wid90" />
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.guardar']}"
+					update=":formDataTable ,:mensaje, formEditar"
+					oncomplete="comprobarEditar(xhr, status, args, '')"
+					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+					actionListener="#{empleadoBean.actualizar}"
+					styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					oncomplete="mostarPanelEditar('')" id="btnNuevolimpiar"
+					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+		<p:panel id="panelEliminar"
+			header="#{msg['lbl.activar']}/#{msg['lbl.desactivar']}"
+			styleClass="DispNone">
+			<h:form id="formEliminar">
+				<h:inputHidden value="#{empleadoBean.empleado.empCodigo}" />
+				<div class="EmptyBox30"></div>
+				<p:outputLabel
+					value="¿Desea #{empleadoBean.empleado.empActivo eq true ? msg['lbl.desactivar'] : msg['lbl.activar']} el Empleado: #{empleadoBean.empleado.empCedula} - #{empleadoBean.empleado.empNombre} ?" />
+				<div class="EmptyBox30"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.aceptar']}"
+					update=":formDataTable,:mensaje" icon="#{msg['i.activar']}"
+					oncomplete="mostarPanelEliminar('')"
+					actionListener="#{empleadoBean.eliminar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					onclick="mostarPanelEliminar('')" icon="#{msg['i.cancelar']}"
+					styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+
+
 	</ui:define>
 </ui:composition>

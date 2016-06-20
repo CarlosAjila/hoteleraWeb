@@ -22,4 +22,15 @@ public class EmpleadoDaoImpl extends GenericDaoImpl<Empleado, Integer> implement
 		return genericSQLDao.obtenerPorSql(sql, Empleado.class);
 
 	}
+
+	public Empleado obtenerPorCedula(String cedula) {
+		String sql = "select * from empleado where emp_cedula='" + cedula + "'";
+		return genericSQLDao.obtenerObjetoPorSql(sql, Empleado.class);
+
+	}
+
+	public Empleado obtenerPorCedula_Codigo(String cedula, Integer codigo) {
+		String sql = "select * from empleado where emp_cedula='" + cedula + "' and hot_codigo='" + codigo + "'";
+		return genericSQLDao.obtenerObjetoPorSql(sql, Empleado.class);
+	}
 }
