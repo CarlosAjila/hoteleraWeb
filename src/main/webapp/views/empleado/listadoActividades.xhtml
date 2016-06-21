@@ -17,6 +17,14 @@
 					paginatorPosition="bottom"
 					emptyMessage="#{msg['lbl.mensajeTabla']}">
 
+					<f:facet name="header">
+						<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
+						<p:commandButton update=":formNuevo"
+							oncomplete="mostarPanelInsertar('')"
+							action="#{actividadBean.cargarInsertar}" id="btnNuevo"
+							icon="#{msg['i.nuevo']}" />
+					</f:facet>
+
 					<p:column headerText="Nombre">
 						<p:outputLabel value="#{actividad.actNombre}" />
 					</p:column>
@@ -25,6 +33,65 @@
 					</p:column>
 
 				</p:dataTable>
+			</h:form>
+		</p:panel>
+		<p:panel id="panelInsertar" header="#{msg['lbl.insertar']}"
+			styleClass="DispNone">
+			<h:form id="formNuevo">
+				<p:outputLabel value="Los campos marcados con * son Obligatorios"
+					styleClass="DispBlock" />
+				<div class="divDatosIzq50">
+					<div id="datosEmpleado" class="divDatosIzq50">
+						<p:outputLabel value="Datos de la Actividad"
+							styleClass="subTitulos" />
+
+
+						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
+						<p:inputText id="nombre"
+							value="#{actividadBean.actividad.actNombre}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el nombre de la actividad"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Descripción" for="descripcion"
+							styleClass="DispBlock" />
+						<p:inputText id="descripcion"
+							value="#{actividadBean.actividad.actDescripcion}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar la descripcion de la actividad"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Pagado" for="pagado" styleClass="DispBlock" />
+						<p:selectBooleanCheckbox id="pagado"
+							value="#{actividadBean.actividad.actPagado}">
+							<p:ajax update="valorLabel"/>
+						</p:selectBooleanCheckbox>
+
+						<p:outputLabel value="Valor" id="valorLabel" for="valor"
+							styleClass="DispBlock"
+							rendered="#{actividadBean.actividad.actValor}" />
+						<p:inputText id="valor"
+							value="#{actividadBean.actividad.actValor}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el Valor"
+							styleClass="DispBlock Wid90">
+
+						</p:inputText>
+
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.guardar']}"
+					update=":formDataTable ,:mensaje, formNuevo"
+					oncomplete="comprobarInsertar(xhr, status, args, '')"
+					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+					actionListener="#{actividadBean.insertar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
+					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
 			</h:form>
 		</p:panel>
 	</ui:define>

@@ -26,6 +26,8 @@ public class ActividadBean implements Serializable {
 	private List<Actividad> listaActividades;
 
 	private Actividad actividad;
+	
+
 
 
 	public ActividadBean() {
@@ -33,14 +35,17 @@ public class ActividadBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		System.out.println("dsfghkdfshgkhdfkghkjd");
 		limpiarObjetos();
-
+		obtenerActividades();
 	}
 
 	public void cargarInsertar() {
 		limpiarObjetos();
 
 	}
+	
+
 
 	public void limpiarObjetos() {
 		actividad = new Actividad();
@@ -53,26 +58,28 @@ public class ActividadBean implements Serializable {
 
 
 	public void insertar(ActionEvent actionEvent) {
-		
+		actividadService.insertar(actividad, 1);
 		listaActividades = actividadService.obtenerTodos();
 	}
-
 
 
 	public List<Actividad> getListaActividades() {
 		return listaActividades;
 	}
 
-	public void setListaEmpleados(List<Actividad> listaActividades) {
+	public void setListaActividades(List<Actividad> listaActividades) {
 		this.listaActividades = listaActividades;
 	}
 
 	public Actividad getActividad() {
 		return actividad;
 	}
-
 	public void setActividad(Actividad actividad) {
 		this.actividad = actividad;
 	}
+
+
+	
+	
 
 }
