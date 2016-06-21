@@ -18,6 +18,7 @@ import ec.com.hoteleraWeb.safari.control.entity.Empleado;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.service.EmpleadoService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
+import ec.com.hoteleraWeb.safari.utils.enums.TipoEmpleado;
 import ec.com.hoteleraWeb.safari.utils.enums.Titulo;
 
 @Controller
@@ -126,7 +127,6 @@ public class EmpleadoBean implements Serializable {
 			else
 				empleadoService.actualizar(empleado);
 			listaEmpleados = empleadoService.obtenerTodos();
-			System.out.println(Titulo.PRIMARIA);
 		}
 	}
 
@@ -168,6 +168,10 @@ public class EmpleadoBean implements Serializable {
 
 	public Titulo[] getListaTitulos() {
 		return Titulo.values();
+	}
+
+	public TipoEmpleado[] getListaTipoEmpleados() {
+		return TipoEmpleado.values();
 	}
 
 }

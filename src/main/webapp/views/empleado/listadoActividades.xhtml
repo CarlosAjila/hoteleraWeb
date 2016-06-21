@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">-Empleados</ui:define>
+
+	<ui:define name="content">
+		<p:panel id="panelPrincipal" header="Listado de Actividades">
+			<h:form id="formDataTable">
+				<p:dataTable id="tablaActividad" var="actividad" scrollable="true"
+					rowStyleClass="#{actividad.actActivo eq true ? null:'desactivo'}"
+					reflow="true" value="#{actividadBean.listaActividades}"
+					paginator="true" rows="10"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					paginatorPosition="bottom"
+					emptyMessage="#{msg['lbl.mensajeTabla']}">
+
+					<p:column headerText="Nombre">
+						<p:outputLabel value="#{actividad.actNombre}" />
+					</p:column>
+					<p:column headerText="Descripcion">
+						<p:outputLabel value="#{actividad.actDescripcion}" />
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

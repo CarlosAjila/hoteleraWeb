@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.antMatchers("/views/sistema/listadoHoteles.jsf").hasAnyAuthority("ADMINISTRADOR","SERVICO")
 				.antMatchers("/views/empleado/listadoEmpleados.jsf").hasAnyAuthority("ADMINISTRADOR")
+				.antMatchers("/views/empleado/listadoActividades.jsf").hasAnyAuthority("ADMINISTRADOR")
 				.antMatchers("/views/seguridad/404.jsf").access("isAuthenticated()")
 				.antMatchers("/views/seguridad/accesoDenegado.jsf").access("isAuthenticated()")
 				.antMatchers("/views/seguridad/cambiarClave.jsf").access("isAuthenticated()")

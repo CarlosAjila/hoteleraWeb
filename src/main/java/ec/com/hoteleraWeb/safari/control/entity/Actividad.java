@@ -34,6 +34,9 @@ public class Actividad implements Serializable {
 
 	@Column(name = "act_pagado")
 	private Boolean actPagado;
+	
+	@Column(name = "act_activo")
+	private Boolean actActivo;
 
 	@Column(name = "act_valor")
 	private BigDecimal actValor;
@@ -80,6 +83,16 @@ public class Actividad implements Serializable {
 
 	public Boolean getActPagado() {
 		return this.actPagado;
+	}
+	
+	
+
+	public Boolean getActActivo() {
+		return actActivo;
+	}
+
+	public void setActActivo(Boolean actActivo) {
+		this.actActivo = actActivo;
 	}
 
 	public void setActPagado(Boolean actPagado) {

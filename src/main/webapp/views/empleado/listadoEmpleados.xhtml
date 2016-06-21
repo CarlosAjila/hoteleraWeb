@@ -73,7 +73,7 @@
 							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
 							<f:selectItems value="#{empleadoBean.listaHoteles}" var="hotel"
 								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
-								<p:ajax event="change" update=":mensaje"/>
+							<p:ajax event="change" update=":mensaje" />
 
 						</p:selectOneMenu>
 
@@ -116,12 +116,17 @@
 							<f:selectItems value="#{empleadoBean.listaTitulos}" var="titulo"
 								itemValue="#{titulo}" itemLabel="#{titulo.nombre}" />
 						</p:selectOneMenu>
-						<p:outputLabel value="Tipo empleado" for="tipo"
+						<p:outputLabel value="Tipo empleado" for="tipoEmpleado"
 							styleClass="DispBlock" />
-						<p:inputText id="tipo"
-							onblur="this.value = this.value.toUpperCase()"
-							value="#{empleadoBean.empleado.empTipo}"
-							styleClass="DispBlock Wid90" />
+						<p:selectOneMenu id="tipoEmpleado" required="true"
+							requiredMessage="Debe seleccionar el Tipo de Empleado"
+							value="#{empleadoBean.empleado.empTipo}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja el Tipo de empleado"
+								itemValue="0" />
+							<f:selectItems value="#{empleadoBean.listaTipoEmpleados}"
+								var="tipoEmpleado" itemValue="#{tipoEmpleado}"
+								itemLabel="#{tipoEmpleado.nombre}" />
+						</p:selectOneMenu>
 					</div>
 				</div>
 				<div class="EmptyBox10"></div>
