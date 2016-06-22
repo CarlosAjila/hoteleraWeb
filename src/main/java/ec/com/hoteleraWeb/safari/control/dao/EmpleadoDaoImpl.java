@@ -16,9 +16,19 @@ public class EmpleadoDaoImpl extends GenericDaoImpl<Empleado, Integer> implement
 	@Autowired
 	private GenericSQLDao genericSQLDao;
 	private static final long serialVersionUID = 1L;
+//
+//	public void insertar(Empleado empleado, Integer hotCodigo) {
+//		insertar(empleado);
+//	}
 
 	public List<Empleado> obtenerTodos() {
 		String sql = "Select * FROM public.empleado order by emp_apellido";
+		return genericSQLDao.obtenerPorSql(sql, Empleado.class);
+
+	}
+
+	public List<Empleado> obtenerEmpleadosHotel(int hotCodigo) {
+		String sql = "Select * FROM public.empleado order by emp_apellido WHERE hot_codigo = " + hotCodigo;
 		return genericSQLDao.obtenerPorSql(sql, Empleado.class);
 
 	}
@@ -29,8 +39,8 @@ public class EmpleadoDaoImpl extends GenericDaoImpl<Empleado, Integer> implement
 
 	}
 
-	public Empleado obtenerPorCedula_Codigo(String cedula, Integer codigo) {
-		String sql = "select * from empleado where emp_cedula='" + cedula + "' and hot_codigo='" + codigo + "'";
+	public Empleado obtenerPorCedula_Codigo(String cedula, Integer hotCodigo) {
+		String sql = "select * from empleado where emp_cedula='" + cedula + "' and hot_codigo= " + hotCodigo;
 		return genericSQLDao.obtenerObjetoPorSql(sql, Empleado.class);
 	}
 }

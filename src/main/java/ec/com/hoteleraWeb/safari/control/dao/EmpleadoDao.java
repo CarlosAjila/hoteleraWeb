@@ -9,13 +9,20 @@ import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.utils.dao.GenericDao;
 
 public interface EmpleadoDao extends GenericDao<Empleado, Integer> {
+	
+//	@Transactional
+//	public void insertar(Empleado empleado, Integer hotCodigo);
+	
 	@Transactional
 	public List<Empleado> obtenerTodos();
+	
+	@Transactional
+	public List<Empleado> obtenerEmpleadosHotel(int hotCodigo);
 
 	@Transactional
 	public Empleado obtenerPorCedula(String cedula);
 	
 	@Transactional
-	public Empleado obtenerPorCedula_Codigo(String cedula, Integer codigo);
+	public Empleado obtenerPorCedula_Codigo(String cedula, Integer hotCodigo);
 	
 }

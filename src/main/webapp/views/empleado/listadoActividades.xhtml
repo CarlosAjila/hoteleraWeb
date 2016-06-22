@@ -78,7 +78,7 @@
 						<div class="EmptyBox10"></div>
 						<p:outputLabel value="Empleado" styleClass="DispBlock negrita" />
 						<p:outputLabel
-							value="#{actividadBean.actividad.getEmpleado().getEmpNombre()} #{actividadBean.actividad.getEmpleado().getEmpApellido()}"
+							value="#{actividadBean.actividad.empleado.empNombre} #{actividadBean.actividad.empleado.empApellido}"
 							styleClass="DispBlock Wid90" />
 						<div class="EmptyBox10"></div>
 						<p:outputLabel value="Actividad" styleClass="DispBlock negrita" />
@@ -122,9 +122,22 @@
 				<p:outputLabel value="Los campos marcados con * son Obligatorios"
 					styleClass="DispBlock" />
 				<div class="divDatosIzq50">
-					<div id="datosEmpleado" class="divDatosIzq50">
+					<div id="datosActividad" class="divDatosIzq50">
 						<p:outputLabel value="Datos de la Actividad"
 							styleClass="subTitulos" />
+
+						<p:outputLabel for="comboEmpresa" value="Hotel"
+							styleClass="DispBlock" />
+						<p:selectOneMenu id="comboEmpresa" required="true"
+							requiredMessage="Debe seleccionar el Hotel"
+							value="#{actividadBean.hotCodigo}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+							<f:selectItems value="#{actividadBean.listaHoteles}" var="hotel"
+								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+							<p:ajax event="change" update=":mensaje" />
+
+						</p:selectOneMenu>
+
 						<p:outputLabel value="Empleado" for="codEmpleado"
 							styleClass="DispBlock" />
 						<p:inputText id="codEmpleado" value="#{actividadBean.codEmpleado}"

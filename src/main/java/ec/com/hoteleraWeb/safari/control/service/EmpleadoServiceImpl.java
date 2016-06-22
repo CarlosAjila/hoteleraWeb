@@ -29,12 +29,16 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 		return empleadoDao.obtenerTodos();
 	}
 
+	public List<Empleado> obtenerEmpleadosHotel(int hotCodigo) {
+		return empleadoDao.obtenerTodos();
+	}
+
 	public Empleado obtenerPorCedula(String cedula) {
 		return empleadoDao.obtenerPorCedula(cedula);
 	}
 
 	public void insertar(Empleado empleado, Integer hotCodigo) {
-		System.out.println(">>>>>>>> hotCodigo  "+hotCodigo);
+		System.out.println(">>>>>>>> hotCodigo  " + hotCodigo);
 		Hotel hotel = hotelDao.obtenerPorId(Hotel.class, hotCodigo);
 		empleado.setHotel(hotel);
 		empleado.setEmpActivo(true);
@@ -60,8 +64,8 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 					"Se desactivo al Hotel: " + empleado.getEmpCedula() + " - " + empleado.getEmpNombre());
 	}
 
-	public Empleado obtenerPorCedula_Codigo(String cedula, Integer codigo) {
-		return empleadoDao.obtenerPorCedula_Codigo(cedula, codigo);
+	public Empleado obtenerPorCedula_Codigo(String cedula, Integer hotCodigo) {
+		return empleadoDao.obtenerPorCedula_Codigo(cedula, hotCodigo);
 	}
 
 }

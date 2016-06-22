@@ -27,10 +27,13 @@ public class Calendario implements Serializable {
 	private String calDia;
 
 	@Column(name = "cal_hora_fin")
-	private Long calHoraFin;
+	private String calHoraFin;
 
 	@Column(name = "cal_hora_inicio")
 	private String calHoraInicio;
+
+	@Column(name = "cal_activo")
+	private Boolean calActivo;
 
 	// bi-directional many-to-one association to Actividad
 	@ManyToOne
@@ -56,11 +59,11 @@ public class Calendario implements Serializable {
 		this.calDia = calDia;
 	}
 
-	public Long getCalHoraFin() {
-		return this.calHoraFin;
+	public String getCalHoraFin() {
+		return calHoraFin;
 	}
 
-	public void setCalHoraFin(Long calHoraFin) {
+	public void setCalHoraFin(String calHoraFin) {
 		this.calHoraFin = calHoraFin;
 	}
 
@@ -79,5 +82,15 @@ public class Calendario implements Serializable {
 	public void setActividad(Actividad actividad) {
 		this.actividad = actividad;
 	}
+
+	public Boolean getCalActivo() {
+		return calActivo;
+	}
+
+	public void setCalActivo(Boolean calActivo) {
+		this.calActivo = calActivo;
+	}
+	
+	
 
 }

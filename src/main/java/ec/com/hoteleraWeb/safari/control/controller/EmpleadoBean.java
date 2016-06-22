@@ -48,6 +48,7 @@ public class EmpleadoBean implements Serializable {
 	public void init() {
 		limpiarObjetos();
 		obtenerEmpleados();
+		obtenerHoteles();
 	}
 
 	public void cargarInsertar() {
@@ -57,6 +58,7 @@ public class EmpleadoBean implements Serializable {
 
 	public void limpiarObjetos() {
 		empleado = new Empleado();
+		empleado.setHotel(new Hotel());
 		listaEmpleados = new ArrayList<Empleado>();
 		listaHoteles = new ArrayList<Hotel>();
 	}
@@ -91,9 +93,8 @@ public class EmpleadoBean implements Serializable {
 		boolean retorno = false;
 		String cedula = empleado.getEmpCedula().trim();
 		if (cedula.length() == 10) {
-			if (empleadoService.obtenerPorCedula_Codigo(cedula, 1) == null) {
-				empleado.setEmpCedula("");
-				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Ya existe un hotel registrado con ese ruc");
+			if (empleadoService.obtenerPorCedula_Codigo(cedula, hotCodigo) == null) {
+				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Ya existe un Empleado registrado con ese cedula");
 			} else {
 				empleado.setEmpCedula(cedula);
 				retorno = true;

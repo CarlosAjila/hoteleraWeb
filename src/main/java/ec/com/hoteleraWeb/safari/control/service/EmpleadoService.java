@@ -10,6 +10,9 @@ public interface EmpleadoService {
 
 	@Transactional
 	public List<Empleado> obtenerTodos();
+	
+	@Transactional
+	public List<Empleado> obtenerEmpleadosHotel(int hotCodigo);
 
 	@Transactional
 	public Empleado obtenerPorCedula(String cedula);
@@ -24,5 +27,5 @@ public interface EmpleadoService {
 	public void eliminar(Empleado empleado);
 
 	@Transactional
-	public Empleado obtenerPorCedula_Codigo(String cedula, Integer codigo);
+	public Empleado obtenerPorCedula_Codigo(String cedula, Integer hotCodigo);
 }
