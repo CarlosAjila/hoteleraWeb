@@ -46,15 +46,13 @@ public class HabitacionServiceImpl implements HabitacionService, Serializable {
 	}
 
 	public void eliminar(Habitacion habitacion) {
-		habitacion.setHotActivo(habitacion.getHabActivo() ? false : true);
+		habitacion.setHabActivo(habitacion.getHabActivo() ? false : true);
 		habitacionDao.actualizar(habitacion);
 
 		if (habitacion.getHabActivo())
-			presentaMensaje(FacesMessage.SEVERITY_INFO,
-					"Se activo al Hotel: " + habitacion.getHabActivo() + " - " + habitacion.getHabNombre());
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se activo al Hotel: " + habitacion.getHabActivo());
 		else
-			presentaMensaje(FacesMessage.SEVERITY_INFO,
-					"Se desactivo al Hotel: " + habitacion.getHabActivo() + " - " + habitacion.getHabNombre());
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se desactivo al Hotel: " + habitacion.getHabActivo());
 	}
 
 }
