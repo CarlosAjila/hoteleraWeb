@@ -25,16 +25,97 @@
 							icon="#{msg['i.nuevo']}" />
 					</f:facet>
 
-					<p:column headerText="Nombre">
-						<p:outputLabel value="#{actividad.actNombre}" />
-					</p:column>
-					<p:column headerText="Descripcion">
-						<p:outputLabel value="#{actividad.actDescripcion}" />
+					<p:column headerText="#{msg['lbl.gestionar']}">
+						<p:tooltip for="btnMostrar" value="#{msg['lbl.mostrar']}" />
+						<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
+						<p:tooltip for="btnEliminar"
+							value="#{actividad.actActivo eq true ? msg['lbl.desactivar']: msg['lbl.activar']}" />
+
+						<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
+							oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
+							<f:setPropertyActionListener value="#{actividad}"
+								target="#{actividadBean.actividad}" />
+						</p:commandButton>
+						<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
+							oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
+							<f:setPropertyActionListener value="#{actividad}"
+								target="#{actividadBean.actividad}" />
+						</p:commandButton>
+
+						<p:commandButton id="btnEliminar" update=":mensaje, :formEliminar"
+							oncomplete="mostarPanelEliminar('')"
+							icon="#{actividad.actActivo eq true ? msg['i.eliminar']: msg['i.activar']}">
+							<f:setPropertyActionListener value="#{actividad}"
+								target="#{actividadBean.actividad}" />
+						</p:commandButton>
+
 					</p:column>
 
+					<p:column headerText="Cédula">
+						<p:outputLabel value="#{actividad.getEmpleado().getEmpCedula()}" />
+					</p:column>
+					<p:column headerText="Empleado">
+						<p:outputLabel
+							value="#{actividad.getEmpleado().getEmpNombre()} #{actividad.getEmpleado().getEmpApellido()}" />
+					</p:column>
+					<p:column headerText="Actividad">
+						<p:outputLabel value="#{actividad.actNombre}" />
+					</p:column>
 				</p:dataTable>
 			</h:form>
 		</p:panel>
+
+		<p:panel id="panelMostrar" header="Datos de las Activida"
+			styleClass="DispNone">
+			<h:form id="formMostrar">
+				<div class="divDatosIzq50">
+					<div id="datosActividad" class="divDatosIzq50">
+
+						<p:outputLabel value="Cédula" styleClass="DispBlock negrita" />
+						<p:outputLabel
+							value="#{actividadBean.actividad.getEmpleado().getEmpCedula()}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						<p:outputLabel value="Empleado" styleClass="DispBlock negrita" />
+						<p:outputLabel
+							value="#{actividadBean.actividad.getEmpleado().getEmpNombre()} #{actividadBean.actividad.getEmpleado().getEmpApellido()}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						<p:outputLabel value="Actividad" styleClass="DispBlock negrita" />
+						<p:outputLabel id="actividad"
+							value="#{actividadBean.actividad.actNombre}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						<p:outputLabel value="Descripción" styleClass="DispBlock negrita" />
+						<p:outputLabel id="descripcion"
+							value="#{actividadBean.actividad.actDescripcion}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Pagado" for="pagado" styleClass="DispBlock" />
+						<p:selectBooleanCheckbox id="pagado"
+							value="#{actividadBean.actividad.actPagado}">
+							<p:ajax update="valorLabel" />
+						</p:selectBooleanCheckbox>
+
+						<p:outputLabel value="Valor" id="valorLabel" for="valor"
+							styleClass="DispBlock negrita" />
+						<p:inputText id="valor"
+							value="#{actividadBean.actividad.actValor}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el Valor"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.cerrar']}"
+					onclick="mostarPanelMostrar('')" icon="#{msg['i.cancelar']}"
+					styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+
 		<p:panel id="panelInsertar" header="#{msg['lbl.insertar']}"
 			styleClass="DispNone">
 			<h:form id="formNuevo">
@@ -44,6 +125,13 @@
 					<div id="datosEmpleado" class="divDatosIzq50">
 						<p:outputLabel value="Datos de la Actividad"
 							styleClass="subTitulos" />
+						<p:outputLabel value="Empleado" for="codEmpleado"
+							styleClass="DispBlock" />
+						<p:inputText id="codEmpleado" value="#{actividadBean.codEmpleado}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Ingrese a un empleado.."
+							styleClass="DispBlock Wid90">
+						</p:inputText>
 
 
 						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
@@ -66,12 +154,11 @@
 						<p:outputLabel value="Pagado" for="pagado" styleClass="DispBlock" />
 						<p:selectBooleanCheckbox id="pagado"
 							value="#{actividadBean.actividad.actPagado}">
-							<p:ajax update="valorLabel"/>
+							<p:ajax update="valorLabel" />
 						</p:selectBooleanCheckbox>
 
 						<p:outputLabel value="Valor" id="valorLabel" for="valor"
-							styleClass="DispBlock"
-							rendered="#{actividadBean.actividad.actValor}" />
+							styleClass="DispBlock" />
 						<p:inputText id="valor"
 							value="#{actividadBean.actividad.actValor}"
 							onblur="this.value = this.value.toUpperCase()" required="true"
@@ -92,6 +179,85 @@
 				<p:commandButton value="#{msg['btn.cancelar']}"
 					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
 					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+		<p:panel id="panelEditar" header="#{msg['lbl.editar']}"
+			styleClass="DispNone">
+			<h:form id="formEditar">
+				<p:outputLabel value="Los campos marcados con * son Obligatorios"
+					styleClass="DispBlock" />
+				<div class="divDatosIzq50">
+					<div id="datosActividad" class="divDatosIzq50">
+						<p:outputLabel value="Datos de la Actividad"
+							styleClass="subTitulos" />
+						<p:outputLabel value="* empleado" for="codEmpleado"
+							styleClass="DispBlock" />
+						<p:inputText id="codEmpleado" value="#{actividadBean.codEmpleado}"
+							required="true" requiredMessage="Debe ingresar Empleado"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="* Nombre" for="nombre"
+							styleClass="DispBlock" />
+						<p:inputText id="nombre"
+							value="#{actividadBean.actividad.actNombre}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el nombre"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="* Descripcion" for="descripcion"
+							styleClass="DispBlock" />
+						<p:inputText id="descripcion"
+							value="#{actividadBean.actividad.actDescripcion}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar la Descripcion"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="Pagado" for="pagado" styleClass="DispBlock" />
+						<p:selectBooleanCheckbox id="pagado"
+							value="#{actividadBean.actividad.actPagado}">
+							<p:ajax update="valorLabel" />
+						</p:selectBooleanCheckbox>
+
+						<p:outputLabel value="Valor" id="valorLabel" for="valor"
+							styleClass="DispBlock" />
+						<p:inputText id="valor"
+							value="#{actividadBean.actividad.actValor}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el Valor"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.guardar']}"
+					update=":formDataTable ,:mensaje, formEditar"
+					oncomplete="comprobarEditar(xhr, status, args, '')"
+					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+					actionListener="#{actividadBean.actualizar}"
+					styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					oncomplete="mostarPanelEditar('')" id="btnNuevolimpiar"
+					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+		<p:panel id="panelEliminar"
+			header="#{msg['lbl.activar']}/#{msg['lbl.desactivar']}"
+			styleClass="DispNone">
+			<h:form id="formEliminar">
+				<h:inputHidden value="#{actividadBean.actividad.actCodigo}" />
+				<div class="EmptyBox30"></div>
+				<p:outputLabel
+					value="¿Desea #{actividadBean.actividad.actActivo eq true ? msg['lbl.desactivar'] : msg['lbl.activar']} la Actividad: #{actividadBean.actividad.actNombre}?" />
+				<div class="EmptyBox30"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.aceptar']}"
+					update=":formDataTable,:mensaje" icon="#{msg['i.activar']}"
+					oncomplete="mostarPanelEliminar('')"
+					actionListener="#{actividadBean.eliminar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					onclick="mostarPanelEliminar('')" icon="#{msg['i.cancelar']}"
+					styleClass="RedButton" />
 			</h:form>
 		</p:panel>
 	</ui:define>

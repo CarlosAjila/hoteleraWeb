@@ -1,10 +1,13 @@
 package ec.com.hoteleraWeb.safari.control.controller;
 
+import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +29,8 @@ public class ActividadBean implements Serializable {
 	private List<Actividad> listaActividades;
 
 	private Actividad actividad;
-	
 
-
+	private int codEmpleado;
 
 	public ActividadBean() {
 	}
@@ -44,8 +46,6 @@ public class ActividadBean implements Serializable {
 		limpiarObjetos();
 
 	}
-	
-
 
 	public void limpiarObjetos() {
 		actividad = new Actividad();
@@ -54,14 +54,26 @@ public class ActividadBean implements Serializable {
 
 	public void obtenerActividades() {
 		listaActividades = actividadService.obtenerTodos();
+		//actividad.getEmpleado().getEmpNombre()
 	}
 
-
 	public void insertar(ActionEvent actionEvent) {
-		actividadService.insertar(actividad, 1);
+		actividadService.insertar(actividad, codEmpleado);
 		listaActividades = actividadService.obtenerTodos();
 	}
 
+	public void actualizar(ActionEvent actionEvent) {
+		if (actividad.getActNombre().isEmpty())
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un Nombre");
+		else
+			actividadService.actualizar(actividad);
+		listaActividades = actividadService.obtenerTodos();
+
+	}
+
+	public void eliminar(ActionEvent actionEvent) {
+		actividadService.eliminar(actividad);
+	}
 
 	public List<Actividad> getListaActividades() {
 		return listaActividades;
@@ -74,12 +86,17 @@ public class ActividadBean implements Serializable {
 	public Actividad getActividad() {
 		return actividad;
 	}
+
 	public void setActividad(Actividad actividad) {
 		this.actividad = actividad;
 	}
 
+	public int getCodEmpleado() {
+		return codEmpleado;
+	}
 
-	
-	
+	public void setCodEmpleado(int codEmpleado) {
+		this.codEmpleado = codEmpleado;
+	}
 
 }

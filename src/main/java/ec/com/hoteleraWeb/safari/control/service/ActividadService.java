@@ -14,4 +14,10 @@ public interface ActividadService {
 	
 	@Transactional
 	public void insertar(Actividad actividad, Integer empcodigo);
+	
+	@Transactional
+	public void actualizar(Actividad actividad);
+	
+	@Transactional
+	public void eliminar(Actividad actividad);
 }

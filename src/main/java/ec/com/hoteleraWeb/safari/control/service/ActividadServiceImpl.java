@@ -38,4 +38,22 @@ public class ActividadServiceImpl implements ActividadService, Serializable {
 		presentaMensaje(FacesMessage.SEVERITY_INFO, "Empleado insertado correctamente", "cerrar", true);
 	}
 
+	public void actualizar(Actividad actividad) {
+		Empleado empleado = empleadoDao.obtenerPorId(Empleado.class, 1);
+		actividad.setEmpleado(empleado);
+		actividad.setActActivo(true);
+		actividadDao.actualizar(actividad);
+		presentaMensaje(FacesMessage.SEVERITY_INFO, "Empleado modificado correctamente", "cerrar", true);
+	}
+
+	public void eliminar(Actividad actividad) {
+		actividad.setActActivo(actividad.getActActivo() ? false : true);
+		actividadDao.actualizar(actividad);
+
+		if (actividad.getActActivo())
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se activo el Empleado: " + actividad.getActNombre());
+		else
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se desactivo al Hotel: " + actividad.getActNombre());
+	}
+
 }
