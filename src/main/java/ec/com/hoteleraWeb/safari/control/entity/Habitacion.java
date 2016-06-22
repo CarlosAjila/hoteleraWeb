@@ -38,6 +38,9 @@ public class Habitacion implements Serializable {
 	@Column(name = "hab_tipo")
 	private String habTipo;
 
+	@Column(name = "hab_activo")
+	private Boolean habActivo;
+
 	// bi-directional many-to-one association to HabitacionDetalle
 	@OneToMany(mappedBy = "habitacione")
 	private List<HabitacionDetalle> habitacionDetalles;
@@ -144,6 +147,14 @@ public class Habitacion implements Serializable {
 
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
+	}
+
+	public Boolean getHabActivo() {
+		return habActivo;
+	}
+
+	public void setHabActivo(Boolean habActivo) {
+		this.habActivo = habActivo;
 	}
 
 }

@@ -9,17 +9,7 @@
 	<ui:define name="content">
 		<p:panel id="panelPrincipal" header="Listado de Hoteles">
 
-			
-
 			<h:form id="formDataTable">
-			
-			<p:gmap id="gmap" center="36.890257,30.707417" zoom="13"
-				type="HYBRID" model="#{hotelBean.draggableModel}"
-				style="width:100%;height:400px">
-				<p:ajax event="markerDrag" listener="#{hotelBean.onMarkerDrag}"
-					update=":mensaje" />
-			</p:gmap>
-			
 				<p:dataTable id="tablaHoteles" var="hotel" scrollable="true"
 					rowStyleClass="#{hotel.hotActivo eq true ? null:'desactivo'}"
 					reflow="true" value="#{hotelBean.listaHoteles}" paginator="true"
@@ -117,13 +107,6 @@
 							required="true"
 							requiredMessage="Debe ingresar el numero de estrellas"
 							styleClass="DispInlBlock Wid90" stars="7" />
-
-						<p:gmap id="gmap1" center="36.890257,30.707417" zoom="13" 	styleClass="DispBlock"
-							type="HYBRID" model="#{hotelBean.draggableModel}"
-							style="width:100%;height:400px">
-							<p:ajax event="markerDrag" listener="#{hotelBean.onMarkerDrag}"
-								update=":mensaje" />
-						</p:gmap>
 					</div>
 				</div>
 				<div class="EmptyBox10"></div>
