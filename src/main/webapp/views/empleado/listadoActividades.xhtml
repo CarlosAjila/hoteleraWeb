@@ -4,7 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">-Empleados</ui:define>
+	<ui:define name="title">-Actidades</ui:define>
 
 	<ui:define name="content">
 		<p:panel id="panelPrincipal" header="Listado de Actividades">
@@ -130,13 +130,24 @@
 							styleClass="DispBlock" />
 						<p:selectOneMenu id="comboEmpresa" required="true"
 							requiredMessage="Debe seleccionar el Hotel"
-							value="#{actividadBean.hotCodigo}" style="width:165px;">
+							value="#{actividadBean.empleado}" style="width:165px;">
 							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
 							<f:selectItems value="#{actividadBean.listaHoteles}" var="hotel"
 								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
 							<p:ajax event="change" update=":mensaje" />
-
 						</p:selectOneMenu>
+
+						<p:autoComplete id="autoCompletarEmpleadoActividad"
+							scrollHeight="200" effect="drop"
+							placeholder="MINIMO 3 CARACTERES"
+							emptyMessage="NO HAY DATOS A MOSTRAR" minQueryLength="3"
+							maxResults="20" value="#{actividadBean.empleadoActividad}"
+							completeMethod="#{actividadBean.obtenerEmpleadoActividadPorBusqueda}"
+							styleClass="DispBlock Wid90 autoCompletar">
+							<p:ajax event="itemSelect" id="prueba"
+								listener="#{matriculaBean.cargarEmpleadoActividad}"
+								update="autoCompletarEmpleadoActividad, :mensaje" />
+						</p:autoComplete>
 
 						<p:outputLabel value="Empleado" for="codEmpleado"
 							styleClass="DispBlock" />
@@ -145,7 +156,6 @@
 							requiredMessage="Ingrese a un empleado.."
 							styleClass="DispBlock Wid90">
 						</p:inputText>
-
 
 						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
 						<p:inputText id="nombre"

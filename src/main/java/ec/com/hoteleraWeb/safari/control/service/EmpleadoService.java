@@ -10,7 +10,7 @@ public interface EmpleadoService {
 
 	@Transactional
 	public List<Empleado> obtenerTodos();
-	
+
 	@Transactional
 	public List<Empleado> obtenerEmpleadosHotel(int hotCodigo);
 
@@ -28,4 +28,10 @@ public interface EmpleadoService {
 
 	@Transactional
 	public Empleado obtenerPorCedula_Codigo(String cedula, Integer hotCodigo);
+
+	@Transactional
+	public List<String> obtenerListaEmpleadosAutoComplete(String criterioEmpleadoBusqueda);
+
+	@Transactional
+	public Empleado cargarEmpleado(String empleado);
 }

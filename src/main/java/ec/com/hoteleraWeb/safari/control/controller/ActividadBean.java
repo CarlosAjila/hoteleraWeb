@@ -38,13 +38,15 @@ public class ActividadBean implements Serializable {
 
 	private Actividad actividad;
 
+	private String empleadoActividad;
+
 	private int codEmpleado;
-	
+
 	private Integer hotCodigo;
 
 	@Autowired
 	private HotelService hotelService;
-	
+
 	@Autowired
 	private EmpleadoService empleadoService;
 
@@ -60,7 +62,7 @@ public class ActividadBean implements Serializable {
 	public void cargarInsertar() {
 		actividad = new Actividad();
 		obtenerHoteles();
-		
+
 	}
 
 	public void limpiarObjetos() {
@@ -77,7 +79,7 @@ public class ActividadBean implements Serializable {
 	public void obtenerHoteles() {
 		listaHoteles = hotelService.obtenerTodos();
 	}
-	
+
 	public void obtenerEmpleadosHotel() {
 		listaEmpleados = empleadoService.obtenerTodos();
 		listaEmpleados = empleadoService.obtenerEmpleadosHotel(hotCodigo);
@@ -86,6 +88,7 @@ public class ActividadBean implements Serializable {
 	public void insertar(ActionEvent actionEvent) {
 		actividadService.insertar(actividad, codEmpleado);
 		listaActividades = actividadService.obtenerTodos();
+		empleadoActividad = "";
 	}
 
 	public void actualizar(ActionEvent actionEvent) {
@@ -99,6 +102,27 @@ public class ActividadBean implements Serializable {
 
 	public void eliminar(ActionEvent actionEvent) {
 		actividadService.eliminar(actividad);
+	}
+
+	public List<String> obtenerEmpleadoActividadPorBusqueda(String criterioEmpleadoBusqueda) {
+		List<String> lista = estudianteService.obtenerListaEstudiantesAutoComplete(criterioEmpleadoBusqueda);
+		if (lista.size() == 1) {
+			empleadoActividad = (lista.get(0));
+			cargarEmpleadoActividad();
+		}
+		return lista;
+	}
+
+	public void cargarEmpleadoActividad() {
+		actividad.setEmpleado(empleadoService.cargarEmpleado(empleadoActividad));
+	}
+
+	public void cargarEmpleado(Empleado empleado) {
+		Empleado e = empleadoService.obtenerPorEmpleadoId(empleado.getId());
+		actividad.setEmpleado(e);
+
+		empleado = e.getEmpCodigo().toString().concat("-").concat(e.getEmpCedula()).concat("-")
+				.concat(e.getEmpApellido()).concat(" ").concat(e.getEmpNombre());
 	}
 
 	public List<Actividad> getListaActividades() {
@@ -148,8 +172,13 @@ public class ActividadBean implements Serializable {
 	public void setHotCodigo(Integer hotCodigo) {
 		this.hotCodigo = hotCodigo;
 	}
-	
-	
-	
+
+	public String getEmpleadoActividad() {
+		return empleadoActividad;
+	}
+
+	public void setEmpleadoActividad(String empleadoActividad) {
+		this.empleadoActividad = empleadoActividad;
+	}
 
 }

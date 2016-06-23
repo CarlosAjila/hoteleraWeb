@@ -3,6 +3,7 @@ package ec.com.hoteleraWeb.safari.control.service;
 import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -66,6 +67,43 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 
 	public Empleado obtenerPorCedula_Codigo(String cedula, Integer hotCodigo) {
 		return empleadoDao.obtenerPorCedula_Codigo(cedula, hotCodigo);
+	}
+
+	public List<String> obtenerListaEmpleadosAutoComplete(String criterioEmpleadoBusqueda) {
+		List<String> list = new ArrayList<String>();
+		List<Empleado> lista = obtener(criterioEmpleadoBusqueda, 0);
+		if (!lista.isEmpty())
+			for (Empleado e : lista)
+				list.add(e.getCiudad().getNombre() + " - " + e.getCedula() + " - " + e.getApellido() + " "
+						+ e.getNombre());
+		return list;
+	}
+
+	public Empleado cargarEstudiante(String estudiante) {
+		return obtenerEmpleadoPorCedula(estudiante.split(" - ")[1]);
+	}
+
+	public List<Empleado> obtener(String criterioEmpleado) {
+		List<Empleado> lista = new ArrayList<Empleado>();
+		if ((criterioEmpleado == null || criterioEmpleado.compareToIgnoreCase("") == 0))
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "INGRESE UN CRITERIO DE BÚSQUEDA VALIDO");
+		else if (criterioEmpleado != null && criterioEmpleado.length() >= 3)
+			lista = empleadoDao.obtenerPorHql(
+					"select e from Empleado e where (e.empCedula like ?1 or e.empNombre like ?1 or e.empApellido like ?1) and p.activo=true and e.empActivo=true",
+					new Object[] { "%" + criterioEmpleado.toUpperCase() + "%" });
+
+		if (lista.isEmpty())
+			presentaMensaje(FacesMessage.SEVERITY_WARN, "NO SE ENCONTRO NINGUNA COINCIDENCIA");
+
+		return lista;
+	}
+
+	public Empleado obtenerEmpleadoPorCedula(String cedula) {
+		List<Empleado> lista = empleadoDao.obtenerPorHql(
+				"select e from Empleado e where e.empCedula=?1 and p.empActivo=true", new Object[] { cedula });
+		if (!lista.isEmpty())
+			return lista.get(0);
+		return null;
 	}
 
 }

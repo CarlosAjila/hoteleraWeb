@@ -20,7 +20,7 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 	private GenericSQLDao genericSQLDao;
 
 	public List<Habitacion> obtenerTodos() {
-		String sql = "Select * FROM hotel";
+		String sql = "Select * FROM habitaciones";
 		List<Habitacion> habitaciones = new ArrayList<Habitacion>();
 		habitaciones = genericSQLDao.obtenerPorSql(sql, Habitacion.class);
 		if (habitaciones != null)
