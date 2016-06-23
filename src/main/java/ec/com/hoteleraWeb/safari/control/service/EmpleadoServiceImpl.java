@@ -71,16 +71,15 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 
 	public List<String> obtenerListaEmpleadosAutoComplete(String criterioEmpleadoBusqueda) {
 		List<String> list = new ArrayList<String>();
-		List<Empleado> lista = obtener(criterioEmpleadoBusqueda, 0);
+		List<Empleado> lista = obtener(criterioEmpleadoBusqueda);
 		if (!lista.isEmpty())
 			for (Empleado e : lista)
-				list.add(e.getCiudad().getNombre() + " - " + e.getCedula() + " - " + e.getApellido() + " "
-						+ e.getNombre());
+				list.add(e.getEmpCedula() + " - " + e.getEmpApellido() + " " + e.getEmpNombre());
 		return list;
 	}
 
-	public Empleado cargarEstudiante(String estudiante) {
-		return obtenerEmpleadoPorCedula(estudiante.split(" - ")[1]);
+	public Empleado cargarEmpleado(String empleado) {
+		return obtenerEmpleadoPorCedula(empleado.split(" - ")[1]);
 	}
 
 	public List<Empleado> obtener(String criterioEmpleado) {
@@ -89,7 +88,7 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "INGRESE UN CRITERIO DE BÚSQUEDA VALIDO");
 		else if (criterioEmpleado != null && criterioEmpleado.length() >= 3)
 			lista = empleadoDao.obtenerPorHql(
-					"select e from Empleado e where (e.empCedula like ?1 or e.empNombre like ?1 or e.empApellido like ?1) and p.activo=true and e.empActivo=true",
+					"select e from Empleado e where (e.empCedula like ?1 or e.empNombre like ?1 or e.empApellido like ?1) and e.empActivo=true",
 					new Object[] { "%" + criterioEmpleado.toUpperCase() + "%" });
 
 		if (lista.isEmpty())
@@ -100,7 +99,15 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 
 	public Empleado obtenerEmpleadoPorCedula(String cedula) {
 		List<Empleado> lista = empleadoDao.obtenerPorHql(
-				"select e from Empleado e where e.empCedula=?1 and p.empActivo=true", new Object[] { cedula });
+				"select e from Empleado e where e.empCedula=?1 and e.empActivo=true", new Object[] { cedula });
+		if (!lista.isEmpty())
+			return lista.get(0);
+		return null;
+	}
+
+	public Empleado obtenerPorEmpleadoId(Integer empleadoId) {
+		List<Empleado> lista = empleadoDao.obtenerPorHql("select distinct e from Empleado e " + "where e.empCodigo=?1",
+				new Object[] { empleadoId });
 		if (!lista.isEmpty())
 			return lista.get(0);
 		return null;

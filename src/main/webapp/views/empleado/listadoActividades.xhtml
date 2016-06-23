@@ -137,6 +137,8 @@
 							<p:ajax event="change" update=":mensaje" />
 						</p:selectOneMenu>
 
+						<p:outputLabel value="Empleado" for="autoCompletarEmpleadoActividad"
+							styleClass="DispBlock" />
 						<p:autoComplete id="autoCompletarEmpleadoActividad"
 							scrollHeight="200" effect="drop"
 							placeholder="MINIMO 3 CARACTERES"
@@ -145,17 +147,9 @@
 							completeMethod="#{actividadBean.obtenerEmpleadoActividadPorBusqueda}"
 							styleClass="DispBlock Wid90 autoCompletar">
 							<p:ajax event="itemSelect" id="prueba"
-								listener="#{matriculaBean.cargarEmpleadoActividad}"
+								listener="#{actividadBean.cargarEmpleadoActividad}"
 								update="autoCompletarEmpleadoActividad, :mensaje" />
 						</p:autoComplete>
-
-						<p:outputLabel value="Empleado" for="codEmpleado"
-							styleClass="DispBlock" />
-						<p:inputText id="codEmpleado" value="#{actividadBean.codEmpleado}"
-							onblur="this.value = this.value.toUpperCase()" required="true"
-							requiredMessage="Ingrese a un empleado.."
-							styleClass="DispBlock Wid90">
-						</p:inputText>
 
 						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
 						<p:inputText id="nombre"

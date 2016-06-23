@@ -34,4 +34,10 @@ public interface EmpleadoService {
 
 	@Transactional
 	public Empleado cargarEmpleado(String empleado);
+
+	@Transactional
+	public List<Empleado> obtener(String criterioEmpleado);
+
+	@Transactional
+	public Empleado obtenerPorEmpleadoId(Integer empleadoId);
 }

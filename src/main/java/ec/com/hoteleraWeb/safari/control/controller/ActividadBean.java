@@ -40,9 +40,13 @@ public class ActividadBean implements Serializable {
 
 	private String empleadoActividad;
 
+	private Empleado empleado;
+
 	private int codEmpleado;
 
 	private Integer hotCodigo;
+
+	private String empleadoString;
 
 	@Autowired
 	private HotelService hotelService;
@@ -67,6 +71,7 @@ public class ActividadBean implements Serializable {
 
 	public void limpiarObjetos() {
 		actividad = new Actividad();
+		empleado = new Empleado();
 		listaActividades = new ArrayList<Actividad>();
 		listaHoteles = new ArrayList<Hotel>();
 	}
@@ -118,11 +123,11 @@ public class ActividadBean implements Serializable {
 	}
 
 	public void cargarEmpleado(Empleado empleado) {
-		Empleado e = empleadoService.obtenerPorEmpleadoId(empleado.getId());
+		Empleado e = empleadoService.obtenerPorEmpleadoId(empleado.getEmpCodigo());
 		actividad.setEmpleado(e);
 
-		empleado = e.getEmpCodigo().toString().concat("-").concat(e.getEmpCedula()).concat("-")
-				.concat(e.getEmpApellido()).concat(" ").concat(e.getEmpNombre());
+		empleadoString = (e.getEmpCodigo().toString().concat("-").concat(e.getEmpCedula()).concat("-")
+				.concat(e.getEmpApellido()).concat(" ").concat(e.getEmpNombre()));
 	}
 
 	public List<Actividad> getListaActividades() {
@@ -179,6 +184,22 @@ public class ActividadBean implements Serializable {
 
 	public void setEmpleadoActividad(String empleadoActividad) {
 		this.empleadoActividad = empleadoActividad;
+	}
+
+	public String getEmpleadoString() {
+		return empleadoString;
+	}
+
+	public void setEmpleadoString(String empleadoString) {
+		this.empleadoString = empleadoString;
+	}
+
+	public Empleado getEmpleado() {
+		return empleado;
+	}
+
+	public void setEmpleado(Empleado empleado) {
+		this.empleado = empleado;
 	}
 
 }
