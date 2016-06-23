@@ -25,6 +25,10 @@ public class HabitacionServiceImpl implements HabitacionService, Serializable {
 		return habitacionDao.obtenerTodos();
 	}
 
+	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel) {
+		return habitacionDao.obtenerTodosPorHotel(codigoHotel);
+	}
+
 	public Habitacion obtenerPorRuc(String ruc) {
 		return habitacionDao.obtenerPorRuc(ruc);
 	}

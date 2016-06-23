@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import ec.com.hoteleraWeb.safari.control.entity.Habitacion;
-import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 
 public interface HabitacionService {
 
 	@Transactional
 	public List<Habitacion> obtenerTodos();
+
+	@Transactional
+	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel);
 
 	@Transactional
 	public Habitacion obtenerPorRuc(String ruc);

@@ -49,9 +49,9 @@ public class Hotel implements Serializable {
 	@OneToMany(mappedBy = "hotel")
 	private List<Habitacion> habitaciones;
 
-	// bi-directional many-to-one association to Usuario
+	// bi-directional many-to-one association to UsuarioDetalle
 	@OneToMany(mappedBy = "hotel")
-	private List<Usuario> usuarios;
+	private List<UsuarioDetalle> usuarioDetalles;
 
 	public Hotel() {
 	}
@@ -156,26 +156,26 @@ public class Hotel implements Serializable {
 		return habitacione;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return this.usuarios;
+	public List<UsuarioDetalle> getUsuarioDetalles() {
+		return this.usuarioDetalles;
 	}
 
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
+	public void setUsuarioDetalles(List<UsuarioDetalle> usuarioDetalles) {
+		this.usuarioDetalles = usuarioDetalles;
 	}
 
-	public Usuario addUsuario(Usuario usuario) {
-		getUsuarios().add(usuario);
-		usuario.setHotel(this);
+	public UsuarioDetalle addUsuarioDetalle(UsuarioDetalle usuarioDetalle) {
+		getUsuarioDetalles().add(usuarioDetalle);
+		usuarioDetalle.setHotel(this);
 
-		return usuario;
+		return usuarioDetalle;
 	}
 
-	public Usuario removeUsuario(Usuario usuario) {
-		getUsuarios().remove(usuario);
-		usuario.setHotel(null);
+	public UsuarioDetalle removeUsuarioDetalle(UsuarioDetalle usuarioDetalle) {
+		getUsuarioDetalles().remove(usuarioDetalle);
+		usuarioDetalle.setHotel(null);
 
-		return usuario;
+		return usuarioDetalle;
 	}
 
 }

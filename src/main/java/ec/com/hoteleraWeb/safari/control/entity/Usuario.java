@@ -3,14 +3,11 @@ package ec.com.hoteleraWeb.safari.control.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -49,29 +46,12 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy = "bitUsuario")
 	private List<Bitacora> bitacoras;
 
-	// bi-directional many-to-one association to Hotel
-	@ManyToOne
-	@JoinColumn(name = "hot_codigo")
-	private Hotel hotel;
+	// bi-directional many-to-one association to UsuarioDetalle
+	@OneToMany(mappedBy = "usuario")
+	private List<UsuarioDetalle> usuarioDetalles;
 
 	public Usuario() {
 	}
-	
-	
-
-	public Usuario(Integer usuId, Boolean usuActivo, String usuNick, String usuNombre, String usuPassword,
-			List<RolUsuario> rolUsuarios, List<Bitacora> bitacoras, Hotel hotel) {
-		this.usuId = usuId;
-		this.usuActivo = usuActivo;
-		this.usuNick = usuNick;
-		this.usuNombre = usuNombre;
-		this.usuPassword = usuPassword;
-		this.rolUsuarios = rolUsuarios;
-		this.bitacoras = bitacoras;
-		this.hotel = hotel;
-	}
-
-
 
 	public Integer getUsuId() {
 		return this.usuId;
@@ -133,14 +113,6 @@ public class Usuario implements Serializable {
 		return rolUsuario;
 	}
 
-	public Hotel getHotel() {
-		return this.hotel;
-	}
-
-	public void setHotel(Hotel hotel) {
-		this.hotel = hotel;
-	}
-
 	public List<Bitacora> getBitacoras() {
 		return bitacoras;
 	}
@@ -160,6 +132,28 @@ public class Usuario implements Serializable {
 		getBitacoras().add(bitacora);
 		bitacora.setBitUsuario(this);
 		return bitacora;
+	}
+
+	public List<UsuarioDetalle> getUsuarioDetalles() {
+		return this.usuarioDetalles;
+	}
+
+	public void setUsuarioDetalles(List<UsuarioDetalle> usuarioDetalles) {
+		this.usuarioDetalles = usuarioDetalles;
+	}
+
+	public UsuarioDetalle addUsuarioDetalle(UsuarioDetalle usuarioDetalle) {
+		getUsuarioDetalles().add(usuarioDetalle);
+		usuarioDetalle.setUsuario(this);
+
+		return usuarioDetalle;
+	}
+
+	public UsuarioDetalle removeUsuarioDetalle(UsuarioDetalle usuarioDetalle) {
+		getUsuarioDetalles().remove(usuarioDetalle);
+		usuarioDetalle.setUsuario(null);
+
+		return usuarioDetalle;
 	}
 
 }

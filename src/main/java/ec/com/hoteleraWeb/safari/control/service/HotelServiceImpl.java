@@ -25,6 +25,10 @@ public class HotelServiceImpl implements HotelService, Serializable {
 		return hotelDao.obtenerTodos();
 	}
 
+	public List<Hotel> obtenerTodosPorUsuario(String nick) {
+		return hotelDao.obtenerTodosPorUsuario(nick);
+	}
+
 	public Hotel obtenerPorRuc(String ruc) {
 		return hotelDao.obtenerPorRuc(ruc);
 	}

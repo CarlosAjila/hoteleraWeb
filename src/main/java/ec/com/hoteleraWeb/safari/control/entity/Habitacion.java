@@ -16,7 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "habitaciones")
+@Table(name = "habitacion")
 public class Habitacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -42,11 +42,11 @@ public class Habitacion implements Serializable {
 	private Boolean habActivo;
 
 	// bi-directional many-to-one association to HabitacionDetalle
-	@OneToMany(mappedBy = "habitacione")
+	@OneToMany(mappedBy = "habitacion")
 	private List<HabitacionDetalle> habitacionDetalles;
 
 	// bi-directional many-to-one association to HabitacionSuplemento
-	@OneToMany(mappedBy = "habitacione")
+	@OneToMany(mappedBy = "habitacion")
 	private List<HabitacionSuplemento> habitacionSuplementos;
 
 	// bi-directional many-to-one association to Hotel
@@ -129,14 +129,14 @@ public class Habitacion implements Serializable {
 
 	public HabitacionSuplemento addHabitacionSuplemento(HabitacionSuplemento habitacionSuplemento) {
 		getHabitacionSuplementos().add(habitacionSuplemento);
-		habitacionSuplemento.setHabitacione(this);
+		habitacionSuplemento.setHabitacion(this);
 
 		return habitacionSuplemento;
 	}
 
 	public HabitacionSuplemento removeHabitacionSuplemento(HabitacionSuplemento habitacionSuplemento) {
 		getHabitacionSuplementos().remove(habitacionSuplemento);
-		habitacionSuplemento.setHabitacione(null);
+		habitacionSuplemento.setHabitacion(null);
 
 		return habitacionSuplemento;
 	}

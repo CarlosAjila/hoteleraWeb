@@ -12,6 +12,9 @@ public interface HotelService {
 	public List<Hotel> obtenerTodos();
 
 	@Transactional
+	public List<Hotel> obtenerTodosPorUsuario(String codigoUsuario);
+
+	@Transactional
 	public Hotel obtenerPorRuc(String ruc);
 
 	@Transactional
