@@ -105,7 +105,7 @@ public class ActividadBean implements Serializable {
 	}
 
 	public List<String> obtenerEmpleadoActividadPorBusqueda(String criterioEmpleadoBusqueda) {
-		List<String> lista = estudianteService.obtenerListaEstudiantesAutoComplete(criterioEmpleadoBusqueda);
+		List<String> lista = empleadoService.obtenerListaEmpleadosAutoComplete(criterioEmpleadoBusqueda);
 		if (lista.size() == 1) {
 			empleadoActividad = (lista.get(0));
 			cargarEmpleadoActividad();
