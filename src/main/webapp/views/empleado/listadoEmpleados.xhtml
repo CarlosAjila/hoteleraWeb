@@ -25,15 +25,25 @@
 					</f:facet>
 					<p:column headerText="#{msg['lbl.gestionar']}">
 
+						<p:tooltip for="btnMostrar" value="#{msg['lbl.mostrar']}" />
 						<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
 						<p:tooltip for="btnEliminar"
 							value="#{empleado.empActivo eq true ? msg['lbl.desactivar']: msg['lbl.activar']}" />
+
+						<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
+							oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
+							<f:setPropertyActionListener value="#{empleado}"
+								target="#{empleadoBean.empleado}" />
+						</p:commandButton>
 
 						<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
 							oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
 							<f:setPropertyActionListener value="#{empleado}"
 								target="#{empleadoBean.empleado}" />
 						</p:commandButton>
+
+
+
 						<p:commandButton id="btnEliminar" update=":mensaje, :formEliminar"
 							oncomplete="mostarPanelEliminar('')"
 							icon="#{empleado.empActivo eq true ? msg['i.eliminar']: msg['i.activar']}">
@@ -108,7 +118,7 @@
 							onblur="this.value = this.value.toUpperCase()"
 							styleClass="DispBlock Wid90">
 						</p:inputText>
-						
+
 						<p:outputLabel value="Título" for="titulo" styleClass="DispBlock" />
 						<p:selectOneMenu id="titulo" required="true"
 							requiredMessage="Debe seleccionar el Titulo"
@@ -117,7 +127,7 @@
 							<f:selectItems value="#{empleadoBean.listaTitulos}" var="titulo"
 								itemValue="#{titulo}" itemLabel="#{titulo.nombre}" />
 						</p:selectOneMenu>
-						
+
 						<p:outputLabel value="Tipo empleado" for="tipoEmpleado"
 							styleClass="DispBlock" />
 						<p:selectOneMenu id="tipoEmpleado" required="true"
@@ -129,7 +139,7 @@
 								var="tipoEmpleado" itemValue="#{tipoEmpleado}"
 								itemLabel="#{tipoEmpleado.nombre}" />
 						</p:selectOneMenu>
-						
+
 					</div>
 				</div>
 				<div class="EmptyBox10"></div>
@@ -142,6 +152,58 @@
 				<p:commandButton value="#{msg['btn.cancelar']}"
 					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
 					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+
+
+		<p:panel id="panelMostrar" header="Datos del Empleado"
+			styleClass="DispNone">
+			<h:form id="formMostrar">
+				<div class="divDatosIzq50">
+					<div id="datosEmpleado" class="divDatosIzq50">
+
+						<p:outputLabel value="Hotel" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{empleadoBean.empleado.hotel.hotNombre}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Cédula" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{empleadoBean.empleado.empCedula}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Nombre" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{empleadoBean.empleado.empNombre}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Apellido" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{empleadoBean.empleado.empApellido}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Dirección" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{empleadoBean.empleado.empDireccion}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Título" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{empleadoBean.empleado.empTitulo}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Tipo Empleado"
+							styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{empleadoBean.empleado.empTipo}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.cerrar']}"
+					onclick="mostarPanelMostrar('')" icon="#{msg['i.cancelar']}"
+					styleClass="RedButton" />
 			</h:form>
 		</p:panel>
 
@@ -158,7 +220,8 @@
 							styleClass="DispBlock" />
 						<p:selectOneMenu id="comboEmpresa" required="true"
 							requiredMessage="Debe seleccionar el Hotel"
-							value="#{empleadoBean.empleado.hotel.hotCodigo}" style="width:165px;">
+							value="#{empleadoBean.empleado.hotel.hotCodigo}"
+							style="width:165px;">
 							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
 							<f:selectItems value="#{empleadoBean.listaHoteles}" var="hotel"
 								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
@@ -200,7 +263,7 @@
 							styleClass="DispBlock Wid90">
 						</p:inputText>
 
-							<p:outputLabel value="Título" for="titulo" styleClass="DispBlock" />
+						<p:outputLabel value="Título" for="titulo" styleClass="DispBlock" />
 						<p:selectOneMenu id="titulo" required="true"
 							requiredMessage="Debe seleccionar el Titulo"
 							value="#{empleadoBean.empleado.empTitulo}" style="width:165px;">
@@ -208,7 +271,7 @@
 							<f:selectItems value="#{empleadoBean.listaTitulos}" var="titulo"
 								itemValue="#{titulo}" itemLabel="#{titulo.nombre}" />
 						</p:selectOneMenu>
-						
+
 						<p:outputLabel value="Tipo empleado" for="tipoEmpleado"
 							styleClass="DispBlock" />
 						<p:selectOneMenu id="tipoEmpleado" required="true"

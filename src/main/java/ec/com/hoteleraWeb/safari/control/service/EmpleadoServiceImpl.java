@@ -62,7 +62,7 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 					"Se activo el Empleado: " + empleado.getEmpCedula() + " - " + empleado.getEmpNombre());
 		else
 			presentaMensaje(FacesMessage.SEVERITY_INFO,
-					"Se desactivo al Hotel: " + empleado.getEmpCedula() + " - " + empleado.getEmpNombre());
+					"Se dio de Baja al Empleado: " + empleado.getEmpCedula() + " - " + empleado.getEmpNombre());
 	}
 
 	public Empleado obtenerPorCedula_Codigo(String cedula, Integer hotCodigo) {
@@ -79,6 +79,7 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 	}
 
 	public Empleado cargarEmpleado(String empleado) {
+		System.out.println(empleado.split(" - ")[1]);
 		return obtenerEmpleadoPorCedula(empleado.split(" - ")[1]);
 	}
 

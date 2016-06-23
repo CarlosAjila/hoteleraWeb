@@ -29,10 +29,11 @@ public class ActividadServiceImpl implements ActividadService, Serializable {
 		return actividadDao.obtenerTodos();
 	}
 
-	public void insertar(Actividad actividad, Integer empCodigo) {
-		System.out.println(">>>>>>>> empCodigo  " + empCodigo);
-		Empleado empleado = empleadoDao.obtenerPorId(Empleado.class, empCodigo);
-		actividad.setEmpleado(empleado);
+	public void insertar(Actividad actividad) {
+		// System.out.println(">>>>>>>> empCodigo " + empCodigo);
+		// Empleado empleado = empleadoDao.obtenerPorId(Empleado.class,
+		// empCodigo);
+		// actividad.setEmpleado(empleado);
 		actividad.setActActivo(true);
 		actividadDao.insertar(actividad);
 		presentaMensaje(FacesMessage.SEVERITY_INFO, "Empleado insertado correctamente", "cerrar", true);

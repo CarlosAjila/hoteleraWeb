@@ -64,16 +64,23 @@ public class ActividadBean implements Serializable {
 	}
 
 	public void cargarInsertar() {
-		actividad = new Actividad();
+	//	actividad = new Actividad();
+	//	empleado.setHotel(new Hotel());
+//		actividad.setEmpleado(new Empleado());
+		//empleadoActividad = "";
 		obtenerHoteles();
 
 	}
 
 	public void limpiarObjetos() {
 		actividad = new Actividad();
+		actividad.setEmpleado(new Empleado());
 		empleado = new Empleado();
+		empleado.setHotel(new Hotel());
+
 		listaActividades = new ArrayList<Actividad>();
 		listaHoteles = new ArrayList<Hotel>();
+
 	}
 
 	public void obtenerActividades() {
@@ -91,7 +98,8 @@ public class ActividadBean implements Serializable {
 	}
 
 	public void insertar(ActionEvent actionEvent) {
-		actividadService.insertar(actividad, codEmpleado);
+		System.out.println("cedula   "+actividad.getEmpleado());
+		actividadService.insertar(actividad);
 		listaActividades = actividadService.obtenerTodos();
 		empleadoActividad = "";
 	}
@@ -122,13 +130,14 @@ public class ActividadBean implements Serializable {
 		actividad.setEmpleado(empleadoService.cargarEmpleado(empleadoActividad));
 	}
 
-	public void cargarEmpleado(Empleado empleado) {
-		Empleado e = empleadoService.obtenerPorEmpleadoId(empleado.getEmpCodigo());
-		actividad.setEmpleado(e);
-
-		empleadoString = (e.getEmpCodigo().toString().concat("-").concat(e.getEmpCedula()).concat("-")
-				.concat(e.getEmpApellido()).concat(" ").concat(e.getEmpNombre()));
-	}
+//	public void cargarEmpleado(Empleado empleado) {
+//		Empleado e = empleadoService.obtenerPorEmpleadoId(empleado.getEmpCodigo());
+//		actividad.setEmpleado(e);
+//		System.out.println("cedula   "+actividad.getEmpleado().getEmpCedula());
+//
+//		empleadoString = (e.getEmpCodigo().toString().concat("-").concat(e.getEmpCedula()).concat("-")
+//				.concat(e.getEmpApellido()).concat(" ").concat(e.getEmpNombre()));
+//	}
 
 	public List<Actividad> getListaActividades() {
 		return listaActividades;

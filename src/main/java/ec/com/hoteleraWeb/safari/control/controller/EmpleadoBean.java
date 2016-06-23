@@ -48,11 +48,12 @@ public class EmpleadoBean implements Serializable {
 	public void init() {
 		limpiarObjetos();
 		obtenerEmpleados();
-		obtenerHoteles();
+		
 	}
 
 	public void cargarInsertar() {
-		limpiarObjetos();
+		empleado = new Empleado();
+		empleado.setHotel(new Hotel());
 		obtenerHoteles();
 	}
 
@@ -83,7 +84,7 @@ public class EmpleadoBean implements Serializable {
 				retorno = true;
 			}
 		} else {
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una cedula valido de 13 digitos");
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una cedula valido de 10 digitos");
 			empleado.setEmpCedula("");
 		}
 		return retorno;
@@ -93,7 +94,7 @@ public class EmpleadoBean implements Serializable {
 		boolean retorno = false;
 		String cedula = empleado.getEmpCedula().trim();
 		if (cedula.length() == 10) {
-			if (empleadoService.obtenerPorCedula_Codigo(cedula, hotCodigo) == null) {
+			if (empleadoService.obtenerPorCedula_Codigo(cedula, empleado.getHotel().getHotCodigo()) == null) {
 				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Ya existe un Empleado registrado con ese cedula");
 			} else {
 				empleado.setEmpCedula(cedula);

@@ -13,7 +13,7 @@ public interface ActividadService {
 	public List<Actividad> obtenerTodos();
 	
 	@Transactional
-	public void insertar(Actividad actividad, Integer empcodigo);
+	public void insertar(Actividad actividad);
 	
 	@Transactional
 	public void actualizar(Actividad actividad);
