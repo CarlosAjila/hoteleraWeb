@@ -12,6 +12,7 @@ import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entity.Empleado;
@@ -39,7 +40,7 @@ public class EmpleadoBean implements Serializable {
 
 	private Empleado empleado;
 
-	private Integer hotCodigo;
+	private Integer codigoHotel;
 
 	public EmpleadoBean() {
 	}
@@ -47,29 +48,32 @@ public class EmpleadoBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		limpiarObjetos();
-		obtenerEmpleados();
-		
+		listaEmpleados = new ArrayList<Empleado>();
+		listaHoteles = new ArrayList<Hotel>();
+		obtenerHoteles();
+		// obtenerEmpleados();
+
 	}
 
 	public void cargarInsertar() {
-		empleado = new Empleado();
-		empleado.setHotel(new Hotel());
-		obtenerHoteles();
+		limpiarObjetos();
+
 	}
 
 	public void limpiarObjetos() {
 		empleado = new Empleado();
 		empleado.setHotel(new Hotel());
-		listaEmpleados = new ArrayList<Empleado>();
-		listaHoteles = new ArrayList<Hotel>();
 	}
 
-	public void obtenerEmpleados() {
-		listaEmpleados = empleadoService.obtenerTodos();
+	public void obtenerEmpleadosPorHotel() {
+		listaEmpleados = empleadoService.obtenerEmpleadosPorHotel(codigoHotel.toString());
 	}
+
+
 
 	public void obtenerHoteles() {
-		listaHoteles = hotelService.obtenerTodos();
+		listaHoteles = hotelService
+				.obtenerTodosPorUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
 	public boolean comprobarEmpleadoInsertar() {
@@ -115,8 +119,8 @@ public class EmpleadoBean implements Serializable {
 			else if (empleado.getEmpApellido().isEmpty())
 				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar el apellido del Empleado");
 			else
-				empleadoService.insertar(empleado, hotCodigo);
-			listaEmpleados = empleadoService.obtenerTodos();
+				empleadoService.insertar(empleado, codigoHotel);
+			//listaEmpleados = empleadoService.obtenerEmpleadosPorHotel(codigoHotel.toString());
 		}
 	}
 
@@ -160,12 +164,12 @@ public class EmpleadoBean implements Serializable {
 		this.empleado = empleado;
 	}
 
-	public Integer getHotCodigo() {
-		return hotCodigo;
+	public Integer getCodigoHotel() {
+		return codigoHotel;
 	}
 
-	public void setHotCodigo(Integer hotCodigo) {
-		this.hotCodigo = hotCodigo;
+	public void setCodigoHotel(Integer codigoHotel) {
+		this.codigoHotel = codigoHotel;
 	}
 
 	public Titulo[] getListaTitulos() {

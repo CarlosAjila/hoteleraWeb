@@ -8,6 +8,20 @@
 
 	<ui:define name="content">
 		<p:panel id="panelPrincipal" header="Listado de Empleados">
+
+			<div class="EmptyBox10"></div>
+			<h:form id="formBusqueda">
+				<p:selectOneMenu id="comboHotel"
+					value="#{empleadoBean.codigoHotel}" style="width:165px;">
+					<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+					<f:selectItems value="#{empleadoBean.listaHoteles}" var="hotel"
+						itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+					<p:ajax event="change" update=":formDataTable"
+						listener="#{empleadoBean.obtenerEmpleadosPorHotel}" />
+				</p:selectOneMenu>
+			</h:form>
+			<div class="EmptyBox10"></div>
+
 			<h:form id="formDataTable">
 				<p:dataTable id="tablaEmpleado" var="empleado" scrollable="true"
 					rowStyleClass="#{empleado.empActivo eq true ? null:'desactivo'}"
@@ -79,7 +93,7 @@
 							styleClass="DispBlock" />
 						<p:selectOneMenu id="comboEmpresa" required="true"
 							requiredMessage="Debe seleccionar el Hotel"
-							value="#{empleadoBean.hotCodigo}" style="width:165px;">
+							value="#{empleadoBean.codigoHotel}" style="width:165px;">
 							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
 							<f:selectItems value="#{empleadoBean.listaHoteles}" var="hotel"
 								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />

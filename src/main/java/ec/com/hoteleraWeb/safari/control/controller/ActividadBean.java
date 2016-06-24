@@ -12,6 +12,7 @@ import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entity.Actividad;
@@ -44,7 +45,7 @@ public class ActividadBean implements Serializable {
 
 	private int codEmpleado;
 
-	private Integer hotCodigo;
+	private Integer codigoHotel;
 
 	private String empleadoString;
 
@@ -60,14 +61,18 @@ public class ActividadBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		limpiarObjetos();
+		listaEmpleados = new ArrayList<Empleado>();
+		listaHoteles = new ArrayList<Hotel>();
+		obtenerHoteles();
 		obtenerActividades();
+		
 	}
 
 	public void cargarInsertar() {
-	//	actividad = new Actividad();
-	//	empleado.setHotel(new Hotel());
-//		actividad.setEmpleado(new Empleado());
-		//empleadoActividad = "";
+		// actividad = new Actividad();
+		// empleado.setHotel(new Hotel());
+		// actividad.setEmpleado(new Empleado());
+		// empleadoActividad = "";
 		obtenerHoteles();
 
 	}
@@ -89,16 +94,16 @@ public class ActividadBean implements Serializable {
 	}
 
 	public void obtenerHoteles() {
-		listaHoteles = hotelService.obtenerTodos();
+		listaHoteles = hotelService
+				.obtenerTodosPorUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
 	public void obtenerEmpleadosHotel() {
 		listaEmpleados = empleadoService.obtenerTodos();
-		listaEmpleados = empleadoService.obtenerEmpleadosHotel(hotCodigo);
 	}
 
 	public void insertar(ActionEvent actionEvent) {
-		System.out.println("cedula   "+actividad.getEmpleado());
+		System.out.println("cedula   " + actividad.getEmpleado());
 		actividadService.insertar(actividad);
 		listaActividades = actividadService.obtenerTodos();
 		empleadoActividad = "";
@@ -130,14 +135,16 @@ public class ActividadBean implements Serializable {
 		actividad.setEmpleado(empleadoService.cargarEmpleado(empleadoActividad));
 	}
 
-//	public void cargarEmpleado(Empleado empleado) {
-//		Empleado e = empleadoService.obtenerPorEmpleadoId(empleado.getEmpCodigo());
-//		actividad.setEmpleado(e);
-//		System.out.println("cedula   "+actividad.getEmpleado().getEmpCedula());
-//
-//		empleadoString = (e.getEmpCodigo().toString().concat("-").concat(e.getEmpCedula()).concat("-")
-//				.concat(e.getEmpApellido()).concat(" ").concat(e.getEmpNombre()));
-//	}
+	// public void cargarEmpleado(Empleado empleado) {
+	// Empleado e =
+	// empleadoService.obtenerPorEmpleadoId(empleado.getEmpCodigo());
+	// actividad.setEmpleado(e);
+	// System.out.println("cedula "+actividad.getEmpleado().getEmpCedula());
+	//
+	// empleadoString =
+	// (e.getEmpCodigo().toString().concat("-").concat(e.getEmpCedula()).concat("-")
+	// .concat(e.getEmpApellido()).concat(" ").concat(e.getEmpNombre()));
+	// }
 
 	public List<Actividad> getListaActividades() {
 		return listaActividades;
@@ -179,12 +186,12 @@ public class ActividadBean implements Serializable {
 		this.listaEmpleados = listaEmpleados;
 	}
 
-	public Integer getHotCodigo() {
-		return hotCodigo;
+	public Integer getCodigoHotel() {
+		return codigoHotel;
 	}
 
-	public void setHotCodigo(Integer hotCodigo) {
-		this.hotCodigo = hotCodigo;
+	public void setCodigoHotel(Integer codigoHotel) {
+		this.codigoHotel = codigoHotel;
 	}
 
 	public String getEmpleadoActividad() {

@@ -12,7 +12,7 @@ public interface EmpleadoService {
 	public List<Empleado> obtenerTodos();
 
 	@Transactional
-	public List<Empleado> obtenerEmpleadosHotel(int hotCodigo);
+	public List<Empleado> obtenerEmpleadosPorHotel(String codigoHotel);
 
 	@Transactional
 	public Empleado obtenerPorCedula(String cedula);

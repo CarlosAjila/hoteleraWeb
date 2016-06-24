@@ -8,6 +8,20 @@
 
 	<ui:define name="content">
 		<p:panel id="panelPrincipal" header="Listado de Actividades">
+
+			<div class="EmptyBox10"></div>
+			<h:form id="formBusqueda">
+				<p:selectOneMenu id="comboHotel" value="#{actividadBean.codigoHotel}"
+					style="width:165px;">
+					<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+					<f:selectItems value="#{actividadBean.listaHoteles}" var="hotel"
+						itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+					<p:ajax event="change" update=":formDataTable"
+						listener="#{actividadBean.obtenerActividadPorHotel}" />
+				</p:selectOneMenu>
+			</h:form>
+			<div class="EmptyBox10"></div>
+
 			<h:form id="formDataTable">
 				<p:dataTable id="tablaActividad" var="actividad" scrollable="true"
 					rowStyleClass="#{actividad.actActivo eq true ? null:'desactivo'}"
@@ -131,7 +145,7 @@
 							styleClass="DispBlock" />
 						<p:selectOneMenu id="comboHotel" required="true"
 							requiredMessage="Debe seleccionar el Hotel"
-							value="#{actividadBean.hotCodigo}" style="width:165px;">
+							value="#{actividadBean.codigoHotel}" style="width:165px;">
 							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
 							<f:selectItems value="#{actividadBean.listaHoteles}" var="hotel"
 								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
@@ -208,7 +222,8 @@
 				<div class="divDatosIzq50">
 					<div id="datosActividad" class="divDatosIzq50">
 
-						<p:outputLabel value="Datos de la Actividad" styleClass="subTitulos" />
+						<p:outputLabel value="Datos de la Actividad"
+							styleClass="subTitulos" />
 
 						<p:outputLabel for="comboHotel" value="Hotel"
 							styleClass="DispBlock" />
@@ -221,7 +236,7 @@
 								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
 							<p:ajax event="change" update=":mensaje" />
 						</p:selectOneMenu>
-						
+
 						<p:outputLabel value="Empleado"
 							for="autoCompletarEmpleadoActividad" styleClass="DispBlock" />
 						<p:autoComplete id="autoCompletarEmpleadoActividad"
@@ -244,7 +259,7 @@
 							required="true" requiredMessage="Debe ingresar Empleado"
 							styleClass="DispBlock Wid90">
 						</p:inputText>
-						
+
 						<p:outputLabel value="* Actividad" for="actividadNombre"
 							styleClass="DispBlock" />
 						<p:inputText id="actividadNombre"

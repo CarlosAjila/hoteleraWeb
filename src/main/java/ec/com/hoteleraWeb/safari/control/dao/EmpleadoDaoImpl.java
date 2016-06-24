@@ -16,15 +16,20 @@ public class EmpleadoDaoImpl extends GenericDaoImpl<Empleado, Integer> implement
 	@Autowired
 	private GenericSQLDao genericSQLDao;
 	private static final long serialVersionUID = 1L;
-//
-//	public void insertar(Empleado empleado, Integer hotCodigo) {
-//		insertar(empleado);
-//	}
+	//
+	// public void insertar(Empleado empleado, Integer hotCodigo) {
+	// insertar(empleado);
+	// }
 
 	public List<Empleado> obtenerTodos() {
 		String sql = "Select * FROM public.empleado order by emp_apellido";
 		return genericSQLDao.obtenerPorSql(sql, Empleado.class);
 
+	}
+
+	public List<Empleado> obtenerEmpleadosPorHotel(String codigoHotel) {
+		String sql = "Select * FROM empleado where hot_codigo='" + codigoHotel + "' ORDER BY emp_cedula;";
+		return genericSQLDao.obtenerPorSql(sql, Empleado.class);
 	}
 
 	public List<Empleado> obtenerEmpleadosHotel(int hotCodigo) {

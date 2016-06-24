@@ -30,8 +30,8 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 		return empleadoDao.obtenerTodos();
 	}
 
-	public List<Empleado> obtenerEmpleadosHotel(int hotCodigo) {
-		return empleadoDao.obtenerTodos();
+	public List<Empleado> obtenerEmpleadosPorHotel(String CodigoHotel) {
+		return empleadoDao.obtenerEmpleadosPorHotel(CodigoHotel);
 	}
 
 	public Empleado obtenerPorCedula(String cedula) {
