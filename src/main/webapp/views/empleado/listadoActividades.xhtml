@@ -17,7 +17,7 @@
 					<f:selectItems value="#{actividadBean.listaHoteles}" var="hotel"
 						itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
 					<p:ajax event="change" update=":formDataTable"
-						listener="#{actividadBean.obtenerActividadPorHotel}" />
+						listener="#{actividadBean.obtenerActividadesPorHotel}" />
 				</p:selectOneMenu>
 			</h:form>
 			<div class="EmptyBox10"></div>
@@ -224,10 +224,10 @@
 
 						<p:outputLabel value="Datos de la Actividad"
 							styleClass="subTitulos" />
-
-						<p:outputLabel for="comboHotel" value="Hotel"
+							
+						<p:outputLabel for="comboEmpresa" value="Hotel"
 							styleClass="DispBlock" />
-						<p:selectOneMenu id="comboHotel" required="true"
+						<p:selectOneMenu id="comboEmpresa" required="true"
 							requiredMessage="Debe seleccionar el Hotel"
 							value="#{actividadBean.actividad.empleado.hotel.hotCodigo}"
 							style="width:165px;">

@@ -61,11 +61,7 @@ public class ActividadBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		limpiarObjetos();
-		listaEmpleados = new ArrayList<Empleado>();
-		listaHoteles = new ArrayList<Hotel>();
 		obtenerHoteles();
-		obtenerActividades();
-		
 	}
 
 	public void cargarInsertar() {
@@ -78,34 +74,37 @@ public class ActividadBean implements Serializable {
 	}
 
 	public void limpiarObjetos() {
-		actividad = new Actividad();
-		actividad.setEmpleado(new Empleado());
 		empleado = new Empleado();
 		empleado.setHotel(new Hotel());
+		actividad = new Actividad();
+		actividad.setEmpleado(new Empleado());
+		actividad.getEmpleado().setHotel(new Hotel());
+		
 
 		listaActividades = new ArrayList<Actividad>();
 		listaHoteles = new ArrayList<Hotel>();
 
 	}
 
-	public void obtenerActividades() {
-		listaActividades = actividadService.obtenerTodos();
-		// actividad.getEmpleado().getEmpNombre()
-	}
+	// public void obtenerActividades() {
+	// listaActividades = actividadService.obtenerTodos();
+	// // actividad.getEmpleado().getEmpNombre()
+	// }
 
 	public void obtenerHoteles() {
+		System.out.println("sdfjsdlkjflkjsdkl");
 		listaHoteles = hotelService
 				.obtenerTodosPorUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
-	public void obtenerEmpleadosHotel() {
-		listaEmpleados = empleadoService.obtenerTodos();
+	public void obtenerActividadesPorHotel() {
+		listaActividades = actividadService.obtenerActividadesPorHotel(codigoHotel);
 	}
 
 	public void insertar(ActionEvent actionEvent) {
 		System.out.println("cedula   " + actividad.getEmpleado());
 		actividadService.insertar(actividad);
-		listaActividades = actividadService.obtenerTodos();
+		obtenerActividadesPorHotel() ;
 		empleadoActividad = "";
 	}
 
@@ -114,7 +113,7 @@ public class ActividadBean implements Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un Nombre");
 		else
 			actividadService.actualizar(actividad);
-		listaActividades = actividadService.obtenerTodos();
+		obtenerActividadesPorHotel() ;
 
 	}
 
@@ -132,6 +131,8 @@ public class ActividadBean implements Serializable {
 	}
 
 	public void cargarEmpleadoActividad() {
+		System.out.println("===========================");
+		System.out.println("empleadoActividad   "+empleadoActividad);
 		actividad.setEmpleado(empleadoService.cargarEmpleado(empleadoActividad));
 	}
 
@@ -217,5 +218,7 @@ public class ActividadBean implements Serializable {
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
 	}
+
+
 
 }

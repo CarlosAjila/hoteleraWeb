@@ -79,8 +79,9 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 	}
 
 	public Empleado cargarEmpleado(String empleado) {
-		System.out.println(empleado.split(" - ")[1]);
-		return obtenerEmpleadoPorCedula(empleado.split(" - ")[1]);
+		System.out.println("1:  "+empleado.split(" - ")[0]);
+		System.out.println("2:  "+empleado.split(" - ")[1]);
+		return obtenerEmpleadoPorCedula(empleado.split(" - ")[0]);
 	}
 
 	public List<Empleado> obtener(String criterioEmpleado) {

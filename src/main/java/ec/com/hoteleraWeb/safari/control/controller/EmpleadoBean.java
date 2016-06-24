@@ -120,7 +120,7 @@ public class EmpleadoBean implements Serializable {
 				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar el apellido del Empleado");
 			else
 				empleadoService.insertar(empleado, codigoHotel);
-			//listaEmpleados = empleadoService.obtenerEmpleadosPorHotel(codigoHotel.toString());
+			listaEmpleados = empleadoService.obtenerEmpleadosPorHotel(codigoHotel.toString());
 		}
 	}
 
@@ -132,7 +132,7 @@ public class EmpleadoBean implements Serializable {
 				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar el Apellido");
 			else
 				empleadoService.actualizar(empleado);
-			listaEmpleados = empleadoService.obtenerTodos();
+			listaEmpleados = empleadoService.obtenerEmpleadosPorHotel(codigoHotel.toString());
 		}
 	}
 

@@ -20,6 +20,10 @@ public class ActividadDaoImpl extends GenericDaoImpl<Actividad, Integer> impleme
 	public List<Actividad> obtenerTodos() {
 		String sql = "Select * FROM public.actividad";
 		return genericSQLDao.obtenerPorSql(sql, Actividad.class);
+	}
 
+	public List<Actividad> obtenerActividadesPorHotel(Integer codigoHotel) {
+		String sql = "Select * FROM public.fun_lista_actividades ("+ codigoHotel +")";
+		return genericSQLDao.obtenerPorSql(sql, Actividad.class);
 	}
 }

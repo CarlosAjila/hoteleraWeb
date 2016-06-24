@@ -29,6 +29,10 @@ public class ActividadServiceImpl implements ActividadService, Serializable {
 		return actividadDao.obtenerTodos();
 	}
 
+	public List<Actividad> obtenerActividadesPorHotel(Integer CodigoHotel) {
+		return actividadDao.obtenerActividadesPorHotel(CodigoHotel);
+	}
+
 	public void insertar(Actividad actividad) {
 		// System.out.println(">>>>>>>> empCodigo " + empCodigo);
 		// Empleado empleado = empleadoDao.obtenerPorId(Empleado.class,

@@ -11,8 +11,8 @@
 
 			<div class="EmptyBox10"></div>
 			<h:form id="formBusqueda">
-				<p:selectOneMenu id="comboHotel"
-					value="#{empleadoBean.codigoHotel}" style="width:165px;">
+				<p:selectOneMenu id="comboHotel" value="#{empleadoBean.codigoHotel}"
+					style="width:165px;">
 					<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
 					<f:selectItems value="#{empleadoBean.listaHoteles}" var="hotel"
 						itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
@@ -66,14 +66,15 @@
 						</p:commandButton>
 					</p:column>
 
-					<p:column headerText="Cedula.">
+					<p:column headerText="Cedula." filterBy="#{empleado.empCedula}">
 						<p:outputLabel value="#{empleado.empCedula}" />
 					</p:column>
-					<p:column headerText="Apellido Nombre">
+					<p:column headerText="Apellido Nombre"
+						filterBy="#{empleado.empApellido} #{empleado.empNombre}">
 						<p:outputLabel
-							value="#{empleado.empApellido} #{empleado.empNombre} " />
+							value="#{empleado.empApellido} #{empleado.empNombre}" />
 					</p:column>
-					<p:column headerText="Tipo Cargo">
+					<p:column headerText="Tipo Cargo" filterBy="#{empleado.empTipo}">
 						<p:outputLabel value="#{empleado.empTipo}" />
 					</p:column>
 				</p:dataTable>
