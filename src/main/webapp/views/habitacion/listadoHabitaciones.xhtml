@@ -2,102 +2,156 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<ui:define name="title">-habitaciones</ui:define>
 
 	<ui:define name="content">
-		<p:panel id="panelPrincipal" header="Listado de Habitaciones">
-			<div class="EmptyBox10"></div>
-			<h:form id="formBusqueda">
-				<p:selectOneMenu id="comboHotel"
-					value="#{habitacionBean.codigoHotel}" style="width:165px;">
-					<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
-					<f:selectItems value="#{habitacionBean.listaHoteles}" var="hotel"
-						itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
-					<p:ajax event="change" update=":formDataTable"
-						listener="#{habitacionBean.obtenerHabitacionesPorHotel}" />
-				</p:selectOneMenu>
-			</h:form>
-			<div class="EmptyBox10"></div>
-
-			<h:form id="formDataTable">
-				<p:dataTable id="tablaHabitaciones" var="habitacion"
-					styleClass="TexAlCenter" scrollable="true"
-					rowStyleClass="#{habitacion.habActivo eq true ? null:'desactivo'}"
-					reflow="true" value="#{habitacionBean.listaHabitacion}"
-					paginator="true" rows="10"
-					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-					paginatorPosition="bottom"
-					emptyMessage="#{msg['lbl.mensajeTabla']}">
-
-					<p:column headerText="#{msg['lbl.gestionar']}">
-						<p:tooltip for="btnMostrar" value="#{msg['lbl.mostrar']}" />
-						<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
-							oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
-							<f:setPropertyActionListener value="#{hotel}"
-								target="#{habitacionBean.habitacion}" />
-						</p:commandButton>
-					</p:column>
-
-					<p:column headerText="Codigo.">
-						<p:outputLabel value="#{habitacion.habCodigo}" />
-					</p:column>
-					<p:column headerText="Descripcion">
-						<p:outputLabel value="#{habitacion.habDescripcion}" />
-					</p:column>
-					<p:column headerText="Tipo">
-						<p:outputLabel value="#{habitacion.habTipo}" />
-					</p:column>
-					<p:column headerText="Disponible"
-						filterBy="#{habitacion.habDisponible}">
-						<p:outputLabel
-							value="#{habitacion.habDisponible eq true ? 'SI' : 'NO' }" />
-					</p:column>
-					<p:column headerText="Precio Referencial">
-						<p:outputLabel value="#{habitacion.habPrecioReferencial}">
-							<f:convertNumber pattern="#0.00" />
-						</p:outputLabel>
-					</p:column>
-				</p:dataTable>
-			</h:form>
-		</p:panel>
-
-		<p:panel id="panelMostrar" header="Datos de la A"
-			styleClass="DispNone">
-			<h:form id="formMostrar">
-				<div class="divDatosIzq50">
-					<div id="datosHotel" class="divDatosIzq50">
-						<p:outputLabel value="Ruc" styleClass="DispBlock negrita" />
-						<p:outputLabel value="#{hotelBean.hotel.hotRuc}"
-							styleClass="DispBlock Wid90" />
-						<div class="EmptyBox10"></div>
-						<p:outputLabel value="Nombre" styleClass="DispBlock negrita" />
-						<p:outputLabel id="nombre" value="#{hotelBean.hotel.hotNombre}"
-							styleClass="DispBlock Wid90" />
-						<div class="EmptyBox10"></div>
-						<p:outputLabel value="Direccion" styleClass="DispBlock negrita" />
-						<p:outputLabel id="direccion"
-							value="#{hotelBean.hotel.hotDireccion}"
-							styleClass="DispBlock Wid90" />
-						<div class="EmptyBox10"></div>
-						<p:outputLabel value="Telefono" styleClass="DispBlock negrita" />
-						<p:outputLabel id="telefono"
-							value="#{hotelBean.hotel.hotTelefono}"
-							styleClass="DispBlock Wid90" />
-						<div class="EmptyBox10"></div>
-						<p:outputLabel value="Estrellas" styleClass="DispBlock negrita" />
-						<p:rating id="estrellas" value="#{hotelBean.hotel.hotEstrella}"
-							styleClass="DispInlBlock Wid90" readonly="true" />
-					</div>
-				</div>
+		<div class="ui-lesscurve">
+			<p:panel id="panelPrincipal" header="Listado de Habitaciones">
 				<div class="EmptyBox10"></div>
-				<p:separator />
-				<p:commandButton value="#{msg['btn.cerrar']}"
-					onclick="mostarPanelMostrar('')" icon="#{msg['i.cancelar']}"
-					styleClass="RedButton" />
-			</h:form>
-		</p:panel>
+				<h:form id="formBusqueda">
+					<p:selectOneMenu id="comboHotel"
+						value="#{habitacionBean.codigoHotel}" style="width:165px;">
+						<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+						<f:selectItems value="#{habitacionBean.listaHoteles}" var="hotel"
+							itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+						<p:ajax event="change" update=":formDataTable"
+							listener="#{habitacionBean.obtenerHabitacionesPorHotel}" />
+					</p:selectOneMenu>
+				</h:form>
+				<div class="EmptyBox10"></div>
 
+				<h:form id="formDataTable">
+					<p:dataTable id="tablaHabitaciones" var="habitacion"
+						styleClass="TexAlCenter" scrollable="true"
+						rowStyleClass="#{habitacion.habActivo eq true ? null:'desactivo'}"
+						reflow="true" value="#{habitacionBean.listaHabitacion}"
+						paginator="true" rows="10"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						paginatorPosition="bottom"
+						emptyMessage="#{msg['lbl.mensajeTabla']}">
+						<f:facet name="header">
+							<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
+							<p:commandButton update=":formNuevo"
+								oncomplete="mostarPanelInsertar('')" id="btnNuevo"
+								icon="#{msg['i.nuevo']}" />
+						</f:facet>
+						<p:column headerText="#{msg['lbl.gestionar']}">
+							<p:tooltip for="btnMostrar" value="#{msg['lbl.mostrar']}" />
+							<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
+								oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
+								<f:setPropertyActionListener value="#{habitacion}"
+									target="#{habitacionBean.habitacion}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column headerText="Codigo.">
+							<p:outputLabel value="#{habitacion.habCodigo}" />
+						</p:column>
+						<p:column headerText="Descripcion">
+							<p:outputLabel value="#{habitacion.habDescripcion}" />
+						</p:column>
+						<p:column headerText="Tipo">
+							<p:outputLabel value="#{habitacion.habTipo}" />
+						</p:column>
+						<p:column headerText="Disponible"
+							filterBy="#{habitacion.habDisponible}">
+							<p:outputLabel
+								value="#{habitacion.habDisponible eq true ? 'SI' : 'NO' }" />
+						</p:column>
+						<p:column headerText="Precio Referencial">
+							<p:outputLabel value="#{habitacion.habPrecioReferencial}">
+								<f:convertNumber pattern="#0.00" />
+							</p:outputLabel>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:panel>
+
+			<p:panel id="panelMostrar" header="Datos de la Habitacion"
+				styleClass="DispNone">
+				<h:form id="formMostrar">
+					<div class="divDatosIzq50">
+						<div id="datosHabitacion" class="divDatosIzq50">
+							<p:outputLabel value="Codigo" styleClass="DispBlock negrita" />
+							<p:outputLabel value="#{habitacionBean.habitacion.habCodigo}"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+							<p:outputLabel value="Descripcion" styleClass="DispBlock negrita" />
+							<p:outputLabel
+								value="#{habitacionBean.habitacion.habDescripcion}"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+							<p:outputLabel value="Disponible" styleClass="DispBlock negrita" />
+							<p:outputLabel
+								value="#{habitacion.habDisponible eq true ? 'SI' : 'NO' }"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+							<p:outputLabel value="Precio Referencial"
+								styleClass="DispBlock negrita" />
+							<p:outputLabel id="telefono"
+								value="#{habitacionBean.habitacion.habPrecioReferencial}"
+								styleClass="DispBlock Wid90">
+								<f:convertNumber pattern="#0.00" />
+							</p:outputLabel>
+							<div class="EmptyBox10"></div>
+							<p:outputLabel value="Tipo" styleClass="DispBlock negrita" />
+							<p:outputLabel value="#{habitacionBean.habitacion.habTipo}"
+								styleClass="DispBlock Wid90" />
+						</div>
+					</div>
+					<div class="EmptyBox10"></div>
+					<p:separator />
+					<p:commandButton value="#{msg['btn.cerrar']}"
+						onclick="mostarPanelMostrar('')" icon="#{msg['i.cancelar']}"
+						styleClass="RedButton" />
+				</h:form>
+			</p:panel>
+
+			<p:panel id="panelInsertar" header="#{msg['lbl.insertar']}"
+				styleClass="DispNone">
+				<h:form id="formNuevo">
+					<p:outputLabel value="Los campos marcados con * son Obligatorios"
+						styleClass="DispBlock" />
+					<div class="divDatosIzq50">
+						<div id="datosHabitacion" class="divDatosIzq50">
+							<p:outputLabel value="Datos de la Habitacion"
+								styleClass="subTitulos" />
+							<p:outputLabel value="Descripcion" for="descripcion"
+								styleClass="DispBlock" />
+							<p:inputText id="descripcion"
+								value="#{habitacionBean.habitacion.habDescripcion}"
+								required="true" requiredMessage="Debe ingresar una descripcion"
+								styleClass="DispBlock Wid90" />
+							<p:outputLabel value="Disponible" for="disponible"
+								styleClass="DispBlock" />
+							<p:selectBooleanButton id="disponible"
+								value="#{habitacionBean.habitacion.habDisponible}" onLabel="SI"
+								offLabel="NO" onIcon="ui-icon-check" offIcon="ui-icon-close"
+								style="width:75px" />
+							<p:outputLabel value="Precio Referencial" for="precio"
+								styleClass="DispBlock" />
+							<pe:inputNumber styleClass="wid185px numeroCentrado" id="precio"
+								value="#{habitacionBean.habitacion.habPrecioReferencial}"
+								onkeypress="if (event.keyCode == 13) { return false; }"
+								minValue="0.00" decimalSeparator="." thousandSeparator="," />
+
+						</div>
+					</div>
+					<div class="EmptyBox10"></div>
+					<p:separator />
+					<p:commandButton value="#{msg['btn.guardar']}"
+						update=":formDataTable ,:mensaje, formNuevo"
+						oncomplete="comprobarInsertar(xhr, status, args, '')"
+						id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+						actionListener="#{hotelBean.insertar}" styleClass="GreenButton" />
+					<p:commandButton value="#{msg['btn.cancelar']}"
+						oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
+						icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+				</h:form>
+			</p:panel>
+		</div>
 	</ui:define>
 </ui:composition>
