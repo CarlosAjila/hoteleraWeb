@@ -21,8 +21,8 @@ public class Habitacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(allocationSize = 1, name = "habitaciones_hab_codigo_seq", sequenceName = "habitaciones_hab_codigo_seq")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habitaciones_hab_codigo_seq")
+	@SequenceGenerator(allocationSize = 1, name = "habitacion_hab_codigo_seq", sequenceName = "habitacion_hab_codigo_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habitacion_hab_codigo_seq")
 	@Column(name = "hab_codigo")
 	private Integer habCodigo;
 

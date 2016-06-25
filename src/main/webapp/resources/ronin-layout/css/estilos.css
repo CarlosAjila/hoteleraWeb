@@ -112,6 +112,14 @@
 	font-weight: bold !important;
 }
 
+.inputNumberWid50 input {
+	width: 50%;
+}
+
+.comboCrud {
+	width: 40% !important;
+}
+
 @media ( min-width : 961px) {
 	#layout-menu>li a i:nth-child(2n) {
 		display: none;

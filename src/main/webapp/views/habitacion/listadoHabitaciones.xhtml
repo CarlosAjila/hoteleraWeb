@@ -35,6 +35,7 @@
 						<f:facet name="header">
 							<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
 							<p:commandButton update=":formNuevo"
+								actionListener="#{habitacionBean.cargarInsertar}"
 								oncomplete="mostarPanelInsertar('')" id="btnNuevo"
 								icon="#{msg['i.nuevo']}" />
 						</f:facet>
@@ -119,25 +120,46 @@
 						<div id="datosHabitacion" class="divDatosIzq50">
 							<p:outputLabel value="Datos de la Habitacion"
 								styleClass="subTitulos" />
+							<p:outputLabel value="Hotel" for="comboHotelInsertar"
+								styleClass="DispBlock negrita" />
+							<p:selectOneMenu id="comboHotelInsertar"
+								value="#{habitacionBean.codigoHotel}" style="width:165px;">
+								<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+								<f:selectItems value="#{habitacionBean.listaHoteles}"
+									var="hotel" itemValue="#{hotel.hotCodigo}"
+									itemLabel="#{hotel.hotNombre}" />
+
+							</p:selectOneMenu>
 							<p:outputLabel value="Descripcion" for="descripcion"
-								styleClass="DispBlock" />
+								styleClass="DispBlock negrita" />
 							<p:inputText id="descripcion"
 								value="#{habitacionBean.habitacion.habDescripcion}"
 								required="true" requiredMessage="Debe ingresar una descripcion"
-								styleClass="DispBlock Wid90" />
+								styleClass="DispBlock Wid50" />
+							<p:outputLabel value="Precio Referencial" for="precio"
+								styleClass="DispBlock negrita" />
+							<pe:inputNumber styleClass="numeroCentrado" id="precio"
+								required="true" requiredMessage="Debe ingresar el precio"
+								class="inputNumberWid50"
+								value="#{habitacionBean.habitacion.habPrecioReferencial}"
+								onkeypress="if (event.keyCode == 13) { return false; }"
+								minValue="0.00" decimalSeparator="." thousandSeparator="," />
+							<p:outputLabel value="Tipo" for="tipo"
+								styleClass="DispBlock negrita" />
+							<p:selectOneMenu id="tipo" required="true"
+								requiredMessage="Debe seleccionar el Tipo"
+								styleClass="comboCrud" panelStyle="width:200px"
+								value="#{habitacionBean.habitacion.habTipo}">
+								<f:selectItem itemLabel="Escoja un Tipo" itemValue="0" />
+								<f:selectItems value="#{habitacionBean.listaTipoHabitacion}"
+									var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.nombre}" />
+							</p:selectOneMenu>
 							<p:outputLabel value="Disponible" for="disponible"
-								styleClass="DispBlock" />
+								styleClass="DispBlock negrita" />
 							<p:selectBooleanButton id="disponible"
 								value="#{habitacionBean.habitacion.habDisponible}" onLabel="SI"
 								offLabel="NO" onIcon="ui-icon-check" offIcon="ui-icon-close"
 								style="width:75px" />
-							<p:outputLabel value="Precio Referencial" for="precio"
-								styleClass="DispBlock" />
-							<pe:inputNumber styleClass="wid185px numeroCentrado" id="precio"
-								value="#{habitacionBean.habitacion.habPrecioReferencial}"
-								onkeypress="if (event.keyCode == 13) { return false; }"
-								minValue="0.00" decimalSeparator="." thousandSeparator="," />
-
 						</div>
 					</div>
 					<div class="EmptyBox10"></div>
@@ -146,7 +168,8 @@
 						update=":formDataTable ,:mensaje, formNuevo"
 						oncomplete="comprobarInsertar(xhr, status, args, '')"
 						id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
-						actionListener="#{hotelBean.insertar}" styleClass="GreenButton" />
+						actionListener="#{habitacionBean.insertar}"
+						styleClass="GreenButton" />
 					<p:commandButton value="#{msg['btn.cancelar']}"
 						oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
 						icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />

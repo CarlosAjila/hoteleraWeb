@@ -1,10 +1,14 @@
 package ec.com.hoteleraWeb.safari.control.controller;
 
+import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import ec.com.hoteleraWeb.safari.control.entity.Habitacion;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.service.HabitacionService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
+import ec.com.hoteleraWeb.safari.utils.enums.TipoHabitacion;
 
 @Controller
 @Scope("session")
@@ -33,6 +38,8 @@ public class HabitacionBean implements Serializable {
 	private Habitacion habitacion;
 	private Integer codigoHotel;
 	private List<Hotel> listaHoteles;
+
+	private final BigDecimal ZERO = new BigDecimal("0.00");
 
 	public HabitacionBean() {
 	}
@@ -53,6 +60,7 @@ public class HabitacionBean implements Serializable {
 	public void limpiarObjetos() {
 		habitacion = new Habitacion();
 		habitacion.setHotel(new Hotel());
+		habitacion.setHabPrecioReferencial(ZERO);
 	}
 
 	public void obtenerHabitacionesPorHotel() {
@@ -60,7 +68,19 @@ public class HabitacionBean implements Serializable {
 	}
 
 	public void insertar(ActionEvent actionEvent) {
-
+		System.out.println("habitacion.getHabTipo() " + habitacion.getHabTipo());
+		if (codigoHotel == 0)
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un hotel");
+		else if (habitacion.getHabDescripcion().isEmpty())
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una descripcion");
+		else if (habitacion.getHabPrecioReferencial().compareTo(ZERO) == 0)
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un precio");
+		else if (habitacion.getHabTipo().compareTo("0") == 0)
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un tipo de habitacion");
+		else {
+			habitacion.setHotel(hotelService.obtenerPorCodigo(codigoHotel.toString()));
+			habitacionService.insertar(habitacion);
+		}
 	}
 
 	public void actualizar(ActionEvent actionEvent) {
@@ -101,6 +121,10 @@ public class HabitacionBean implements Serializable {
 
 	public void setListaHoteles(List<Hotel> listaHoteles) {
 		this.listaHoteles = listaHoteles;
+	}
+
+	public TipoHabitacion[] getListaTipoHabitacion() {
+		return TipoHabitacion.values();
 	}
 
 }

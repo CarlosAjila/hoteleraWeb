@@ -37,6 +37,10 @@ public class HotelServiceImpl implements HotelService, Serializable {
 		return hotelDao.obtenerPorRuc_Codigo(ruc, codigo);
 	}
 
+	public Hotel obtenerPorCodigo(String codigo) {
+		return hotelDao.obtenerPorCodigo(codigo);
+	}
+
 	public void insertar(Hotel hotel) {
 		hotel.setHotActivo(true);
 		hotelDao.insertar(hotel);
