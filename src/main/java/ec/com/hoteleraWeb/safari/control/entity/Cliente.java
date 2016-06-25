@@ -22,24 +22,29 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_cli_codigo_seq")
 	@Column(name = "cli_codigo")
 	private Integer cliCodigo;
-
-	@Column(name = "cli_apellido")
-	private String cliApellido;
-
+	
 	@Column(name = "cli_cedula")
 	private String cliCedula;
 
-	@Column(name = "cli_direccion")
-	private String cliDireccion;
-
+	@Column(name = "cli_apellido")
+	private String cliApellido;
+	
+	@Column(name = "cli_nombre")
+	private String cliNombre;
+	
 	@Column(name = "cli_movil")
 	private String cliMovil;
 
-	@Column(name = "cli_nombre")
-	private String cliNombre;
-
 	@Column(name = "cli_telefono")
 	private String cliTelefono;
+
+	@Column(name = "cli_direccion")
+	private String cliDireccion;
+	
+	@Column(name = "cli_activo")
+	private Boolean cliActivo;
+
+
 
 	// bi-directional many-to-one association to Reservacion
 	@OneToMany(mappedBy = "cliente")
@@ -110,6 +115,14 @@ public class Cliente implements Serializable {
 
 	public void setReservacions(List<Reservacion> reservacions) {
 		this.reservacions = reservacions;
+	}
+	
+	public Boolean getCliActivo() {
+		return cliActivo;
+	}
+
+	public void setCliActivo(Boolean cliActivo) {
+		this.cliActivo = cliActivo;
 	}
 
 	public Reservacion addReservacion(Reservacion reservacion) {

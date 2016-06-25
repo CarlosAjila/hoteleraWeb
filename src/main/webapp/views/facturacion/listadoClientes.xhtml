@@ -7,25 +7,239 @@
 	<ui:define name="title">-Cliente</ui:define>
 
 	<ui:define name="content">
-		<p:panel id="panelPrincipal" header="Cliente">
+		<p:panel id="panelPrincipal" header="lista de Clientes">
+
 			<h:form id="formDataTable">
 				<p:dataTable id="tablaCliente" var="cliente" scrollable="true"
-					reflow="true" value="#{clienteBean.listaClientes}"
-					paginator="true" rows="10"
+					reflow="true" value="#{clienteBean.listaClientes}" paginator="true"
+					rows="10"
 					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 					paginatorPosition="bottom"
 					emptyMessage="#{msg['lbl.mensajeTabla']}">
-					<p:column headerText="Cedula.">
+
+					<f:facet name="header">
+						<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
+						<p:commandButton update=":formNuevo"
+							oncomplete="mostarPanelInsertar('')"
+							action="#{clienteBean.cargarInsertar}" id="btnNuevo"
+							icon="#{msg['i.nuevo']}" />
+					</f:facet>
+
+					<p:column headerText="#{msg['lbl.gestionar']}">
+						<p:tooltip for="btnMostrar" value="#{msg['lbl.mostrar']}" />
+						<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
+							oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
+							<f:setPropertyActionListener value="#{cliente}"
+								target="#{clienteBean.cliente}" />
+						</p:commandButton>
+
+						<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
+						<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
+							oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
+							<f:setPropertyActionListener value="#{cliente}"
+								target="#{clienteBean.cliente}" />
+						</p:commandButton>
+
+					</p:column>
+
+					<p:column headerText="Cédula" filterBy="#{cliente.cliCedula}">
 						<p:outputLabel value="#{cliente.cliCedula}" />
 					</p:column>
-					<p:column headerText="Apellido Nombre">
-						<p:outputLabel
-							value="#{cliente.cliApellido} #{cliente.cliNombre} " />
+					<p:column headerText="Apellidos Nombres"
+						filterBy="#{cliente.cliApellido} #{cliente.cliNombre} ">
+						<p:outputLabel value="#{cliente.cliApellido} #{cliente.cliNombre}" />
 					</p:column>
 					<p:column headerText="Teléfono">
 						<p:outputLabel value="#{cliente.cliTelefono}" />
 					</p:column>
 				</p:dataTable>
+			</h:form>
+		</p:panel>
+		<p:panel id="panelMostrar" header="Datos de las Activida"
+			styleClass="DispNone">
+			<h:form id="formMostrar">
+				<div class="divDatosIzq50">
+					<div id="datosActividad" class="divDatosIzq50">
+
+						<p:outputLabel value="Cédula" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{clienteBean.cliente.cliCedula}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Nombre" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{clienteBean.cliente.cliNombre}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Apellido" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{clienteBean.cliente.cliApellido}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Telèfono Mobil"
+							styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{clienteBean.cliente.cliMovil}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Telèfono" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{clienteBean.cliente.cliTelefono}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Direcciòn" styleClass="DispBlock negrita" />
+						<p:outputLabel value="#{clienteBean.cliente.cliDireccion}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.cerrar']}"
+					onclick="mostarPanelMostrar('')" icon="#{msg['i.cancelar']}"
+					styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+
+		<p:panel id="panelEditar" header="#{msg['lbl.editar']}"
+			styleClass="DispNone">
+			<h:form id="formEditar">
+				<p:outputLabel value="Los campos marcados con * son Obligatorios"
+					styleClass="DispBlock" />
+				<div class="divDatosIzq50">
+					<div id="datosCliente" class="divDatosIzq50">
+
+						<p:outputLabel value="Cèdula" for="cedula" styleClass="DispBlock" />
+						<p:inputText id="cedula" value="#{clienteBean.cliente.cliCedula}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar la cedula"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
+						<p:inputText id="nombre" value="#{clienteBean.cliente.cliNombre}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el nombre del Cliente"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Apellido" for="apellido"
+							styleClass="DispBlock" />
+						<p:inputText id="apellido"
+							value="#{clienteBean.cliente.cliApellido}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el apellido del Cliente"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Tèlefono movil" for="movil"
+							styleClass="DispBlock" />
+						<p:inputText id="movil" value="#{clienteBean.cliente.cliMovil}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Tèlefono" for="telefono"
+							styleClass="DispBlock" />
+						<p:inputText id="telefono"
+							value="#{clienteBean.cliente.cliTelefono}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Dirección" for="direccion"
+							styleClass="DispBlock" />
+						<p:inputText id="direccion"
+							value="#{clienteBean.cliente.cliDireccion}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.guardar']}"
+					update=":formDataTable ,:mensaje, formEditar"
+					oncomplete="comprobarEditar(xhr, status, args, '')"
+					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+					actionListener="#{clienteBean.actualizar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					oncomplete="mostarPanelEditar('')" id="btnNuevolimpiar"
+					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+
+		<p:panel id="panelInsertar" header="#{msg['lbl.insertar']}"
+			styleClass="DispNone">
+			<h:form id="formNuevo">
+				<p:outputLabel value="Los campos marcados con * son Obligatorios"
+					styleClass="DispBlock" />
+				<div class="divDatosIzq50">
+					<div id="datosActividad" class="divDatosIzq50">
+						<p:outputLabel value="Datos de la Actividad"
+							styleClass="subTitulos" />
+
+						<p:outputLabel value="Cédula" for="cedula" styleClass="DispBlock" />
+						<p:inputText id="cedula" value="#{clienteBean.cliente.cliCedula}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar la Cédula"
+							styleClass="DispBlock Wid90">
+							<p:ajax event="blur"
+								listener="#{clienteBean.comprobarClienteInsertar}"
+								update="formNuevo,:mensaje" />
+						</p:inputText>
+
+						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
+						<p:inputText id="nombre" value="#{clienteBean.cliente.cliNombre}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el Nombre del Cliente"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Apellido" for="apellido"
+							styleClass="DispBlock" />
+						<p:inputText id="apellido"
+							value="#{clienteBean.cliente.cliApellido}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el Apellido del Cliente"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Teléfono" for="telefono"
+							styleClass="DispBlock" />
+						<p:inputText id="telefono"
+							value="#{clienteBean.cliente.cliTelefono}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Teléfono Movil" for="movil"
+							styleClass="DispBlock" />
+						<p:inputText id="movil" value="#{clienteBean.cliente.cliMovil}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Dirección" for="direccion"
+							styleClass="DispBlock" />
+						<p:inputText id="direccion"
+							value="#{clienteBean.cliente.cliDireccion}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.guardar']}"
+					update=":formDataTable ,:mensaje, formNuevo"
+					oncomplete="comprobarInsertar(xhr, status, args, '')"
+					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+					actionListener="#{clienteBean.insertar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
+					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
 			</h:form>
 		</p:panel>
 	</ui:define>

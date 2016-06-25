@@ -21,4 +21,10 @@ public class ClienteDaoImpl extends GenericDaoImpl<Cliente, Integer> implements 
 		String sql = "Select * FROM public.cliente";
 		return genericSQLDao.obtenerPorSql(sql, Cliente.class);
 	}
+
+	public Cliente obtenerPorCedula(String cedula) {
+		String sql = "select * from cliente where cli_cedula='" + cedula + "'";
+		return genericSQLDao.obtenerObjetoPorSql(sql, Cliente.class);
+
+	}
 }

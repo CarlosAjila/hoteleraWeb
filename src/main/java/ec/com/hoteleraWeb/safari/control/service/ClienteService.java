@@ -10,4 +10,13 @@ public interface ClienteService {
 
 	@Transactional
 	public List<Cliente> obtenerTodos();
+
+	@Transactional
+	public void insertar(Cliente cliente);
+
+	@Transactional
+	public void actualizar(Cliente cliente);
+
+	@Transactional
+	public Cliente obtenerPorCedula(String cedula);
 }
