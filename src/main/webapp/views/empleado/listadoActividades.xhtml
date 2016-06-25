@@ -65,14 +65,14 @@
 
 					</p:column>
 
-					<p:column headerText="Cédula">
+					<p:column headerText="Cédula" filterBy="#{actividad.empleado.empCedula}">
 						<p:outputLabel value="#{actividad.empleado.empCedula}" />
 					</p:column>
-					<p:column headerText="Empleado">
+					<p:column headerText="Empleado" filterBy="#{actividad.empleado.empApellido} #{actividad.empleado.empNombre}">
 						<p:outputLabel
-							value="#{actividad.empleado.empNombre} #{actividad.empleado.empApellido}" />
+							value="#{actividad.empleado.empApellido} #{actividad.empleado.empNombre}" />
 					</p:column>
-					<p:column headerText="Actividad">
+					<p:column headerText="Actividad" filterBy="#{actividad.actNombre}">
 						<p:outputLabel value="#{actividad.actNombre}" />
 					</p:column>
 				</p:dataTable>
