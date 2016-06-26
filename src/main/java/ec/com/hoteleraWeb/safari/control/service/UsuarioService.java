@@ -55,4 +55,7 @@ public interface UsuarioService {
 
 	@Transactional
 	public Usuario cargarUsuario(String usuario);
+
+	@Transactional
+	public Usuario obtenerUsuarioPorNick(String nick);
 }

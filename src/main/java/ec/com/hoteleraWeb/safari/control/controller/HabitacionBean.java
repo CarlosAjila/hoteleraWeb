@@ -55,6 +55,12 @@ public class HabitacionBean implements Serializable {
 
 	public void cargarInsertar() {
 		limpiarObjetos();
+		asignarNumeroHabitacion();
+	}
+
+	public void asignarNumeroHabitacion() {
+		if (codigoHotel != null)
+			habitacion.setHabNumero(habitacionService.obtenerUltimoNumeroHabitacion(codigoHotel.toString()) + 1);
 	}
 
 	public void limpiarObjetos() {
@@ -76,11 +82,12 @@ public class HabitacionBean implements Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un precio");
 		else if (habitacion.getHabTipo().compareTo("0") == 0)
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un tipo de habitacion");
-		else if (!habitacionService.validarHabitacion(habitacion.getHabNumero().toString(), codigoHotel.toString())) {
+		else if (!habitacionService.validarHabitacion(habitacion.getHabNumero().toString(), codigoHotel.toString()))
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "El numero de la habitacion ya existe");
-		} else {
+		else {
 			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
 			habitacion.setHotel(hotel);
+			habitacion.setHabDisponible(true);
 			habitacionService.insertar(habitacion);
 			presentaMensaje(
 					FacesMessage.SEVERITY_INFO, "Se creo la habitacion con codigo: " + habitacion.getHabCodigo()
@@ -101,6 +108,8 @@ public class HabitacionBean implements Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un precio");
 		else if (habitacion.getHabTipo().compareTo("0") == 0)
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un tipo de habitacion");
+		else if (!habitacionService.validarHabitacion(habitacion.getHabNumero().toString(), codigoHotel.toString()))
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "El numero de la habitacion ya existe");
 		else {
 			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
 			habitacion.setHotel(hotel);

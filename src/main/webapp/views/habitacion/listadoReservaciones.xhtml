@@ -85,9 +85,10 @@
 							</p:selectOneMenu>
 
 							<p:outputLabel value="Cliente"
-								for="autoCompletarClienteReservacion" styleClass="DispBlock" />
-							<p:autoComplete id="autoCompletarClienteReservacion" required="true"
-								requiredMessage="Debe ingresar el cliente"
+								for="autoCompletarClienteReservacion"
+								styleClass="DispBlock negrita" />
+							<p:autoComplete id="autoCompletarClienteReservacion"
+								required="true" requiredMessage="Debe ingresar el cliente"
 								scrollHeight="200" effect="drop"
 								placeholder="MINIMO 3 CARACTERES"
 								emptyMessage="NO HAY DATOS A MOSTRAR" minQueryLength="3"
@@ -122,6 +123,15 @@
 								onblur="this.value = this.value.toUpperCase()" required="true"
 								requiredMessage="Debe ingresar la fecha de salida"
 								styleClass="DispBlock Wid90" />
+
+							<p:outputLabel value="Abono" for="abono"
+								styleClass="DispBlock negrita" />
+							<pe:inputNumber styleClass="numeroCentrado" id="abono"
+								required="true" requiredMessage="Debe ingresar un abono"
+								class="inputNumberWid50"
+								value="#{reservacionBean.reservacion.resAbono}"
+								onkeypress="if (event.keyCode == 13) { return false; }"
+								minValue="0.00" decimalSeparator="." thousandSeparator="," />
 						</div>
 					</div>
 					<div class="EmptyBox10"></div>

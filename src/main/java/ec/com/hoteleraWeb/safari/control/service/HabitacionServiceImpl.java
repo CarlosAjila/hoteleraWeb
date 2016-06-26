@@ -58,4 +58,8 @@ public class HabitacionServiceImpl implements HabitacionService, Serializable {
 		return retorno;
 	}
 
+	public Integer obtenerUltimoNumeroHabitacion(String codigoHotel) {
+		return habitacionDao.obtenerUltimoNumeroHabitacion(codigoHotel);
+	}
+
 }

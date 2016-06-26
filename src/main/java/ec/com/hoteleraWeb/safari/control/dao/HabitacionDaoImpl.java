@@ -30,7 +30,7 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 	}
 
 	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel) {
-		String sql = "Select * FROM habitacion where hot_codigo='" + codigoHotel + "' ORDER BY hab_codigo;";
+		String sql = "Select * FROM habitacion where hot_codigo='" + codigoHotel + "' ORDER BY hab_numero;";
 		List<Habitacion> habitaciones = new ArrayList<Habitacion>();
 		habitaciones = genericSQLDao.obtenerPorSql(sql, Habitacion.class);
 		if (habitaciones != null)
@@ -48,6 +48,14 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 			if (habitaciones.size() != 0)
 				return habitaciones;
 		return null;
+	}
+
+	public Integer obtenerUltimoNumeroHabitacion(String codigoHotel) {
+		String sql = "select cast(count(hab_numero)as integer) from habitacion where hot_codigo='" + codigoHotel + "';";
+		Integer ultimoNumero = (Integer) genericSQLDao.obtenerPorSql(sql).get(0);
+		if (ultimoNumero != null)
+			return ultimoNumero;
+		return 0;
 	}
 
 }

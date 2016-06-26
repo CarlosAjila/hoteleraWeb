@@ -197,4 +197,8 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 		return obtenerPorCedula(usuario.split(" - ")[0]);
 	}
 
+	public Usuario obtenerUsuarioPorNick(String nick) {
+		return usuarioDao.obtenerUsuarioPorNick(nick);
+	}
+
 }

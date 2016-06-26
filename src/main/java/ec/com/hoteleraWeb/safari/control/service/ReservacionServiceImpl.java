@@ -30,7 +30,6 @@ public class ReservacionServiceImpl implements ReservacionService, Serializable 
 	}
 
 	public void insertar(Reservacion reservacion) {
-		reservacion.setResCancelada(true);
 		reservacionDao.insertar(reservacion);
 	}
 

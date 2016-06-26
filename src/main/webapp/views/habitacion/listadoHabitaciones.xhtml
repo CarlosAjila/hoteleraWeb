@@ -63,8 +63,8 @@
 							</p:commandButton>
 						</p:column>
 
-						<p:column headerText="Codigo.">
-							<p:outputLabel value="#{habitacion.habCodigo}" />
+						<p:column headerText="Numero.">
+							<p:outputLabel value="#{habitacion.habNumero}" />
 						</p:column>
 						<p:column headerText="Descripcion">
 							<p:outputLabel value="#{habitacion.habDescripcion}" />
@@ -95,6 +95,9 @@
 							<p:outputLabel value="#{habitacionBean.habitacion.habCodigo}"
 								styleClass="DispBlock Wid90" />
 							<div class="EmptyBox10"></div>
+							<p:outputLabel value="Numero" styleClass="DispBlock negrita" />
+							<p:outputLabel value="#{habitacionBean.habitacion.habNumero}"
+								styleClass="DispBlock Wid90" />
 							<p:outputLabel value="Descripcion" styleClass="DispBlock negrita" />
 							<p:outputLabel
 								value="#{habitacionBean.habitacion.habDescripcion}"
@@ -143,8 +146,16 @@
 								<f:selectItems value="#{habitacionBean.listaHoteles}"
 									var="hotel" itemValue="#{hotel.hotCodigo}"
 									itemLabel="#{hotel.hotNombre}" />
-
+								<p:ajax event="change"
+									listener="#{habitacionBean.asignarNumeroHabitacion}"
+									update="numero" />
 							</p:selectOneMenu>
+							<p:outputLabel value="Numero" for="numero"
+								styleClass="DispBlock negrita" />
+							<p:inputText id="numero"
+								value="#{habitacionBean.habitacion.habNumero}" required="true"
+								requiredMessage="Debe ingresar un numero"
+								styleClass="DispBlock Wid50" />
 							<p:outputLabel value="Descripcion" for="descripcion"
 								styleClass="DispBlock negrita" />
 							<p:inputText id="descripcion"
@@ -159,7 +170,7 @@
 								value="#{habitacionBean.habitacion.habPrecioReferencial}"
 								onkeypress="if (event.keyCode == 13) { return false; }"
 								minValue="0.00" decimalSeparator="." thousandSeparator="," />
-								
+
 							<p:outputLabel value="Tipo" for="tipo"
 								styleClass="DispBlock negrita" />
 							<p:selectOneMenu id="tipo" required="true"
@@ -170,12 +181,6 @@
 								<f:selectItems value="#{habitacionBean.listaTipoHabitacion}"
 									var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.nombre}" />
 							</p:selectOneMenu>
-							<p:outputLabel value="Disponible" for="disponible"
-								styleClass="DispBlock negrita" />
-							<p:selectBooleanButton id="disponible"
-								value="#{habitacionBean.habitacion.habDisponible}" onLabel="SI"
-								offLabel="NO" onIcon="ui-icon-check" offIcon="ui-icon-close"
-								style="width:75px" />
 						</div>
 					</div>
 					<div class="EmptyBox10"></div>
@@ -209,8 +214,13 @@
 								<f:selectItems value="#{habitacionBean.listaHoteles}"
 									var="hotel" itemValue="#{hotel.hotCodigo}"
 									itemLabel="#{hotel.hotNombre}" />
-
 							</p:selectOneMenu>
+							<p:outputLabel value="Numero" for="numero"
+								styleClass="DispBlock negrita" />
+							<p:inputText id="numero"
+								value="#{habitacionBean.habitacion.habNumero}" required="true"
+								requiredMessage="Debe ingresar un numero"
+								styleClass="DispBlock Wid50" />
 							<p:outputLabel value="Descripcion" for="descripcion"
 								styleClass="DispBlock negrita" />
 							<p:inputText id="descripcion"
@@ -235,12 +245,6 @@
 								<f:selectItems value="#{habitacionBean.listaTipoHabitacion}"
 									var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.nombre}" />
 							</p:selectOneMenu>
-							<p:outputLabel value="Disponible" for="disponible"
-								styleClass="DispBlock negrita" />
-							<p:selectBooleanButton id="disponible"
-								value="#{habitacionBean.habitacion.habDisponible}" onLabel="SI"
-								offLabel="NO" onIcon="ui-icon-check" offIcon="ui-icon-close"
-								style="width:75px" />
 						</div>
 					</div>
 					<div class="EmptyBox10"></div>

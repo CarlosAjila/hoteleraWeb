@@ -12,8 +12,7 @@ import ec.com.hoteleraWeb.safari.utils.dao.GenericDaoImpl;
 import ec.com.hoteleraWeb.safari.utils.dao.GenericSQLDao;
 
 @Repository
-public class ReservacionDaoImpl extends GenericDaoImpl<Reservacion, Integer>
-		implements ReservacionDao, Serializable {
+public class ReservacionDaoImpl extends GenericDaoImpl<Reservacion, Integer> implements ReservacionDao, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,10 +30,10 @@ public class ReservacionDaoImpl extends GenericDaoImpl<Reservacion, Integer>
 	}
 
 	public List<Reservacion> obtenerTodosPorHotel(String codigoHotel) {
-		String sql = "select r.* from reservacion r "
-				+ "inner join empleado on r.emp_codigo=empleado.emp_codigo "
-				+ "inner join hotel on empleado.hot_codigo=hotel.hot_codigo "
-				+ "where hotel.hot_codigo='"+ codigoHotel + "';";
+		String sql = "select distinct r.* from reservacion r "
+				+ "inner join habitacion_detalle hd on r.res_codigo=hd.res_codigo "
+				+ "inner join habitacion h on hd.hab_codigo=h.hab_codigo "
+				+ "where h.hot_codigo='"+ codigoHotel + "'";
 		List<Reservacion> reservaciones = new ArrayList<Reservacion>();
 		reservaciones = genericSQLDao.obtenerPorSql(sql, Reservacion.class);
 		if (reservaciones != null)

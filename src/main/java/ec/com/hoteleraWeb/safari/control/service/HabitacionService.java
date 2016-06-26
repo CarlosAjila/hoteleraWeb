@@ -26,4 +26,7 @@ public interface HabitacionService {
 	@Transactional
 	public boolean validarHabitacion(String numeroHabitacion, String codigoHotel);
 
+	@Transactional
+	public Integer obtenerUltimoNumeroHabitacion(String codigoHotel);
+
 }

@@ -1,11 +1,14 @@
 package ec.com.hoteleraWeb.safari.control.controller;
 
+import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +19,11 @@ import org.springframework.stereotype.Controller;
 import ec.com.hoteleraWeb.safari.control.entity.Cliente;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Reservacion;
+import ec.com.hoteleraWeb.safari.control.entity.Usuario;
 import ec.com.hoteleraWeb.safari.control.service.ClienteService;
-import ec.com.hoteleraWeb.safari.control.service.EmpleadoService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.control.service.ReservacionService;
+import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
 
 @Controller
 @Scope("session")
@@ -34,7 +38,7 @@ public class ReservacionBean implements Serializable {
 	private HotelService hotelService;
 
 	@Autowired
-	private EmpleadoService empleadoService;
+	private UsuarioService usuarioService;
 
 	@Autowired
 	private ClienteService clienteService;
@@ -66,6 +70,8 @@ public class ReservacionBean implements Serializable {
 	public void limpiarObjetos() {
 		reservacion = new Reservacion();
 		reservacion.setCliente(new Cliente());
+		clienteReservacion = "";
+		reservacion.setResAbono(ZERO);
 	}
 
 	public void obtenerReservacionesPorHotel() {
@@ -86,31 +92,29 @@ public class ReservacionBean implements Serializable {
 	}
 
 	public void insertar(ActionEvent actionEvent) {
-		// if (codigoHotel == 0)
-		// presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un
-		// hotel");
-		// else if (Reservacion.getHabDescripcion().isEmpty())
-		// presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una
-		// descripcion");
-		// else if (Reservacion.getHabPrecioReferencial().compareTo(ZERO) == 0)
-		// presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un
-		// precio");
-		// else if (Reservacion.getHabTipo().compareTo("0") == 0)
-		// presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un tipo de
-		// Reservacion");
-		// else {
-		// Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
-		// Reservacion.setHotel(hotel);
-		// ReservacionService.insertar(Reservacion);
-		// presentaMensaje(
-		// FacesMessage.SEVERITY_INFO, "Se creo la Reservacion con codigo: " +
-		// Reservacion.getHabCodigo()
-		// + " de tipo: " + Reservacion.getHabTipo() + " en el Hotel: " +
-		// hotel.getHotNombre(),
-		// "cerrar", true);
-		// obtenerReservacionesPorHotel();
-		// codigoHotel = hotel.getHotCodigo();
-		// }
+		if (codigoHotel == 0)
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un hotel");
+		else if (clienteReservacion.isEmpty())
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un cliente");
+		else if (reservacion.getResFechaReserva() == null)
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar la fecha de reservacion");
+		else if (reservacion.getResFechaIngreso() == null)
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar la fecha de ingreso");
+		else if (reservacion.getResFechaSalido() == null)
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar la fecha de salida");
+		else {
+			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
+			Usuario usuario = usuarioService
+					.obtenerUsuarioPorNick(SecurityContextHolder.getContext().getAuthentication().getName());
+			reservacion.setUsuario(usuario);
+			reservacion.setResInstancia(false);
+			reservacion.setResCancelada(false);
+			reservacionService.insertar(reservacion);
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se creo la Reservacion con codigo: "
+					+ reservacion.getResCodigo() + " en el Hotel: " + hotel.getHotNombre(), "cerrar", true);
+			obtenerReservacionesPorHotel();
+			codigoHotel = hotel.getHotCodigo();
+		}
 
 	}
 

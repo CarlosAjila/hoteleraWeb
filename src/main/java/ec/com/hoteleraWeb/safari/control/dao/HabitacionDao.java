@@ -18,4 +18,7 @@ public interface HabitacionDao extends GenericDao<Habitacion, Integer> {
 	@Transactional
 	public List<Habitacion> obtenerPorNumHabitacionYHotel(String numeroHabitacion, String codigoHotel);
 
+	@Transactional
+	public Integer obtenerUltimoNumeroHabitacion(String codigoHotel);
+
 }
