@@ -50,6 +50,10 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy = "usuario")
 	private List<UsuarioDetalle> usuarioDetalles;
 
+	// bi-directional many-to-one association to Reservacion
+	@OneToMany(mappedBy = "usuario")
+	private List<Reservacion> reservaciones;
+
 	public Usuario() {
 	}
 
@@ -154,6 +158,26 @@ public class Usuario implements Serializable {
 		usuarioDetalle.setUsuario(null);
 
 		return usuarioDetalle;
+	}
+
+	public List<Reservacion> getReservaciones() {
+		return this.reservaciones;
+	}
+
+	public void setReservaciones(List<Reservacion> reservaciones) {
+		this.reservaciones = reservaciones;
+	}
+
+	public Reservacion addReservacion(Reservacion reservacion) {
+		getReservaciones().add(reservacion);
+		reservacion.setUsuario(this);
+		return reservacion;
+	}
+
+	public Reservacion removeReservacion(Reservacion reservacion) {
+		getReservaciones().remove(reservacion);
+		reservacion.setUsuario(null);
+		return reservacion;
 	}
 
 }

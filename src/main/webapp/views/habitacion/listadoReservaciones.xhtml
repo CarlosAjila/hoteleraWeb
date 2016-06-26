@@ -83,24 +83,11 @@
 									itemLabel="#{hotel.hotNombre}" />
 								<p:ajax event="change" update=":mensaje" />
 							</p:selectOneMenu>
-							<p:outputLabel value="Empleado"
-								for="autoCompletarEmpleadoReservacion" styleClass="DispBlock" />
-							<p:autoComplete id="autoCompletarEmpleadoReservacion" required="true"
-								requiredMessage="Debe ingresar el empleado"
-								scrollHeight="200" effect="drop"
-								placeholder="MINIMO 3 CARACTERES"
-								emptyMessage="NO HAY DATOS A MOSTRAR" minQueryLength="3"
-								maxResults="20" value="#{reservacionBean.empleadoReservacion}"
-								completeMethod="#{reservacionBean.obtenerEmpleadoReservacionPorBusqueda}"
-								styleClass="DispBlock Wid90 autoCompletar">
-								<p:ajax event="itemSelect" id="prueba"
-									listener="#{reservacionBean.cargarEmpleadoReservacion}"
-									update="autoCompletarEmpleadoReservacion, :mensaje" />
-							</p:autoComplete>
 
 							<p:outputLabel value="Cliente"
 								for="autoCompletarClienteReservacion" styleClass="DispBlock" />
-							<p:autoComplete id="autoCompletarClienteReservacion"
+							<p:autoComplete id="autoCompletarClienteReservacion" required="true"
+								requiredMessage="Debe ingresar el cliente"
 								scrollHeight="200" effect="drop"
 								placeholder="MINIMO 3 CARACTERES"
 								emptyMessage="NO HAY DATOS A MOSTRAR" minQueryLength="3"
@@ -143,7 +130,7 @@
 						update=":formDataTable ,:mensaje, formNuevo,:formBusqueda:comboHotel"
 						oncomplete="comprobarInsertar(xhr, status, args, '')"
 						id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
-						actionListener="#{habitacionBean.insertar}"
+						actionListener="#{reservacionBean.insertar}"
 						styleClass="GreenButton" />
 					<p:commandButton value="#{msg['btn.cancelar']}"
 						oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"

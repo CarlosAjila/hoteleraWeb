@@ -55,10 +55,6 @@ public class Empleado implements Serializable {
 	@JoinColumn(name = "hot_codigo")
 	private Hotel hotel;
 
-	// bi-directional many-to-one association to Reservacion
-	@OneToMany(mappedBy = "empleado")
-	private List<Reservacion> reservacions;
-
 	public Empleado() {
 	}
 
@@ -154,28 +150,6 @@ public class Empleado implements Serializable {
 
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
-	}
-
-	public List<Reservacion> getReservacions() {
-		return this.reservacions;
-	}
-
-	public void setReservacions(List<Reservacion> reservacions) {
-		this.reservacions = reservacions;
-	}
-
-	public Reservacion addReservacion(Reservacion reservacion) {
-		getReservacions().add(reservacion);
-		reservacion.setEmpleado(this);
-
-		return reservacion;
-	}
-
-	public Reservacion removeReservacion(Reservacion reservacion) {
-		getReservacions().remove(reservacion);
-		reservacion.setEmpleado(null);
-
-		return reservacion;
 	}
 
 }

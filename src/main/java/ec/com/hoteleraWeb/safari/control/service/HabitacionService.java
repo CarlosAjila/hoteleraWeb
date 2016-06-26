@@ -22,4 +22,8 @@ public interface HabitacionService {
 
 	@Transactional
 	public void eliminar(Habitacion habitacion);
+
+	@Transactional
+	public boolean validarHabitacion(String numeroHabitacion, String codigoHotel);
+
 }

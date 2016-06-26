@@ -76,7 +76,9 @@ public class HabitacionBean implements Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un precio");
 		else if (habitacion.getHabTipo().compareTo("0") == 0)
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un tipo de habitacion");
-		else {
+		else if (!habitacionService.validarHabitacion(habitacion.getHabNumero().toString(), codigoHotel.toString())) {
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "El numero de la habitacion ya existe");
+		} else {
 			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
 			habitacion.setHotel(hotel);
 			habitacionService.insertar(habitacion);

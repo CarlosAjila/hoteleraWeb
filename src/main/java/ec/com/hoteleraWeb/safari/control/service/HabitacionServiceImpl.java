@@ -51,4 +51,11 @@ public class HabitacionServiceImpl implements HabitacionService, Serializable {
 
 	}
 
+	public boolean validarHabitacion(String numeroHabitacion, String codigoHotel) {
+		Boolean retorno = false;
+		if (habitacionDao.obtenerPorNumHabitacionYHotel(numeroHabitacion, codigoHotel) == null)
+			retorno = true;
+		return retorno;
+	}
+
 }

@@ -67,6 +67,11 @@ public class Reservacion implements Serializable {
 	@JoinColumn(name = "cli_codigo")
 	private Cliente cliente;
 
+	// bi-directional many-to-one association to Empleado
+	@ManyToOne
+	@JoinColumn(name = "usu_id")
+	private Usuario usuario;
+
 	public Reservacion() {
 	}
 
@@ -198,6 +203,14 @@ public class Reservacion implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public Usuario getUsuario() {
+		return this.usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

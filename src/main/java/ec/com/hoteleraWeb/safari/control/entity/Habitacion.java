@@ -38,6 +38,9 @@ public class Habitacion implements Serializable {
 	@Column(name = "hab_tipo")
 	private String habTipo;
 
+	@Column(name = "hab_numero")
+	private Integer habNumero;
+
 	@Column(name = "hab_activo")
 	private Boolean habActivo;
 
@@ -95,6 +98,14 @@ public class Habitacion implements Serializable {
 
 	public void setHabTipo(String habTipo) {
 		this.habTipo = habTipo;
+	}
+
+	public Integer getHabNumero() {
+		return this.habNumero;
+	}
+
+	public void setHabNumero(Integer habNumero) {
+		this.habNumero = habNumero;
 	}
 
 	public List<HabitacionDetalle> getHabitacionDetalles() {
