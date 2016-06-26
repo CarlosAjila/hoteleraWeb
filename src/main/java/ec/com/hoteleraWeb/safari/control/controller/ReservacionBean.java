@@ -14,9 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entity.Cliente;
-import ec.com.hoteleraWeb.safari.control.entity.Empleado;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Reservacion;
+import ec.com.hoteleraWeb.safari.control.service.ClienteService;
 import ec.com.hoteleraWeb.safari.control.service.EmpleadoService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.control.service.ReservacionService;
@@ -36,11 +36,14 @@ public class ReservacionBean implements Serializable {
 	@Autowired
 	private EmpleadoService empleadoService;
 
+	@Autowired
+	private ClienteService clienteService;
+
 	private List<Reservacion> listaReservacion;
 	private Reservacion reservacion;
 	private Integer codigoHotel;
 	private List<Hotel> listaHoteles;
-	private String empleadoReservacion;
+	private String clienteReservacion;
 
 	private final BigDecimal ZERO = new BigDecimal("0.00");
 
@@ -63,24 +66,23 @@ public class ReservacionBean implements Serializable {
 	public void limpiarObjetos() {
 		reservacion = new Reservacion();
 		reservacion.setCliente(new Cliente());
-		reservacion.setEmpleado(new Empleado());
 	}
 
 	public void obtenerReservacionesPorHotel() {
 		listaReservacion = reservacionService.obtenerTodosPorHotel(codigoHotel.toString());
 	}
 
-	public List<String> obtenerEmpleadoReservacionPorBusqueda(String criterioEmpleadoBusqueda) {
-		List<String> lista = empleadoService.obtenerListaEmpleadosAutoComplete(criterioEmpleadoBusqueda);
-		if (lista.size() == 1) {
-			empleadoReservacion = (lista.get(0));
-			cargarEmpleadoReservacion();
-		}
-		return lista;
+	public void cargarClienteReservacion() {
+		reservacion.setCliente(clienteService.cargarCliente(clienteReservacion));
 	}
 
-	public void cargarEmpleadoReservacion() {
-		reservacion.setEmpleado(empleadoService.cargarEmpleado(empleadoReservacion));
+	public List<String> obtenerClienteReservacionPorBusqueda(String criterioClienteBusqueda) {
+		List<String> lista = clienteService.obtenerListaClientesAutoComplete(criterioClienteBusqueda);
+		if (lista.size() == 1) {
+			clienteReservacion = (lista.get(0));
+			cargarClienteReservacion();
+		}
+		return lista;
 	}
 
 	public void insertar(ActionEvent actionEvent) {
@@ -177,12 +179,12 @@ public class ReservacionBean implements Serializable {
 		this.listaHoteles = listaHoteles;
 	}
 
-	public String getEmpleadoReservacion() {
-		return empleadoReservacion;
+	public String getClienteReservacion() {
+		return clienteReservacion;
 	}
 
-	public void setEmpleadoReservacion(String empleadoReservacion) {
-		this.empleadoReservacion = empleadoReservacion;
+	public void setClienteReservacion(String clienteReservacion) {
+		this.clienteReservacion = clienteReservacion;
 	}
 
 }

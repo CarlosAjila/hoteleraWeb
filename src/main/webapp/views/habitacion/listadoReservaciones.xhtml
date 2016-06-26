@@ -78,13 +78,15 @@
 							<p:selectOneMenu id="comboHotelInsertar"
 								value="#{reservacionBean.codigoHotel}" style="width:165px;">
 								<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
-								<f:selectItems value="#{habitacionBean.listaHoteles}"
+								<f:selectItems value="#{reservacionBean.listaHoteles}"
 									var="hotel" itemValue="#{hotel.hotCodigo}"
 									itemLabel="#{hotel.hotNombre}" />
+								<p:ajax event="change" update=":mensaje" />
 							</p:selectOneMenu>
 							<p:outputLabel value="Empleado"
 								for="autoCompletarEmpleadoReservacion" styleClass="DispBlock" />
-							<p:autoComplete id="autoCompletarEmpleadoReservacion"
+							<p:autoComplete id="autoCompletarEmpleadoReservacion" required="true"
+								requiredMessage="Debe ingresar el empleado"
 								scrollHeight="200" effect="drop"
 								placeholder="MINIMO 3 CARACTERES"
 								emptyMessage="NO HAY DATOS A MOSTRAR" minQueryLength="3"
@@ -96,6 +98,43 @@
 									update="autoCompletarEmpleadoReservacion, :mensaje" />
 							</p:autoComplete>
 
+							<p:outputLabel value="Cliente"
+								for="autoCompletarClienteReservacion" styleClass="DispBlock" />
+							<p:autoComplete id="autoCompletarClienteReservacion"
+								scrollHeight="200" effect="drop"
+								placeholder="MINIMO 3 CARACTERES"
+								emptyMessage="NO HAY DATOS A MOSTRAR" minQueryLength="3"
+								maxResults="20" value="#{reservacionBean.clienteReservacion}"
+								completeMethod="#{reservacionBean.obtenerClienteReservacionPorBusqueda}"
+								styleClass="DispBlock Wid90 autoCompletar">
+								<p:ajax event="itemSelect" id="prueba"
+									listener="#{reservacionBean.cargarClienteReservacion}"
+									update="autoCompletarClienteReservacion, :mensaje" />
+							</p:autoComplete>
+
+							<p:outputLabel value="Fecha Reserva" for="fechaReserva"
+								styleClass="DispBlock negrita" />
+							<p:calendar id="fechaReserva"
+								value="#{reservacionBean.reservacion.resFechaReserva}"
+								onblur="this.value = this.value.toUpperCase()" required="true"
+								requiredMessage="Debe ingresar la fecha de la reserva"
+								styleClass="DispBlock Wid90" />
+
+							<p:outputLabel value="Fecha Ingreso" for="fechaIngreso"
+								styleClass="DispBlock negrita" />
+							<p:calendar id="fechaIngreso"
+								value="#{reservacionBean.reservacion.resFechaIngreso}"
+								onblur="this.value = this.value.toUpperCase()" required="true"
+								requiredMessage="Debe ingresar la fecha de ingreso"
+								styleClass="DispBlock Wid90" />
+
+							<p:outputLabel value="Fecha Salida" for="fechaSalida"
+								styleClass="DispBlock negrita" />
+							<p:calendar id="fechaSalida"
+								value="#{reservacionBean.reservacion.resFechaSalido}"
+								onblur="this.value = this.value.toUpperCase()" required="true"
+								requiredMessage="Debe ingresar la fecha de salida"
+								styleClass="DispBlock Wid90" />
 						</div>
 					</div>
 					<div class="EmptyBox10"></div>

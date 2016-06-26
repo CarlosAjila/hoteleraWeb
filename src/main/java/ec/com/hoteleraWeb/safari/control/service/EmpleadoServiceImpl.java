@@ -72,6 +72,9 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 	public List<String> obtenerListaEmpleadosAutoComplete(String criterioEmpleadoBusqueda, Integer codigoHotel) {
 		List<String> list = new ArrayList<String>();
 		List<Empleado> lista = obtener(criterioEmpleadoBusqueda, codigoHotel);
+		for (Empleado empleado : lista) {
+			System.out.println("empleado " + empleado.getEmpCedula());
+		}
 		if (!lista.isEmpty())
 			for (Empleado e : lista)
 				list.add(e.getEmpCedula() + " - " + e.getEmpApellido() + " " + e.getEmpNombre());
@@ -88,8 +91,8 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "INGRESE UN CRITERIO DE BÚSQUEDA VALIDO");
 		else if (criterioEmpleado != null && criterioEmpleado.length() >= 3)
 			lista = empleadoDao.obtenerPorHql(
-					"select e from Empleado e where (e.empCedula like ?1 or e.empNombre like ?1 or e.empApellido like ?1) and e.empActivo=true and e.hotel.hotCodigo="+codigoHotel,
-					new Object[] { "%" + criterioEmpleado.toUpperCase() + "%" });
+					"select e from Empleado e where (e.empCedula like ?1 or e.empNombre like ?1 or e.empApellido like ?1) and e.empActivo=true and e.hotel.hotCodigo=?2",
+					new Object[] { "%" + criterioEmpleado.toUpperCase() + "%", codigoHotel });
 
 		if (lista.isEmpty())
 			presentaMensaje(FacesMessage.SEVERITY_WARN, "NO SE ENCONTRO NINGUNA COINCIDENCIA");
