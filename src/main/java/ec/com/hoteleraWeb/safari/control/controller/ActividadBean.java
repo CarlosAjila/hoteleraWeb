@@ -3,6 +3,7 @@ package ec.com.hoteleraWeb.safari.control.controller;
 import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,29 +32,21 @@ public class ActividadBean implements Serializable {
 	@Autowired
 	private ActividadService actividadService;
 
-	private List<Actividad> listaActividades;
-
-	private List<Hotel> listaHoteles;
-
-	private List<Empleado> listaEmpleados;
-
-	private Actividad actividad;
-
-	private String empleadoActividad;
-
-	private Empleado empleado;
-
-	private int codEmpleado;
-
-	private Integer codigoHotel;
-
-	private String empleadoString;
-
 	@Autowired
 	private HotelService hotelService;
 
 	@Autowired
 	private EmpleadoService empleadoService;
+	private List<Actividad> listaActividades;
+	private List<Hotel> listaHoteles;
+	private List<Empleado> listaEmpleados;
+	private Actividad actividad;
+	private String empleadoActividad;
+	private Empleado empleado;
+	private int codEmpleado;
+	private Integer codigoHotel;
+	private String empleadoString;
+	private final BigDecimal ZERO = new BigDecimal("0.00");
 
 	public ActividadBean() {
 	}
@@ -69,6 +62,8 @@ public class ActividadBean implements Serializable {
 		// empleado.setHotel(new Hotel());
 		// actividad.setEmpleado(new Empleado());
 		// empleadoActividad = "";
+		actividad = new Actividad();
+		actividad.setActValor(ZERO);
 		obtenerHoteles();
 
 	}
@@ -79,7 +74,7 @@ public class ActividadBean implements Serializable {
 		actividad = new Actividad();
 		actividad.setEmpleado(new Empleado());
 		actividad.getEmpleado().setHotel(new Hotel());
-		
+		actividad.setActValor(ZERO);
 
 		listaActividades = new ArrayList<Actividad>();
 		listaHoteles = new ArrayList<Hotel>();
@@ -104,7 +99,7 @@ public class ActividadBean implements Serializable {
 	public void insertar(ActionEvent actionEvent) {
 		System.out.println("cedula   " + actividad.getEmpleado());
 		actividadService.insertar(actividad);
-		obtenerActividadesPorHotel() ;
+		obtenerActividadesPorHotel();
 		empleadoActividad = "";
 	}
 
@@ -113,7 +108,7 @@ public class ActividadBean implements Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un Nombre");
 		else
 			actividadService.actualizar(actividad);
-		obtenerActividadesPorHotel() ;
+		obtenerActividadesPorHotel();
 
 	}
 
@@ -122,7 +117,7 @@ public class ActividadBean implements Serializable {
 	}
 
 	public List<String> obtenerEmpleadoActividadPorBusqueda(String criterioEmpleadoBusqueda) {
-		List<String> lista = empleadoService.obtenerListaEmpleadosAutoComplete(criterioEmpleadoBusqueda);
+		List<String> lista = empleadoService.obtenerListaEmpleadosAutoComplete(criterioEmpleadoBusqueda, codigoHotel);
 		if (lista.size() == 1) {
 			empleadoActividad = (lista.get(0));
 			cargarEmpleadoActividad();
@@ -132,7 +127,7 @@ public class ActividadBean implements Serializable {
 
 	public void cargarEmpleadoActividad() {
 		System.out.println("===========================");
-		System.out.println("empleadoActividad   "+empleadoActividad);
+		System.out.println("empleadoActividad   " + empleadoActividad);
 		actividad.setEmpleado(empleadoService.cargarEmpleado(empleadoActividad));
 	}
 
@@ -218,7 +213,5 @@ public class ActividadBean implements Serializable {
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
 	}
-
-
 
 }

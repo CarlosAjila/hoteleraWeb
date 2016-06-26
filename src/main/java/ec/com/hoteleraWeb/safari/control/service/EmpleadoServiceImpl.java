@@ -39,7 +39,7 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 	}
 
 	public void insertar(Empleado empleado, Integer hotCodigo) {
-		
+
 		Hotel hotel = hotelDao.obtenerPorId(Hotel.class, hotCodigo);
 		empleado.setHotel(hotel);
 		empleado.setEmpActivo(true);
@@ -69,9 +69,9 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 		return empleadoDao.obtenerPorCedula_Codigo(cedula, hotCodigo);
 	}
 
-	public List<String> obtenerListaEmpleadosAutoComplete(String criterioEmpleadoBusqueda) {
+	public List<String> obtenerListaEmpleadosAutoComplete(String criterioEmpleadoBusqueda, Integer codigoHotel) {
 		List<String> list = new ArrayList<String>();
-		List<Empleado> lista = obtener(criterioEmpleadoBusqueda);
+		List<Empleado> lista = obtener(criterioEmpleadoBusqueda, codigoHotel);
 		if (!lista.isEmpty())
 			for (Empleado e : lista)
 				list.add(e.getEmpCedula() + " - " + e.getEmpApellido() + " " + e.getEmpNombre());
@@ -82,13 +82,13 @@ public class EmpleadoServiceImpl implements EmpleadoService, Serializable {
 		return obtenerEmpleadoPorCedula(empleado.split(" - ")[0]);
 	}
 
-	public List<Empleado> obtener(String criterioEmpleado) {
+	public List<Empleado> obtener(String criterioEmpleado, Integer codigoHotel) {
 		List<Empleado> lista = new ArrayList<Empleado>();
 		if ((criterioEmpleado == null || criterioEmpleado.compareToIgnoreCase("") == 0))
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "INGRESE UN CRITERIO DE BÚSQUEDA VALIDO");
 		else if (criterioEmpleado != null && criterioEmpleado.length() >= 3)
 			lista = empleadoDao.obtenerPorHql(
-					"select e from Empleado e where (e.empCedula like ?1 or e.empNombre like ?1 or e.empApellido like ?1) and e.empActivo=true",
+					"select e from Empleado e where (e.empCedula like ?1 or e.empNombre like ?1 or e.empApellido like ?1) and e.empActivo=true and e.hotel.hotCodigo="+codigoHotel,
 					new Object[] { "%" + criterioEmpleado.toUpperCase() + "%" });
 
 		if (lista.isEmpty())

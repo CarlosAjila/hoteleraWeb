@@ -18,7 +18,7 @@ public class ClienteDaoImpl extends GenericDaoImpl<Cliente, Integer> implements 
 	private GenericSQLDao genericSQLDao;
 
 	public List<Cliente> obtenerTodos() {
-		String sql = "Select * FROM public.cliente";
+		String sql = "Select * FROM public.cliente ORDER BY cliente.cli_apellido";
 		return genericSQLDao.obtenerPorSql(sql, Cliente.class);
 	}
 

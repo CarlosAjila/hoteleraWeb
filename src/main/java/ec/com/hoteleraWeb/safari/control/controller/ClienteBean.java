@@ -73,6 +73,10 @@ public class ClienteBean implements Serializable {
 			obtenerClientes();
 		}
 	}
+	
+	public void eliminar(ActionEvent actionEvent) {
+		clienteService.eliminar(cliente);
+	}
 
 	public boolean comprobarClienteActualizar() {
 		boolean retorno = false;

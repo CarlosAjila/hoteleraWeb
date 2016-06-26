@@ -38,6 +38,17 @@ public class ClienteServiceImpl implements ClienteService, Serializable {
 		presentaMensaje(FacesMessage.SEVERITY_INFO, "Cliente modificado correctamente", "cerrar", true);
 	}
 	
+	public void eliminar(Cliente cliente) {
+		cliente.setCliActivo(cliente.getCliActivo() ? false : true);
+		clienteDao.actualizar(cliente);
+
+		if (cliente.getCliActivo())
+			presentaMensaje(FacesMessage.SEVERITY_INFO,
+					"Se activo el Cliente: " + cliente.getCliCedula() + " - " + cliente.getCliNombre()+" "+cliente.getCliApellido());
+		else
+			presentaMensaje(FacesMessage.SEVERITY_INFO,
+					"Se dio de Baja al Cliente: " + cliente.getCliCedula() + " - " + cliente.getCliNombre()+" "+cliente.getCliApellido());
+	}
 	public Cliente obtenerPorCedula(String cedula) {
 		return clienteDao.obtenerPorCedula(cedula);
 	}

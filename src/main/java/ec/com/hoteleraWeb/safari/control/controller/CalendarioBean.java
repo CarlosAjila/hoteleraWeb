@@ -8,11 +8,14 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entity.Calendario;
 import ec.com.hoteleraWeb.safari.control.entity.Empleado;
+import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.service.CalendarioService;
+import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.utils.enums.TipoEmpleado;
 import ec.com.hoteleraWeb.safari.utils.enums.Titulo;
 
@@ -24,12 +27,15 @@ public class CalendarioBean implements Serializable {
 
 	@Autowired
 	private CalendarioService calendarioService;
+	
+	@Autowired
+	private HotelService hotelService;
 
 	private List<Calendario> listaCalendarios;
-
+	private List<Hotel> listaHoteles;
 	private Empleado empleado;
-
-	private Integer hotCodigo;
+	private Integer codigoHotel;
+	
 
 	public CalendarioBean() {
 	}
@@ -37,6 +43,8 @@ public class CalendarioBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		limpiarObjetos();
+		listaHoteles = new ArrayList<Hotel>();
+		obtenerHoteles();
 		obtenerCalendarios();
 	}
 
@@ -49,6 +57,11 @@ public class CalendarioBean implements Serializable {
 		empleado = new Empleado();
 		listaCalendarios = new ArrayList<Calendario>();
 
+	}
+	
+	public void obtenerHoteles() {
+		listaHoteles = hotelService
+				.obtenerTodosPorUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
 	public void obtenerCalendarios() {
@@ -71,13 +84,21 @@ public class CalendarioBean implements Serializable {
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
 	}
-
-	public Integer getHotCodigo() {
-		return hotCodigo;
+	
+	public Integer getCodigoHotel() {
+		return codigoHotel;
 	}
 
-	public void setHotCodigo(Integer hotCodigo) {
-		this.hotCodigo = hotCodigo;
+	public void setCodigoHotel(Integer codigoHotel) {
+		this.codigoHotel = codigoHotel;
+	}
+
+	public List<Hotel> getListaHoteles() {
+		return listaHoteles;
+	}
+
+	public void setListaHoteles(List<Hotel> listaHoteles) {
+		this.listaHoteles = listaHoteles;
 	}
 
 	public Titulo[] getListaTitulos() {

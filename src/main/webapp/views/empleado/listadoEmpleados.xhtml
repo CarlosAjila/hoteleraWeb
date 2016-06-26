@@ -70,11 +70,11 @@
 						<p:outputLabel value="#{empleado.empCedula}" />
 					</p:column>
 					<p:column headerText="Apellido Nombre"
-						filterBy="#{empleado.empApellido} #{empleado.empNombre}">
+						filterBy="#{empleado.empApellido} #{empleado.empNombre}" filterMatchMode="contains">
 						<p:outputLabel
 							value="#{empleado.empApellido} #{empleado.empNombre}" />
 					</p:column>
-					<p:column headerText="Tipo Cargo" filterBy="#{empleado.empTipo}">
+					<p:column headerText="Tipo Cargo" filterBy="#{empleado.empTipo}" filterMatchMode="contains">
 						<p:outputLabel value="#{empleado.empTipo}" />
 					</p:column>
 				</p:dataTable>

@@ -19,7 +19,7 @@
 					<f:facet name="header">
 						<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
 						<p:commandButton update=":formNuevo"
-							oncomplete="mostrarPanelInsertar('')"
+							oncomplete="mostarPanelInsertar('')"
 							action="#{calendarioBean.cargarInsertar}" id="btnNuevo"
 							icon="#{msg['i.nuevo']}" />
 					</f:facet>
@@ -44,61 +44,23 @@
 				<p:outputLabel value="Los campos marcados con * son Obligatorios"
 					styleClass="DispBlock" />
 				<div class="divDatosIzq50">
-					<div id="datosCalendario" class="divDatosIzq50">
-						<p:outputLabel value="Datos del Calendario" styleClass="subTitulos" />
-				
-						<p:outputLabel value="Cédula" for="cedula" styleClass="DispBlock" />
-						<p:inputText id="cedula"
-							value="#{empleadoBean.empleado.empCedula}" required="true"
-							requiredMessage="Debe ingresar una Cédula"
-							styleClass="DispBlock Wid90">
-							<p:ajax event="blur"
-								listener="#{empleadoBean.comprobarEmpleadoInsertar}"
-								update="formNuevo,:mensaje" />
-						</p:inputText>
-						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
-						<p:inputText id="nombre"
-							value="#{empleadoBean.empleado.empNombre}"
-							onblur="this.value = this.value.toUpperCase()" required="true"
-							requiredMessage="Debe ingresar el nombre"
-							styleClass="DispBlock Wid90">
-						</p:inputText>
-						<p:outputLabel value="Apellido" for="apellido"
+					<div id="datosEmpleado" class="divDatosIzq50">
+						<p:outputLabel value="Datos del Calendario de Actividades"
+							styleClass="subTitulos" />
+						<p:outputLabel for="comboEmpresa" value="Hotel"
 							styleClass="DispBlock" />
-						<p:inputText id="apellido"
-							value="#{empleadoBean.empleado.empApellido}"
-							onblur="this.value = this.value.toUpperCase()" required="true"
-							requiredMessage="Debe ingresar el Apellido"
-							styleClass="DispBlock Wid90">
-						</p:inputText>
-						<p:outputLabel value="Direccion" for="direccion"
-							styleClass="DispBlock" />
-						<p:inputText id="direccion"
-							value="#{empleadoBean.empleado.empDireccion}"
-							onblur="this.value = this.value.toUpperCase()"
-							styleClass="DispBlock Wid90">
-						</p:inputText>
-
-						<p:outputLabel value="Título" for="titulo" styleClass="DispBlock" />
-						<p:selectOneMenu id="titulo" required="true"
-							requiredMessage="Debe seleccionar el Titulo"
-							value="#{empleadoBean.empleado.empTitulo}" style="width:165px;">
-							<f:selectItem itemLabel="Escoja un Titulo" itemValue="0" />
-							<f:selectItems value="#{empleadoBean.listaTitulos}" var="titulo"
-								itemValue="#{titulo}" itemLabel="#{titulo.nombre}" />
+						<p:selectOneMenu id="comboEmpresa" required="true"
+							requiredMessage="Debe seleccionar el Hotel"
+							value="#{calendarioBean.codigoHotel}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+							<f:selectItems value="#{calendarioBean.listaHoteles}" var="hotel"
+								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+							<p:ajax event="change" update=":mensaje" />
 						</p:selectOneMenu>
 
-						<p:outputLabel value="Tipo empleado" for="tipoEmpleado"
-							styleClass="DispBlock" />
-						<p:selectOneMenu id="tipoEmpleado" required="true"
-							requiredMessage="Debe seleccionar el Tipo de Empleado"
-							value="#{empleadoBean.empleado.empTipo}" style="width:165px;">
-							<f:selectItem itemLabel="Escoja el Tipo de empleado"
-								itemValue="0" />
-							<f:selectItems value="#{empleadoBean.listaTipoEmpleados}"
-								var="tipoEmpleado" itemValue="#{tipoEmpleado}"
-								itemLabel="#{tipoEmpleado.nombre}" />
-						</p:selectOneMenu>
+					
+
+
 
 					</div>
 				</div>
@@ -108,7 +70,8 @@
 					update=":formDataTable ,:mensaje, formNuevo"
 					oncomplete="comprobarInsertar(xhr, status, args, '')"
 					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
-					actionListener="#{empleadoBean.insertar}" styleClass="GreenButton" />
+					actionListener="#{calendarioBean.insertar}"
+					styleClass="GreenButton" />
 				<p:commandButton value="#{msg['btn.cancelar']}"
 					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
 					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />

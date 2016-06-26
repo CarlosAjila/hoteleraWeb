@@ -2,6 +2,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<ui:define name="title">-Actidades</ui:define>
@@ -11,8 +12,8 @@
 
 			<div class="EmptyBox10"></div>
 			<h:form id="formBusqueda">
-				<p:selectOneMenu id="comboHotel" value="#{actividadBean.codigoHotel}"
-					style="width:165px;">
+				<p:selectOneMenu id="comboHotel"
+					value="#{actividadBean.codigoHotel}" style="width:165px;">
 					<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
 					<f:selectItems value="#{actividadBean.listaHoteles}" var="hotel"
 						itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
@@ -65,14 +66,18 @@
 
 					</p:column>
 
-					<p:column headerText="Cédula" filterBy="#{actividad.empleado.empCedula}">
+					<p:column headerText="Cédula"
+						filterBy="#{actividad.empleado.empCedula}">
 						<p:outputLabel value="#{actividad.empleado.empCedula}" />
 					</p:column>
-					<p:column headerText="Empleado" filterBy="#{actividad.empleado.empApellido} #{actividad.empleado.empNombre}">
+					<p:column headerText="Empleado"
+						filterBy="#{actividad.empleado.empApellido} #{actividad.empleado.empNombre}"
+						filterMatchMode="contains">
 						<p:outputLabel
 							value="#{actividad.empleado.empApellido} #{actividad.empleado.empNombre}" />
 					</p:column>
-					<p:column headerText="Actividad" filterBy="#{actividad.actNombre}">
+					<p:column headerText="Actividad" filterBy="#{actividad.actNombre}"
+						filterMatchMode="contains">
 						<p:outputLabel value="#{actividad.actNombre}" />
 					</p:column>
 				</p:dataTable>
@@ -106,7 +111,14 @@
 							styleClass="DispBlock Wid90" />
 						<div class="EmptyBox10"></div>
 
-						<p:outputLabel value="Pagado" for="pagado" styleClass="DispBlock" />
+						<p:outputLabel value="Pagado" styleClass="DispBlock negrita" />
+						<p:outputLabel
+							value="#{actividad.actPagado eq true ? 'SI' : 'NO' }"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Pagado" for="pagado"
+							styleClass="DispBlock negrita" />
 						<p:selectBooleanCheckbox id="pagado" disabled="true"
 							value="#{actividadBean.actividad.actPagado}">
 							<p:ajax update="valorLabel" />
@@ -135,14 +147,14 @@
 			styleClass="DispNone">
 			<h:form id="formNuevo">
 				<p:outputLabel value="Los campos marcados con * son Obligatorios"
-					styleClass="DispBlock" />
+					styleClass="DispBlock negrita" />
 				<div class="divDatosIzq50">
 					<div id="datosActividad" class="divDatosIzq50">
 						<p:outputLabel value="Datos de la Actividad"
 							styleClass="subTitulos" />
 
 						<p:outputLabel for="comboHotel" value="Hotel"
-							styleClass="DispBlock" />
+							styleClass="DispBlock negrita" />
 						<p:selectOneMenu id="comboHotel" required="true"
 							requiredMessage="Debe seleccionar el Hotel"
 							value="#{actividadBean.codigoHotel}" style="width:165px;">
@@ -153,7 +165,8 @@
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Empleado"
-							for="autoCompletarEmpleadoActividad" styleClass="DispBlock" />
+							for="autoCompletarEmpleadoActividad"
+							styleClass="DispBlock negrita" />
 						<p:autoComplete id="autoCompletarEmpleadoActividad"
 							scrollHeight="200" effect="drop"
 							placeholder="MINIMO 3 CARACTERES"
@@ -167,7 +180,7 @@
 						</p:autoComplete>
 
 						<p:outputLabel value="Actividad" for="actividadNombre"
-							styleClass="DispBlock" />
+							styleClass="DispBlock negrita" />
 						<p:inputText id="actividadNombre"
 							value="#{actividadBean.actividad.actNombre}"
 							onblur="this.value = this.value.toUpperCase()" required="true"
@@ -176,7 +189,7 @@
 						</p:inputText>
 
 						<p:outputLabel value="Descripción" for="descripcion"
-							styleClass="DispBlock" />
+							styleClass="DispBlock negrita" />
 						<p:inputTextarea id="descripcion"
 							value="#{actividadBean.actividad.actDescripcion}"
 							onblur="this.value = this.value.toUpperCase()" required="true"
@@ -184,21 +197,22 @@
 							styleClass="DispBlock Wid90">
 						</p:inputTextarea>
 
-						<p:outputLabel value="Pagado" for="pagado" styleClass="DispBlock" />
-						<p:selectBooleanCheckbox id="pagado"
-							value="#{actividadBean.actividad.actPagado}">
-							<p:ajax update="valorLabel" />
-						</p:selectBooleanCheckbox>
+						<p:outputLabel value="Pagado" for="disponible"
+							styleClass="DispBlock negrita" />
+						<p:selectBooleanButton id="disponible"
+							value="#{actividadBean.actividad.actPagado}" onLabel="SI"
+							offLabel="NO" onIcon="ui-icon-check" offIcon="ui-icon-close"
+							style="width:75px" />
 
-						<p:outputLabel value="Valor" id="valorLabel" for="valor"
-							styleClass="DispBlock" />
-						<p:inputText id="valor"
+						<p:outputLabel value="Precio Actividad" for="precio"
+							styleClass="DispBlock negrita" />
+
+						<pe:inputNumber styleClass="numeroCentrado" id="precio"
+							required="true" requiredMessage="Debe ingresar el precio"
+							class="inputNumberWid50"
 							value="#{actividadBean.actividad.actValor}"
-							onblur="this.value = this.value.toUpperCase()" required="true"
-							requiredMessage="Debe ingresar el Valor"
-							styleClass="DispBlock Wid90">
-
-						</p:inputText>
+							onkeypress="if (event.keyCode == 13) { return false; }"
+							minValue="0.00" decimalSeparator="." thousandSeparator="," />
 
 					</div>
 				</div>
@@ -224,7 +238,7 @@
 
 						<p:outputLabel value="Datos de la Actividad"
 							styleClass="subTitulos" />
-							
+
 						<p:outputLabel for="comboEmpresa" value="Hotel"
 							styleClass="DispBlock" />
 						<p:selectOneMenu id="comboEmpresa" required="true"
@@ -253,6 +267,7 @@
 
 						<p:outputLabel value="Datos de la Actividad"
 							styleClass="subTitulos" />
+
 						<p:outputLabel value="* empleado" for="codEmpleado"
 							styleClass="DispBlock" />
 						<p:inputText id="codEmpleado" value="#{actividadBean.codEmpleado}"
@@ -268,6 +283,7 @@
 							requiredMessage="Debe ingresar el nombre"
 							styleClass="DispBlock Wid90">
 						</p:inputText>
+
 						<p:outputLabel value="* Descripcion" for="descripcion"
 							styleClass="DispBlock" />
 						<p:inputText id="descripcion"
@@ -276,20 +292,22 @@
 							requiredMessage="Debe ingresar la Descripcion"
 							styleClass="DispBlock Wid90">
 						</p:inputText>
-						<p:outputLabel value="Pagado" for="pagado" styleClass="DispBlock" />
-						<p:selectBooleanCheckbox id="pagado"
-							value="#{actividadBean.actividad.actPagado}">
-							<p:ajax update="valorLabel" />
-						</p:selectBooleanCheckbox>
 
-						<p:outputLabel value="Valor" id="valorLabel" for="valor"
-							styleClass="DispBlock" />
-						<p:inputText id="valor"
+						<p:outputLabel value="Pagado" for="pagado"
+							styleClass="DispBlock negrita" />
+						<p:selectBooleanButton id="pagado"
+							value="#{actividadBean.actividad.actPagado}" onLabel="SI"
+							offLabel="NO" onIcon="ui-icon-check" offIcon="ui-icon-close"
+							style="width:75px" />
+
+						<p:outputLabel value="Precio" for="precio"
+							styleClass="DispBlock negrita" />
+						<pe:inputNumber styleClass="numeroCentrado" id="precio"
+							required="true" requiredMessage="Debe ingresar el precio"
+							class="inputNumberWid50"
 							value="#{actividadBean.actividad.actValor}"
-							onblur="this.value = this.value.toUpperCase()" required="true"
-							requiredMessage="Debe ingresar el Valor"
-							styleClass="DispBlock Wid90">
-						</p:inputText>
+							onkeypress="if (event.keyCode == 13) { return false; }"
+							minValue="0.00" decimalSeparator="." thousandSeparator="," />
 					</div>
 				</div>
 				<div class="EmptyBox10"></div>

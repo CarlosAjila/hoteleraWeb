@@ -11,6 +11,7 @@
 
 			<h:form id="formDataTable">
 				<p:dataTable id="tablaCliente" var="cliente" scrollable="true"
+					rowStyleClass="#{cliente.cliActivo eq true ? null:'desactivo'}"
 					reflow="true" value="#{clienteBean.listaClientes}" paginator="true"
 					rows="10"
 					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -39,6 +40,14 @@
 							<f:setPropertyActionListener value="#{cliente}"
 								target="#{clienteBean.cliente}" />
 						</p:commandButton>
+						<p:tooltip for="btnEliminar"
+							value="#{cliente.cliActivo eq true ? msg['lbl.desactivar']: msg['lbl.activar']}" />
+						<p:commandButton id="btnEliminar" update=":mensaje, :formEliminar"
+							oncomplete="mostarPanelEliminar('')"
+							icon="#{cliente.cliActivo eq true ? msg['i.eliminar']: msg['i.activar']}">
+							<f:setPropertyActionListener value="#{cliente}"
+								target="#{clienteBean.cliente}" />
+						</p:commandButton>
 
 					</p:column>
 
@@ -46,7 +55,7 @@
 						<p:outputLabel value="#{cliente.cliCedula}" />
 					</p:column>
 					<p:column headerText="Apellidos Nombres"
-						filterBy="#{cliente.cliApellido} #{cliente.cliNombre} ">
+						filterBy="#{cliente.cliApellido} #{cliente.cliNombre} " filterMatchMode="contains">
 						<p:outputLabel value="#{cliente.cliApellido} #{cliente.cliNombre}" />
 					</p:column>
 					<p:column headerText="Teléfono">
@@ -55,11 +64,11 @@
 				</p:dataTable>
 			</h:form>
 		</p:panel>
-		<p:panel id="panelMostrar" header="Datos de las Activida"
+		<p:panel id="panelMostrar" header="Datos del Cliente"
 			styleClass="DispNone">
 			<h:form id="formMostrar">
 				<div class="divDatosIzq50">
-					<div id="datosActividad" class="divDatosIzq50">
+					<div id="datosCliente" class="divDatosIzq50">
 
 						<p:outputLabel value="Cédula" styleClass="DispBlock negrita" />
 						<p:outputLabel value="#{clienteBean.cliente.cliCedula}"
@@ -175,8 +184,8 @@
 				<p:outputLabel value="Los campos marcados con * son Obligatorios"
 					styleClass="DispBlock" />
 				<div class="divDatosIzq50">
-					<div id="datosActividad" class="divDatosIzq50">
-						<p:outputLabel value="Datos de la Actividad"
+					<div id="datosCliente" class="divDatosIzq50">
+						<p:outputLabel value="Datos de del Cliente"
 							styleClass="subTitulos" />
 
 						<p:outputLabel value="Cédula" for="cedula" styleClass="DispBlock" />
@@ -207,18 +216,11 @@
 
 						<p:outputLabel value="Teléfono" for="telefono"
 							styleClass="DispBlock" />
-						<p:inputText id="telefono"
-							value="#{clienteBean.cliente.cliTelefono}"
-							onblur="this.value = this.value.toUpperCase()"
-							styleClass="DispBlock Wid90">
-						</p:inputText>
+						<p:inputMask id="telefono" value="#{clienteBean.cliente.cliTelefono}" mask="(999) 999-9999"/>
 
 						<p:outputLabel value="Teléfono Movil" for="movil"
 							styleClass="DispBlock" />
-						<p:inputText id="movil" value="#{clienteBean.cliente.cliMovil}"
-							onblur="this.value = this.value.toUpperCase()"
-							styleClass="DispBlock Wid90">
-						</p:inputText>
+						<p:inputMask id="movil" value="#{clienteBean.cliente.cliMovil}" mask="(999) 999-9999"/>
 
 						<p:outputLabel value="Dirección" for="direccion"
 							styleClass="DispBlock" />
@@ -240,6 +242,26 @@
 				<p:commandButton value="#{msg['btn.cancelar']}"
 					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
 					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+
+		<p:panel id="panelEliminar"
+			header="#{msg['lbl.activar']}/#{msg['lbl.desactivar']}"
+			styleClass="DispNone">
+			<h:form id="formEliminar">
+				<h:inputHidden value="#{clienteBean.cliente.cliCodigo}" />
+				<div class="EmptyBox30"></div>
+				<p:outputLabel
+					value="¿Desea #{clienteBean.cliente.cliActivo eq true ? msg['lbl.desactivar'] : msg['lbl.activar']} el Cliente: #{clienteBean.cliente.cliCedula} - #{clienteBean.cliente.cliNombre} #{clienteBean.cliente.cliApellido} ?" />
+				<div class="EmptyBox30"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.aceptar']}"
+					update=":formDataTable,:mensaje" icon="#{msg['i.activar']}"
+					oncomplete="mostarPanelEliminar('')"
+					actionListener="#{clienteBean.eliminar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					onclick="mostarPanelEliminar('')" icon="#{msg['i.cancelar']}"
+					styleClass="RedButton" />
 			</h:form>
 		</p:panel>
 	</ui:define>
