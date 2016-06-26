@@ -29,24 +29,13 @@ public class HabitacionServiceImpl implements HabitacionService, Serializable {
 		return habitacionDao.obtenerTodosPorHotel(codigoHotel);
 	}
 
-	public Habitacion obtenerPorRuc(String ruc) {
-		return habitacionDao.obtenerPorRuc(ruc);
-	}
-
-	public Habitacion obtenerPorRuc_Codigo(String ruc, Integer codigo) {
-		return habitacionDao.obtenerPorRuc_Codigo(ruc, codigo);
-	}
-
 	public void insertar(Habitacion habitacion) {
 		habitacion.setHabActivo(true);
 		habitacionDao.insertar(habitacion);
-		presentaMensaje(FacesMessage.SEVERITY_INFO, "Hotel insertado correctamente", "cerrar", true);
 	}
 
 	public void actualizar(Habitacion habitacion) {
-		habitacion.setHabActivo(true);
 		habitacionDao.actualizar(habitacion);
-		presentaMensaje(FacesMessage.SEVERITY_INFO, "Hotel modificado correctamente", "cerrar", true);
 	}
 
 	public void eliminar(Habitacion habitacion) {
@@ -54,9 +43,12 @@ public class HabitacionServiceImpl implements HabitacionService, Serializable {
 		habitacionDao.actualizar(habitacion);
 
 		if (habitacion.getHabActivo())
-			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se activo al Hotel: " + habitacion.getHabActivo());
+			presentaMensaje(FacesMessage.SEVERITY_INFO,
+					"Se activo la Habitacion: " + habitacion.getHabCodigo() + " - de tipo: " + habitacion.getHabTipo());
 		else
-			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se desactivo al Hotel: " + habitacion.getHabActivo());
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se desactivo la Habitacion: " + habitacion.getHabCodigo()
+					+ " - de tipo: " + habitacion.getHabTipo());
+
 	}
 
 }

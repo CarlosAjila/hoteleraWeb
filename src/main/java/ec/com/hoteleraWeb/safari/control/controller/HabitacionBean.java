@@ -68,7 +68,6 @@ public class HabitacionBean implements Serializable {
 	}
 
 	public void insertar(ActionEvent actionEvent) {
-		System.out.println("habitacion.getHabTipo() " + habitacion.getHabTipo());
 		if (codigoHotel == 0)
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un hotel");
 		else if (habitacion.getHabDescripcion().isEmpty())
@@ -78,12 +77,39 @@ public class HabitacionBean implements Serializable {
 		else if (habitacion.getHabTipo().compareTo("0") == 0)
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un tipo de habitacion");
 		else {
-			habitacion.setHotel(hotelService.obtenerPorCodigo(codigoHotel.toString()));
+			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
+			habitacion.setHotel(hotel);
 			habitacionService.insertar(habitacion);
+			presentaMensaje(
+					FacesMessage.SEVERITY_INFO, "Se creo la habitacion con codigo: " + habitacion.getHabCodigo()
+							+ " de tipo: " + habitacion.getHabTipo() + " en el Hotel: " + hotel.getHotNombre(),
+					"cerrar", true);
+			obtenerHabitacionesPorHotel();
+			codigoHotel = hotel.getHotCodigo();
 		}
+
 	}
 
 	public void actualizar(ActionEvent actionEvent) {
+		if (codigoHotel == 0)
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un hotel");
+		else if (habitacion.getHabDescripcion().isEmpty())
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una descripcion");
+		else if (habitacion.getHabPrecioReferencial().compareTo(ZERO) == 0)
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un precio");
+		else if (habitacion.getHabTipo().compareTo("0") == 0)
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un tipo de habitacion");
+		else {
+			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
+			habitacion.setHotel(hotel);
+			habitacionService.actualizar(habitacion);
+			presentaMensaje(
+					FacesMessage.SEVERITY_INFO, "Se actualizo la habitacion con codigo: " + habitacion.getHabCodigo()
+							+ " de tipo: " + habitacion.getHabTipo() + " en el Hotel: " + hotel.getHotNombre(),
+					"cerrar", true);
+			obtenerHabitacionesPorHotel();
+			codigoHotel = hotel.getHotCodigo();
+		}
 
 	}
 

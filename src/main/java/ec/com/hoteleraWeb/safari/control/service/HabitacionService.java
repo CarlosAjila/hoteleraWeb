@@ -15,12 +15,6 @@ public interface HabitacionService {
 	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel);
 
 	@Transactional
-	public Habitacion obtenerPorRuc(String ruc);
-
-	@Transactional
-	public Habitacion obtenerPorRuc_Codigo(String ruc, Integer codigo);
-
-	@Transactional
 	public void insertar(Habitacion habitacion);
 
 	@Transactional

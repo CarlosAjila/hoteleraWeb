@@ -39,23 +39,4 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 		return null;
 	}
 
-	public Habitacion obtenerPorRuc(String ruc) {
-		String sql = "select * from hotel where hot_ruc='" + ruc + "'";
-		List<Habitacion> habitacion = new ArrayList<Habitacion>();
-		habitacion = genericSQLDao.obtenerPorSql(sql, Habitacion.class);
-		if (habitacion != null)
-			if (habitacion.size() != 0)
-				return habitacion.get(0);
-		return null;
-	}
-
-	public Habitacion obtenerPorRuc_Codigo(String ruc, Integer codigo) {
-		String sql = "select * from hotel where hot_ruc='" + ruc + "' and hot_codigo='" + codigo + "'";
-		List<Habitacion> habitacion = new ArrayList<Habitacion>();
-		habitacion = genericSQLDao.obtenerPorSql(sql, Habitacion.class);
-		if (habitacion != null)
-			if (habitacion.size() != 0)
-				return habitacion.get(0);
-		return null;
-	}
 }

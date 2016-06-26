@@ -15,10 +15,4 @@ public interface HabitacionDao extends GenericDao<Habitacion, Integer> {
 	@Transactional
 	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel);
 
-	@Transactional
-	public Habitacion obtenerPorRuc(String ruc);
-
-	@Transactional
-	public Habitacion obtenerPorRuc_Codigo(String ruc, Integer codigo);
-
 }

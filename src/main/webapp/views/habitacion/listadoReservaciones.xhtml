@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">-habitaciones</ui:define>
+
+	<ui:define name="content">
+		<div class="ui-lesscurve">
+			<p:panel id="panelPrincipal" header="Listado de Reservaciones">
+				<div class="EmptyBox10"></div>
+				<h:form id="formBusqueda">
+					<p:selectOneMenu id="comboHotel"
+						value="#{reservacionBean.codigoHotel}" style="width:165px;">
+						<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+						<f:selectItems value="#{reservacionBean.listaHoteles}" var="hotel"
+							itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+						<p:ajax event="change" update=":formDataTable"
+							listener="#{reservacionBean.obtenerReservacionesPorHotel}" />
+					</p:selectOneMenu>
+				</h:form>
+				<div class="EmptyBox10"></div>
+
+				<h:form id="formDataTable">
+					<p:dataTable id="tablaReservaciones" var="reservacion"
+						styleClass="TexAlCenter" scrollable="true"
+						rowStyleClass="#{reservacion.resCancelada eq true ? null:'desactivo'}"
+						reflow="true" value="#{reservacionBean.listaReservacion}"
+						paginator="true" rows="10"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						paginatorPosition="bottom"
+						emptyMessage="#{msg['lbl.mensajeTabla']}">
+						<f:facet name="header">
+							<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
+							<p:commandButton update=":formNuevo"
+								actionListener="#{reservacionBean.cargarInsertar}"
+								oncomplete="mostarPanelInsertar('')" id="btnNuevo"
+								icon="#{msg['i.nuevo']}" />
+						</f:facet>
+						<p:column headerText="Codigo.">
+							<p:outputLabel value="#{reservacion.resCodigo}" />
+						</p:column>
+						<p:column headerText="Fecha Reservacion">
+							<p:outputLabel value="#{reservacion.resFechaReserva}" />
+						</p:column>
+						<p:column headerText="Fecha Ingreso">
+							<p:outputLabel value="#{reservacion.resFechaIngreso}" />
+						</p:column>
+						<p:column headerText="Fecha Salida">
+							<p:outputLabel value="#{reservacion.resFechaSalido}" />
+						</p:column>
+						<p:column headerText="Instancia">
+							<p:outputLabel
+								value="#{reservacion.resInstancia eq true ? 'SI' : 'NO' }" />
+						</p:column>
+						<p:column headerText="Abono">
+							<p:outputLabel value="#{reservacion.resAbono}">
+								<f:convertNumber pattern="#0.00" />
+							</p:outputLabel>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:panel>
+
+			<p:panel id="panelInsertar" header="#{msg['lbl.insertar']}"
+				styleClass="DispNone">
+				<h:form id="formNuevo">
+					<p:outputLabel value="Los campos marcados con * son Obligatorios"
+						styleClass="DispBlock" />
+					<div class="divDatosIzq50">
+						<div id="datosReservacion" class="divDatosIzq50">
+							<p:outputLabel value="Datos de la Reservacion"
+								styleClass="subTitulos" />
+							<p:outputLabel value="Hotel" for="comboHotelInsertar"
+								styleClass="DispBlock negrita" />
+							<p:selectOneMenu id="comboHotelInsertar"
+								value="#{reservacionBean.codigoHotel}" style="width:165px;">
+								<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+								<f:selectItems value="#{habitacionBean.listaHoteles}"
+									var="hotel" itemValue="#{hotel.hotCodigo}"
+									itemLabel="#{hotel.hotNombre}" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Empleado"
+								for="autoCompletarEmpleadoReservacion" styleClass="DispBlock" />
+							<p:autoComplete id="autoCompletarEmpleadoReservacion"
+								scrollHeight="200" effect="drop"
+								placeholder="MINIMO 3 CARACTERES"
+								emptyMessage="NO HAY DATOS A MOSTRAR" minQueryLength="3"
+								maxResults="20" value="#{reservacionBean.empleadoReservacion}"
+								completeMethod="#{reservacionBean.obtenerEmpleadoReservacionPorBusqueda}"
+								styleClass="DispBlock Wid90 autoCompletar">
+								<p:ajax event="itemSelect" id="prueba"
+									listener="#{reservacionBean.cargarEmpleadoReservacion}"
+									update="autoCompletarEmpleadoReservacion, :mensaje" />
+							</p:autoComplete>
+
+						</div>
+					</div>
+					<div class="EmptyBox10"></div>
+					<p:separator />
+					<p:commandButton value="#{msg['btn.guardar']}"
+						update=":formDataTable ,:mensaje, formNuevo,:formBusqueda:comboHotel"
+						oncomplete="comprobarInsertar(xhr, status, args, '')"
+						id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+						actionListener="#{habitacionBean.insertar}"
+						styleClass="GreenButton" />
+					<p:commandButton value="#{msg['btn.cancelar']}"
+						oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
+						icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+				</h:form>
+			</p:panel>
+
+		</div>
+	</ui:define>
+</ui:composition>

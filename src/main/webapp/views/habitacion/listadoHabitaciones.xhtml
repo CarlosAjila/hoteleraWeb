@@ -41,8 +41,23 @@
 						</f:facet>
 						<p:column headerText="#{msg['lbl.gestionar']}">
 							<p:tooltip for="btnMostrar" value="#{msg['lbl.mostrar']}" />
+							<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
+							<p:tooltip for="btnEliminar"
+								value="#{habitacion.habActivo eq true ? msg['lbl.desactivar']: msg['lbl.activar']}" />
 							<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
 								oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
+								<f:setPropertyActionListener value="#{habitacion}"
+									target="#{habitacionBean.habitacion}" />
+							</p:commandButton>
+							<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
+								oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
+								<f:setPropertyActionListener value="#{habitacion}"
+									target="#{habitacionBean.habitacion}" />
+							</p:commandButton>
+							<p:commandButton id="btnEliminar"
+								update=":mensaje, :formEliminar"
+								oncomplete="mostarPanelEliminar('')"
+								icon="#{habitacion.habActivo eq true ? msg['i.eliminar']: msg['i.activar']}">
 								<f:setPropertyActionListener value="#{habitacion}"
 									target="#{habitacionBean.habitacion}" />
 							</p:commandButton>
@@ -166,7 +181,7 @@
 					<div class="EmptyBox10"></div>
 					<p:separator />
 					<p:commandButton value="#{msg['btn.guardar']}"
-						update=":formDataTable ,:mensaje, formNuevo"
+						update=":formDataTable ,:mensaje, formNuevo,:formBusqueda:comboHotel"
 						oncomplete="comprobarInsertar(xhr, status, args, '')"
 						id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
 						actionListener="#{habitacionBean.insertar}"
@@ -174,6 +189,92 @@
 					<p:commandButton value="#{msg['btn.cancelar']}"
 						oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
 						icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+				</h:form>
+			</p:panel>
+
+			<p:panel id="panelEditar" header="#{msg['lbl.editar']}"
+				styleClass="DispNone">
+				<h:form id="formEditar">
+					<p:outputLabel value="Los campos marcados con * son Obligatorios"
+						styleClass="DispBlock" />
+					<div class="divDatosIzq50">
+						<div id="datosHabitacion" class="divDatosIzq50">
+							<p:outputLabel value="Datos de la Habitacion"
+								styleClass="subTitulos" />
+							<p:outputLabel value="Hotel" for="comboHotelInsertar"
+								styleClass="DispBlock negrita" />
+							<p:selectOneMenu id="comboHotelInsertar"
+								value="#{habitacionBean.codigoHotel}" style="width:165px;">
+								<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+								<f:selectItems value="#{habitacionBean.listaHoteles}"
+									var="hotel" itemValue="#{hotel.hotCodigo}"
+									itemLabel="#{hotel.hotNombre}" />
+
+							</p:selectOneMenu>
+							<p:outputLabel value="Descripcion" for="descripcion"
+								styleClass="DispBlock negrita" />
+							<p:inputText id="descripcion"
+								value="#{habitacionBean.habitacion.habDescripcion}"
+								required="true" requiredMessage="Debe ingresar una descripcion"
+								styleClass="DispBlock Wid50" />
+							<p:outputLabel value="Precio Referencial" for="precio"
+								styleClass="DispBlock negrita" />
+							<pe:inputNumber styleClass="numeroCentrado" id="precio"
+								required="true" requiredMessage="Debe ingresar el precio"
+								class="inputNumberWid50"
+								value="#{habitacionBean.habitacion.habPrecioReferencial}"
+								onkeypress="if (event.keyCode == 13) { return false; }"
+								minValue="0.00" decimalSeparator="." thousandSeparator="," />
+							<p:outputLabel value="Tipo" for="tipo"
+								styleClass="DispBlock negrita" />
+							<p:selectOneMenu id="tipo" required="true"
+								requiredMessage="Debe seleccionar el Tipo"
+								styleClass="comboCrud" panelStyle="width:200px"
+								value="#{habitacionBean.habitacion.habTipo}">
+								<f:selectItem itemLabel="Escoja un Tipo" itemValue="0" />
+								<f:selectItems value="#{habitacionBean.listaTipoHabitacion}"
+									var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.nombre}" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Disponible" for="disponible"
+								styleClass="DispBlock negrita" />
+							<p:selectBooleanButton id="disponible"
+								value="#{habitacionBean.habitacion.habDisponible}" onLabel="SI"
+								offLabel="NO" onIcon="ui-icon-check" offIcon="ui-icon-close"
+								style="width:75px" />
+						</div>
+					</div>
+					<div class="EmptyBox10"></div>
+					<p:separator />
+					<p:commandButton value="#{msg['btn.guardar']}"
+						update=":formDataTable ,:mensaje, formEditar,:formBusqueda:comboHotel"
+						oncomplete="comprobarEditar(xhr, status, args, '')" id="btnEditar"
+						icon="#{msg['i.actualizar']}"
+						actionListener="#{habitacionBean.actualizar}"
+						styleClass="GreenButton" />
+					<p:commandButton value="#{msg['btn.cancelar']}"
+						oncomplete="mostarPanelEditar('')" id="btnNuevolimpiar"
+						icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+				</h:form>
+			</p:panel>
+
+			<p:panel id="panelEliminar"
+				header="#{msg['lbl.activar']}/#{msg['lbl.desactivar']}"
+				styleClass="DispNone">
+				<h:form id="formEliminar">
+					<h:inputHidden value="#{habitacionBean.habitacion.habCodigo}" />
+					<div class="EmptyBox30"></div>
+					<p:outputLabel
+						value="¿Desea #{habitacionBean.habitacion.habActivo eq true ? msg['lbl.desactivar'] : msg['lbl.activar']} la Habitacion: #{habitacionBean.habitacion.habCodigo} - #{habitacionBean.habitacion.habTipo} ?" />
+					<div class="EmptyBox30"></div>
+					<p:separator />
+					<p:commandButton value="#{msg['btn.aceptar']}"
+						update=":formDataTable,:mensaje" icon="#{msg['i.activar']}"
+						oncomplete="mostarPanelEliminar('')"
+						actionListener="#{habitacionBean.eliminar}"
+						styleClass="GreenButton" />
+					<p:commandButton value="#{msg['btn.cancelar']}"
+						onclick="mostarPanelEliminar('')" icon="#{msg['i.cancelar']}"
+						styleClass="RedButton" />
 				</h:form>
 			</p:panel>
 		</div>
