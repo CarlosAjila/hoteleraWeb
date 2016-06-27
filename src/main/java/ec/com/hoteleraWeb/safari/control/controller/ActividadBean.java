@@ -97,6 +97,7 @@ public class ActividadBean implements Serializable {
 	}
 
 	public void insertar(ActionEvent actionEvent) {
+		System.out.println("pppppppppppppppppppppppppp");
 		System.out.println("cedula   " + actividad.getEmpleado());
 		actividadService.insertar(actividad);
 		obtenerActividadesPorHotel();
@@ -126,8 +127,6 @@ public class ActividadBean implements Serializable {
 	}
 
 	public void cargarEmpleadoActividad() {
-		System.out.println("===========================");
-		System.out.println("empleadoActividad   " + empleadoActividad);
 		actividad.setEmpleado(empleadoService.cargarEmpleado(empleadoActividad));
 	}
 

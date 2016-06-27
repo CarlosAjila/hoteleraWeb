@@ -34,13 +34,13 @@ public class ActividadServiceImpl implements ActividadService, Serializable {
 	}
 
 	public void insertar(Actividad actividad) {
-		// System.out.println(">>>>>>>> empCodigo " + empCodigo);
-		// Empleado empleado = empleadoDao.obtenerPorId(Empleado.class,
-		// empCodigo);
-		// actividad.setEmpleado(empleado);
 		actividad.setActActivo(true);
 		actividadDao.insertar(actividad);
 		presentaMensaje(FacesMessage.SEVERITY_INFO, "Empleado insertado correctamente", "cerrar", true);
+	}
+
+	public Actividad cargarActividad(Integer codigoActividad) {
+		return actividadDao.cargarActividad(codigoActividad);
 	}
 
 	public void actualizar(Actividad actividad) {

@@ -47,24 +47,63 @@
 					<div id="datosEmpleado" class="divDatosIzq50">
 						<p:outputLabel value="Datos del Calendario de Actividades"
 							styleClass="subTitulos" />
-						<p:outputLabel for="comboEmpresa" value="Hotel"
+						<p:outputLabel for="comboHotel" value="Hotel"
 							styleClass="DispBlock" />
-						<p:selectOneMenu id="comboEmpresa" required="true"
+						<p:selectOneMenu id="comboHotel" required="true"
 							requiredMessage="Debe seleccionar el Hotel"
 							value="#{calendarioBean.codigoHotel}" style="width:165px;">
 							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
 							<f:selectItems value="#{calendarioBean.listaHoteles}" var="hotel"
 								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+							<p:ajax event="change"
+								listener="#{calendarioBean.obtenerActividadesPorHotel}"
+								update="formNuevo:comboActividad" />
 							<p:ajax event="change" update=":mensaje" />
 						</p:selectOneMenu>
 
-					
+						<p:outputLabel for="comboActividad" value="Actividad"
+							styleClass="DispBlock" />
+						<p:selectOneMenu id="comboActividad" required="true"
+							requiredMessage="Debe seleccionar la actividad"
+							value="#{calendarioBean.codigoActividad}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja una Actividad" itemValue="0" />
+							<f:selectItems value="#{calendarioBean.listaActividades}"
+								var="actividad" itemValue="#{actividad.actCodigo}"
+								itemLabel="#{actividad.actNombre}" />
+						</p:selectOneMenu>
 
-
+						<p:outputLabel value="Días" for="dias" styleClass="DispBlock" />
+						<p:selectOneMenu id="dias" required="true"
+							requiredMessage="Debe seleccionar el Dia"
+							value="#{calendarioBean.calendario.calDia}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja un Dia" itemValue="0" />
+							<f:selectItems value="#{calendarioBean.listaDias}" var="dias"
+								itemValue="#{dias}" itemLabel="#{dias.nombre}" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Hora Inicio" for="horaInicio"
+							styleClass="DispBlock negrita" />
+						<p:inputText id="horaInicio"
+							value="#{calendarioBean.calendario.calHoraInicio}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar Hora de inicio"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						
+						<p:outputLabel value="Hora Fin" for="horaFin"
+							styleClass="DispBlock negrita" />
+						<p:inputText id="horaFin"
+							value="#{calendarioBean.calendario.calHoraFin}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar Hora Fin"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
 
 					</div>
 				</div>
+
 				<div class="EmptyBox10"></div>
+
 				<p:separator />
 				<p:commandButton value="#{msg['btn.guardar']}"
 					update=":formDataTable ,:mensaje, formNuevo"
