@@ -20,8 +20,6 @@ import ec.com.hoteleraWeb.safari.control.service.ActividadService;
 import ec.com.hoteleraWeb.safari.control.service.CalendarioService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.utils.enums.Dias;
-import ec.com.hoteleraWeb.safari.utils.enums.TipoEmpleado;
-import ec.com.hoteleraWeb.safari.utils.enums.Titulo;
 
 @Controller
 @Scope("session")
@@ -87,6 +85,7 @@ public class CalendarioBean implements Serializable {
 		System.out.println("=========================");
 		listaActividades = new ArrayList<Actividad>();
 		listaActividades = actividadService.obtenerActividadesPorHotel(codigoHotel);// hotel
+
 	}
 
 	public void obtenerCalendarios() {
@@ -98,14 +97,14 @@ public class CalendarioBean implements Serializable {
 	}
 
 	public void insertar(ActionEvent actionEvent) {
-		System.out.println("==========  "+codigoActividad );
-		cargarActividadCalendario();
 		calendarioService.insertar(calendario);
 		obtenerCalendarios();
 	}
-	
+
 	public void cargarActividadCalendario() {
 		calendario.setActividad(actividadService.cargarActividad(codigoActividad));
+
+		System.out.println("................" + calendario.getActividad().getEmpleado().getEmpApellido());
 	}
 
 	public void setListaCalendarios(List<Calendario> listaCalendarios) {

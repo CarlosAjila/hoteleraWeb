@@ -66,8 +66,8 @@
 								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
 							<p:ajax event="change"
 								listener="#{calendarioBean.obtenerActividadesPorHotel}"
-								update="formNuevo:comboActividad" />
-							<p:ajax event="change" update=":mensaje" />
+								update="comboActividad" />
+
 						</p:selectOneMenu>
 
 						<p:outputLabel for="comboActividad" value="Actividad"
@@ -79,7 +79,22 @@
 							<f:selectItems value="#{calendarioBean.listaActividades}"
 								var="actividad" itemValue="#{actividad.actCodigo}"
 								itemLabel="#{actividad.actNombre}" />
+							<p:ajax event="change" update="empleado, cedula"
+								listener="#{calendarioBean.cargarActividadCalendario}" />
 						</p:selectOneMenu>
+
+						<p:outputLabel value="Cédula" styleClass="DispBlock negrita" />
+						<p:outputLabel id="cedula"
+							value="#{calendarioBean.calendario.actividad.empleado.empCedula}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
+						<p:outputLabel value="Empleado" styleClass="DispBlock negrita" />
+						<p:outputLabel id="empleado"
+							value="#{calendarioBean.calendario.actividad.empleado.empNombre} #{calendarioBean.calendario.actividad.empleado.empApellido}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+
 
 						<p:outputLabel value="Días" for="dias" styleClass="DispBlock" />
 						<p:selectOneMenu id="dias" required="true"
@@ -92,21 +107,23 @@
 
 						<p:outputLabel value="Hora Inicio" for="horaInicio"
 							styleClass="DispBlock negrita" />
-						<p:inputText id="horaInicio"
+						<p:calendar id="horaInicio"
 							value="#{calendarioBean.calendario.calHoraInicio}"
+							pattern="HH:mm" timeOnly="true"
 							onblur="this.value = this.value.toUpperCase()" required="true"
 							requiredMessage="Debe ingresar Hora de inicio"
 							styleClass="DispBlock Wid90">
-						</p:inputText>
+
+						</p:calendar>
 
 						<p:outputLabel value="Hora Fin" for="horaFin"
 							styleClass="DispBlock negrita" />
-						<p:inputText id="horaFin"
-							value="#{calendarioBean.calendario.calHoraFin}"
-							onblur="this.value = this.value.toUpperCase()" required="true"
-							requiredMessage="Debe ingresar Hora Fin"
+						<p:calendar id="horaFin"
+							value="#{calendarioBean.calendario.calHoraFin}" pattern="HH:mm"
+							timeOnly="true" onblur="this.value = this.value.toUpperCase()"
+							required="true" requiredMessage="Debe ingresar Hora Fin"
 							styleClass="DispBlock Wid90">
-						</p:inputText>
+						</p:calendar>
 
 					</div>
 				</div>
@@ -125,9 +142,8 @@
 					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
 			</h:form>
 		</p:panel>
-		
-			<p:panel id="panelMostrar" header="Calendario"
-			styleClass="DispNone">
+
+		<p:panel id="panelMostrar" header="Calendario" styleClass="DispNone">
 			<h:form id="formMostrar">
 				<div class="divDatosIzq50">
 					<div id="datosCalendario" class="divDatosIzq50">
@@ -147,25 +163,25 @@
 							value="#{calendarioBean.calendario.actividad.actNombre}"
 							styleClass="DispBlock Wid90" />
 						<div class="EmptyBox10"></div>
-						
+
 						<p:outputLabel value="Día" styleClass="DispBlock negrita" />
 						<p:outputLabel id="dia"
 							value="#{calendarioBean.calendario.calDia}"
 							styleClass="DispBlock Wid90" />
 						<div class="EmptyBox10"></div>
-						
+
 						<p:outputLabel value="Hora Inicio" styleClass="DispBlock negrita" />
 						<p:outputLabel id="horaInicio"
 							value="#{calendarioBean.calendario.calHoraInicio}"
 							styleClass="DispBlock Wid90" />
 						<div class="EmptyBox10"></div>
-						
+
 						<p:outputLabel value="Hora Fin" styleClass="DispBlock negrita" />
 						<p:outputLabel id="horaFin"
 							value="#{calendarioBean.calendario.calHoraFin}"
 							styleClass="DispBlock Wid90" />
 						<div class="EmptyBox10"></div>
-						
+
 					</div>
 				</div>
 				<div class="EmptyBox10"></div>
