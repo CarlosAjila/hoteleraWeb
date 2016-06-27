@@ -23,6 +23,15 @@
 							action="#{calendarioBean.cargarInsertar}" id="btnNuevo"
 							icon="#{msg['i.nuevo']}" />
 					</f:facet>
+					<p:column headerText="#{msg['lbl.gestionar']}">
+						<p:tooltip for="btnMostrar" value="#{msg['lbl.mostrar']}" />
+						<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
+							oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
+							<f:setPropertyActionListener value="#{calendario}"
+								target="#{calendarioBean.calendario}" />
+						</p:commandButton>
+					</p:column>
+
 
 					<p:column headerText="Actividad.">
 						<p:outputLabel value="#{calendario.actividad.actNombre}" />
@@ -80,7 +89,7 @@
 							<f:selectItems value="#{calendarioBean.listaDias}" var="dias"
 								itemValue="#{dias}" itemLabel="#{dias.nombre}" />
 						</p:selectOneMenu>
-						
+
 						<p:outputLabel value="Hora Inicio" for="horaInicio"
 							styleClass="DispBlock negrita" />
 						<p:inputText id="horaInicio"
@@ -89,7 +98,7 @@
 							requiredMessage="Debe ingresar Hora de inicio"
 							styleClass="DispBlock Wid90">
 						</p:inputText>
-						
+
 						<p:outputLabel value="Hora Fin" for="horaFin"
 							styleClass="DispBlock negrita" />
 						<p:inputText id="horaFin"
@@ -114,6 +123,56 @@
 				<p:commandButton value="#{msg['btn.cancelar']}"
 					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
 					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+			</h:form>
+		</p:panel>
+		
+			<p:panel id="panelMostrar" header="Calendario"
+			styleClass="DispNone">
+			<h:form id="formMostrar">
+				<div class="divDatosIzq50">
+					<div id="datosCalendario" class="divDatosIzq50">
+
+						<p:outputLabel value="Hotel" styleClass="DispBlock negrita" />
+						<p:outputLabel
+							value="#{calendarioBean.calendario.actividad.empleado.hotel.hotNombre}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						<p:outputLabel value="Empleado" styleClass="DispBlock negrita" />
+						<p:outputLabel
+							value="#{calendarioBean.calendario.actividad.empleado.empNombre} #{calendarioBean.calendario.actividad.empleado.empApellido}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						<p:outputLabel value="Actividad" styleClass="DispBlock negrita" />
+						<p:outputLabel id="actividad"
+							value="#{calendarioBean.calendario.actividad.actNombre}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						
+						<p:outputLabel value="Día" styleClass="DispBlock negrita" />
+						<p:outputLabel id="dia"
+							value="#{calendarioBean.calendario.calDia}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						
+						<p:outputLabel value="Hora Inicio" styleClass="DispBlock negrita" />
+						<p:outputLabel id="horaInicio"
+							value="#{calendarioBean.calendario.calHoraInicio}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						
+						<p:outputLabel value="Hora Fin" styleClass="DispBlock negrita" />
+						<p:outputLabel id="horaFin"
+							value="#{calendarioBean.calendario.calHoraFin}"
+							styleClass="DispBlock Wid90" />
+						<div class="EmptyBox10"></div>
+						
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.cerrar']}"
+					onclick="mostarPanelMostrar('')" icon="#{msg['i.cancelar']}"
+					styleClass="RedButton" />
 			</h:form>
 		</p:panel>
 
