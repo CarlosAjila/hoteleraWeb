@@ -23,6 +23,7 @@ public class Suplemento implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "suplemento_sup_codigo_seq")
 	@Column(name = "sup_codigo")
 	private Integer supCodigo;
+	
 	@Column(name = "sup_activo")
 	private Boolean supActivo;
 

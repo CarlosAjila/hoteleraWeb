@@ -17,10 +17,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entity.Cliente;
+import ec.com.hoteleraWeb.safari.control.entity.Habitacion;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Reservacion;
 import ec.com.hoteleraWeb.safari.control.entity.Usuario;
 import ec.com.hoteleraWeb.safari.control.service.ClienteService;
+import ec.com.hoteleraWeb.safari.control.service.HabitacionService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.control.service.ReservacionService;
 import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
@@ -43,11 +45,15 @@ public class ReservacionBean implements Serializable {
 	@Autowired
 	private ClienteService clienteService;
 
+	@Autowired
+	private HabitacionService habitacionService;
+
 	private List<Reservacion> listaReservacion;
 	private Reservacion reservacion;
 	private Integer codigoHotel;
 	private List<Hotel> listaHoteles;
 	private String clienteReservacion;
+	private List<Habitacion> listaHabitaciones;
 
 	private final BigDecimal ZERO = new BigDecimal("0.00");
 
@@ -89,6 +95,10 @@ public class ReservacionBean implements Serializable {
 			cargarClienteReservacion();
 		}
 		return lista;
+	}
+
+	public void obtenerHabitacionesPorHotel() {
+		listaHabitaciones = habitacionService.obtenerTodosPorHotel(codigoHotel.toString());
 	}
 
 	public void insertar(ActionEvent actionEvent) {
@@ -189,6 +199,14 @@ public class ReservacionBean implements Serializable {
 
 	public void setClienteReservacion(String clienteReservacion) {
 		this.clienteReservacion = clienteReservacion;
+	}
+
+	public List<Habitacion> getListaHabitaciones() {
+		return listaHabitaciones;
+	}
+
+	public void setListaHabitaciones(List<Habitacion> listaHabitaciones) {
+		this.listaHabitaciones = listaHabitaciones;
 	}
 
 }

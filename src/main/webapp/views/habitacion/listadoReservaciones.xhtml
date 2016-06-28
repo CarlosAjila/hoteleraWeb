@@ -81,8 +81,19 @@
 								<f:selectItems value="#{reservacionBean.listaHoteles}"
 									var="hotel" itemValue="#{hotel.hotCodigo}"
 									itemLabel="#{hotel.hotNombre}" />
-								<p:ajax event="change" update=":mensaje" />
+								<p:ajax event="change" update=":mensaje,tablaHabitaciones"
+									listener="#{reservacionBean.obtenerHabitacionesPorHotel}" />
 							</p:selectOneMenu>
+
+							<p:dataTable var="habitacion"
+								value="#{reservacionBean.listaHabitaciones}">
+								<p:column headerText="Numero">
+									<h:outputText value="#{habitacion.habNumero}" />
+								</p:column>
+								<p:column headerText="Tipo">
+									<h:outputText value="#{habitacion.habTipo}" />
+								</p:column>
+							</p:dataTable>
 
 							<p:outputLabel value="Cliente"
 								for="autoCompletarClienteReservacion"
