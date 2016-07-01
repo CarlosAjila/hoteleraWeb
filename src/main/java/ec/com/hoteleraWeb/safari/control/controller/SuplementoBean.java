@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entity.Habitacion;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
+import ec.com.hoteleraWeb.safari.control.entity.Suplemento;
 import ec.com.hoteleraWeb.safari.control.service.HabitacionService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.utils.enums.TipoHabitacion;
@@ -35,6 +36,7 @@ public class SuplementoBean implements Serializable {
 	private HotelService hotelService;
 
 	private List<Habitacion> listaHabitacion;
+	private Habitacion habitacion;
 	private Suplemento suplemento;
 	private Integer codigoHotel;
 	private List<Hotel> listaHoteles;
@@ -55,16 +57,11 @@ public class SuplementoBean implements Serializable {
 
 	public void cargarInsertar() {
 		limpiarObjetos();
-		asignarNumeroHabitacion();
-	}
 
-	public void asignarNumeroHabitacion() {
-		if (codigoHotel != null)
-			habitacion.setHabNumero(habitacionService.obtenerUltimoNumeroHabitacion(codigoHotel.toString()) + 1);
 	}
 
 	public void limpiarObjetos() {
-		habitacion = new Habitacion();
+		suplemento = new Suplemento();
 		habitacion.setHotel(new Hotel());
 		habitacion.setHabPrecioReferencial(ZERO);
 	}
