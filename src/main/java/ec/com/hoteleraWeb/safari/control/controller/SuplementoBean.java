@@ -33,11 +33,15 @@ public class SuplementoBean implements Serializable {
 	private HabitacionService habitacionService;
 
 	@Autowired
+	private SuplementoService suplementoService;
+
+	@Autowired
 	private HotelService hotelService;
 
 	private List<Habitacion> listaHabitacion;
 	private Habitacion habitacion;
 	private Suplemento suplemento;
+	private List<Suplemento> listaSuplemento;
 	private Integer codigoHotel;
 	private List<Hotel> listaHoteles;
 
@@ -49,6 +53,7 @@ public class SuplementoBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		limpiarObjetos();
+		listaSuplemento = new ArrayList<Suplemento>();
 		listaHabitacion = new ArrayList<Habitacion>();
 		listaHoteles = new ArrayList<Hotel>();
 		listaHoteles = hotelService
@@ -62,6 +67,7 @@ public class SuplementoBean implements Serializable {
 
 	public void limpiarObjetos() {
 		suplemento = new Suplemento();
+		habitacion = new Habitacion();
 		habitacion.setHotel(new Hotel());
 		habitacion.setHabPrecioReferencial(ZERO);
 	}
@@ -159,6 +165,22 @@ public class SuplementoBean implements Serializable {
 
 	public TipoHabitacion[] getListaTipoHabitacion() {
 		return TipoHabitacion.values();
+	}
+
+	public Suplemento getSuplemento() {
+		return suplemento;
+	}
+
+	public void setSuplemento(Suplemento suplemento) {
+		this.suplemento = suplemento;
+	}
+
+	public List<Suplemento> getListaSuplemento() {
+		return listaSuplemento;
+	}
+
+	public void setListaSuplemento(List<Suplemento> listaSuplemento) {
+		this.listaSuplemento = listaSuplemento;
 	}
 
 }
