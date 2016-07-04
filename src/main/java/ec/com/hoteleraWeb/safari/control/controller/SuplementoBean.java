@@ -40,6 +40,7 @@ public class SuplementoBean implements Serializable {
 	private HotelService hotelService;
 
 	private List<Habitacion> listaHabitacion;
+	private List<Habitacion> listaHabitacionesSeleccionadas;
 	private Habitacion habitacion;
 	private Suplemento suplemento;
 	private List<Suplemento> listaSuplemento;
@@ -63,7 +64,6 @@ public class SuplementoBean implements Serializable {
 
 	public void cargarInsertar() {
 		limpiarObjetos();
-
 	}
 
 	public void limpiarObjetos() {
@@ -75,6 +75,10 @@ public class SuplementoBean implements Serializable {
 
 	public void obtenerSuplementosPorHotel() {
 		listaSuplemento = suplementoService.obtenerPorHotel(codigoHotel.toString());
+	}
+
+	public void obtenerHabitacionesPorHotel() {
+		listaHabitacion = habitacionService.obtenerTodosPorHotel(codigoHotel.toString());
 	}
 
 	public void insertar(ActionEvent actionEvent) {
@@ -182,6 +186,14 @@ public class SuplementoBean implements Serializable {
 
 	public void setListaSuplemento(List<Suplemento> listaSuplemento) {
 		this.listaSuplemento = listaSuplemento;
+	}
+
+	public List<Habitacion> getListaHabitacionesSeleccionadas() {
+		return listaHabitacionesSeleccionadas;
+	}
+
+	public void setListaHabitacionesSeleccionadas(List<Habitacion> listaHabitacionesSeleccionadas) {
+		this.listaHabitacionesSeleccionadas = listaHabitacionesSeleccionadas;
 	}
 
 }
