@@ -21,6 +21,7 @@ import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Suplemento;
 import ec.com.hoteleraWeb.safari.control.service.HabitacionService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
+import ec.com.hoteleraWeb.safari.control.service.SuplementoService;
 import ec.com.hoteleraWeb.safari.utils.enums.TipoHabitacion;
 
 @Controller
@@ -72,8 +73,8 @@ public class SuplementoBean implements Serializable {
 		habitacion.setHabPrecioReferencial(ZERO);
 	}
 
-	public void obtenerHabitacionesPorHotel() {
-		listaHabitacion = habitacionService.obtenerTodosPorHotel(codigoHotel.toString());
+	public void obtenerSuplementosPorHotel() {
+		listaSuplemento = suplementoService.obtenerPorHotel(codigoHotel.toString());
 	}
 
 	public void insertar(ActionEvent actionEvent) {
@@ -96,7 +97,7 @@ public class SuplementoBean implements Serializable {
 					FacesMessage.SEVERITY_INFO, "Se creo la habitacion con codigo: " + habitacion.getHabCodigo()
 							+ " de tipo: " + habitacion.getHabTipo() + " en el Hotel: " + hotel.getHotNombre(),
 					"cerrar", true);
-			obtenerHabitacionesPorHotel();
+			obtenerSuplementosPorHotel();
 			codigoHotel = hotel.getHotCodigo();
 		}
 
@@ -121,7 +122,7 @@ public class SuplementoBean implements Serializable {
 					FacesMessage.SEVERITY_INFO, "Se actualizo la habitacion con codigo: " + habitacion.getHabCodigo()
 							+ " de tipo: " + habitacion.getHabTipo() + " en el Hotel: " + hotel.getHotNombre(),
 					"cerrar", true);
-			obtenerHabitacionesPorHotel();
+			obtenerSuplementosPorHotel();
 			codigoHotel = hotel.getHotCodigo();
 		}
 

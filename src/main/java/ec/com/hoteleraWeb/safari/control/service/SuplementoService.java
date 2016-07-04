@@ -4,19 +4,19 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import ec.com.hoteleraWeb.safari.control.entity.Actividad;
+import ec.com.hoteleraWeb.safari.control.entity.Suplemento;
 
 public interface SuplementoService {
 
 	@Transactional
-	public List<Actividad> obtenerPorHotel(Integer codigoHotel);
+	public List<Suplemento> obtenerPorHotel(String codigoHotel);
 
 	@Transactional
-	public void insertar(Actividad actividad);
+	public void insertar(Suplemento suplemento);
 
 	@Transactional
-	public void actualizar(Actividad actividad);
+	public void actualizar(Suplemento suplemento);
 
 	@Transactional
-	public void eliminar(Actividad actividad);
+	public void eliminar(Suplemento suplemento);
 }
