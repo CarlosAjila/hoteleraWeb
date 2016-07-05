@@ -46,6 +46,7 @@ public class SuplementoBean implements Serializable {
 	private List<Suplemento> listaSuplemento;
 	private Integer codigoHotel;
 	private List<Hotel> listaHoteles;
+	private boolean temporada;
 
 	private final BigDecimal ZERO = new BigDecimal("0.00");
 
@@ -77,33 +78,21 @@ public class SuplementoBean implements Serializable {
 		listaSuplemento = suplementoService.obtenerPorHotel(codigoHotel.toString());
 	}
 
+	public void renderTabla() {
+		if (suplemento.getSupTemporada())
+			temporada = true;
+		else
+			temporada = false;
+		System.out.println(temporada);
+	}
+
 	public void obtenerHabitacionesPorHotel() {
 		listaHabitacion = habitacionService.obtenerTodosPorHotel(codigoHotel.toString());
 	}
 
 	public void insertar(ActionEvent actionEvent) {
-		if (codigoHotel == 0)
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un hotel");
-		else if (habitacion.getHabDescripcion().isEmpty())
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una descripcion");
-		else if (habitacion.getHabPrecioReferencial().compareTo(ZERO) == 0)
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un precio");
-		else if (habitacion.getHabTipo().compareTo("0") == 0)
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un tipo de habitacion");
-		else if (!habitacionService.validarHabitacion(habitacion.getHabNumero().toString(), codigoHotel.toString()))
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "El numero de la habitacion ya existe");
-		else {
-			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
-			habitacion.setHotel(hotel);
-			habitacion.setHabDisponible(true);
-			habitacionService.insertar(habitacion);
-			presentaMensaje(
-					FacesMessage.SEVERITY_INFO, "Se creo la habitacion con codigo: " + habitacion.getHabCodigo()
-							+ " de tipo: " + habitacion.getHabTipo() + " en el Hotel: " + hotel.getHotNombre(),
-					"cerrar", true);
-			obtenerSuplementosPorHotel();
-			codigoHotel = hotel.getHotCodigo();
-		}
+
+		System.out.println(listaHabitacionesSeleccionadas.size());
 
 	}
 
@@ -194,6 +183,14 @@ public class SuplementoBean implements Serializable {
 
 	public void setListaHabitacionesSeleccionadas(List<Habitacion> listaHabitacionesSeleccionadas) {
 		this.listaHabitacionesSeleccionadas = listaHabitacionesSeleccionadas;
+	}
+
+	public boolean isTemporada() {
+		return temporada;
+	}
+
+	public void setTemporada(boolean temporada) {
+		this.temporada = temporada;
 	}
 
 }

@@ -76,7 +76,7 @@
 									itemLabel="#{hotel.hotNombre}" />
 								<p:ajax event="change"
 									listener="#{suplementoBean.obtenerHabitacionesPorHotel}"
-									update="habitaciones" />
+									update=":formHabitaciones" />
 							</p:selectOneMenu>
 							<p:outputLabel value="Detalle" for="detalle"
 								styleClass="DispBlock negrita" />
@@ -93,46 +93,51 @@
 								onkeypress="if (event.keyCode == 13) { return false; }"
 								minValue="0.00" decimalSeparator="." thousandSeparator="," />
 
-
 							<p:outputLabel value="Temporada" for="temporada"
 								styleClass="DispBlock negrita" />
 							<p:selectBooleanButton id="temporada"
 								value="#{suplementoBean.suplemento.supTemporada}" onLabel="Yes"
 								offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close"
 								style="width:60px">
-
-								<p:outputLabel value="Habitaciones" for="habitaciones"
-									styleClass="DispBlock negrita" />
-								<p:dataTable id="habitaciones" var="habitacion" reflow="true"
-									value="#{suplementoBean.listaHabitacion}"
-									selection="#{suplementoBean.listaHabitacionesSeleccionadas}"
-									rowKey="#{habitacion.habCodigo}" style="margin-bottom:0">
-									<f:facet name="header">
-						            Lista de habitaciones
-						        </f:facet>
-									<p:column selectionMode="multiple"
-										style="width:35px;text-align:center" />
-									<p:column headerText="Numero">
-										<h:outputText value="#{habitacion.habNumero}" />
-									</p:column>
-									<p:column headerText="Tipo">
-										<h:outputText value="#{habitacion.habTipo}" />
-									</p:column>
-									<p:column headerText="Precio">
-										<h:outputText value="#{habitacion.habPrecioReferencial}">
-											<f:convertNumber pattern="#0.00" />
-										</h:outputText>
-									</p:column>
-								</p:dataTable>
+								<p:ajax update=":formHabitaciones"
+									listener="#{suplementoBean.renderTabla}" />
+							</p:selectBooleanButton>
 						</div>
 					</div>
+				</h:form>
+				<h:form id="formHabitaciones">
+					<p:outputLabel value="Habitaciones"
+						rendered="#{suplementoBean.temporada}" for="habitaciones"
+						styleClass="DispBlock negrita" />
+					<p:dataTable id="habitaciones"
+						rendered="#{suplementoBean.temporada}" var="habitacion"
+						reflow="true" value="#{suplementoBean.listaHabitacion}"
+						selection="#{suplementoBean.listaHabitacionesSeleccionadas}"
+						rowKey="#{habitacion.habCodigo}" style="margin-bottom:0">
+						<f:facet name="header">
+						            Lista de habitaciones
+						        </f:facet>
+						<p:column selectionMode="multiple"
+							style="width:35px;text-align:center" />
+						<p:column headerText="Numero">
+							<h:outputText value="#{habitacion.habNumero}" />
+						</p:column>
+						<p:column headerText="Tipo">
+							<h:outputText value="#{habitacion.habTipo}" />
+						</p:column>
+						<p:column headerText="Precio">
+							<h:outputText value="#{habitacion.habPrecioReferencial}">
+								<f:convertNumber pattern="#0.00" />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
 					<div class="EmptyBox10"></div>
 					<p:separator />
 					<p:commandButton value="#{msg['btn.guardar']}"
 						update=":formDataTable ,:mensaje, formNuevo,:formBusqueda:comboHotel"
 						oncomplete="comprobarInsertar(xhr, status, args, '')"
 						id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
-						actionListener="#{habitacionBean.insertar}"
+						actionListener="#{suplementoBean.insertar}"
 						styleClass="GreenButton" />
 					<p:commandButton value="#{msg['btn.cancelar']}"
 						oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
