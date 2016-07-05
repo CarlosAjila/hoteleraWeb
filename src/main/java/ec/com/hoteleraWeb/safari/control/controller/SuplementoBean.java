@@ -17,9 +17,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entity.Habitacion;
+import ec.com.hoteleraWeb.safari.control.entity.HabitacionSuplemento;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Suplemento;
 import ec.com.hoteleraWeb.safari.control.service.HabitacionService;
+import ec.com.hoteleraWeb.safari.control.service.HabitacionSuplementoService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.control.service.SuplementoService;
 import ec.com.hoteleraWeb.safari.utils.enums.TipoHabitacion;
@@ -34,6 +36,9 @@ public class SuplementoBean implements Serializable {
 	private HabitacionService habitacionService;
 
 	@Autowired
+	private HabitacionSuplementoService habitacionSuplementoService;
+
+	@Autowired
 	private SuplementoService suplementoService;
 
 	@Autowired
@@ -46,6 +51,7 @@ public class SuplementoBean implements Serializable {
 	private List<Suplemento> listaSuplemento;
 	private Integer codigoHotel;
 	private List<Hotel> listaHoteles;
+	private List<HabitacionSuplemento> listaHabitacionSuplementos;
 	private boolean temporada;
 
 	private final BigDecimal ZERO = new BigDecimal("0.00");
@@ -72,6 +78,7 @@ public class SuplementoBean implements Serializable {
 		habitacion = new Habitacion();
 		habitacion.setHotel(new Hotel());
 		habitacion.setHabPrecioReferencial(ZERO);
+		listaHabitacionSuplementos = new ArrayList<HabitacionSuplemento>();
 	}
 
 	public void obtenerSuplementosPorHotel() {
@@ -90,35 +97,29 @@ public class SuplementoBean implements Serializable {
 		listaHabitacion = habitacionService.obtenerTodosPorHotel(codigoHotel.toString());
 	}
 
+	public void cargarEditar(Suplemento suplemento) {
+		obtenerHabitacionesPorHotel();
+		listaHabitacionesSeleccionadas = habitacionService.obtenerPorSuplemento(suplemento.getSupCodigo());
+	}
+
 	public void insertar(ActionEvent actionEvent) {
-
-		System.out.println(listaHabitacionesSeleccionadas.size());
-
+		suplementoService.insertar(suplemento);
+		if (!listaHabitacionesSeleccionadas.isEmpty()) {
+			for (Habitacion habitacionSeleccionada : listaHabitacionesSeleccionadas) {
+				listaHabitacionSuplementos.add(new HabitacionSuplemento(habitacionSeleccionada, suplemento));
+			}
+			habitacionSuplementoService.insertar(listaHabitacionSuplementos);
+		}
 	}
 
 	public void actualizar(ActionEvent actionEvent) {
-		if (codigoHotel == 0)
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un hotel");
-		else if (habitacion.getHabDescripcion().isEmpty())
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una descripcion");
-		else if (habitacion.getHabPrecioReferencial().compareTo(ZERO) == 0)
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un precio");
-		else if (habitacion.getHabTipo().compareTo("0") == 0)
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un tipo de habitacion");
-		else if (!habitacionService.validarHabitacion(habitacion.getHabNumero().toString(), codigoHotel.toString()))
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "El numero de la habitacion ya existe");
-		else {
-			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
-			habitacion.setHotel(hotel);
-			habitacionService.actualizar(habitacion);
-			presentaMensaje(
-					FacesMessage.SEVERITY_INFO, "Se actualizo la habitacion con codigo: " + habitacion.getHabCodigo()
-							+ " de tipo: " + habitacion.getHabTipo() + " en el Hotel: " + hotel.getHotNombre(),
-					"cerrar", true);
-			obtenerSuplementosPorHotel();
-			codigoHotel = hotel.getHotCodigo();
+		suplementoService.actualizar(suplemento);
+		if (!listaHabitacionesSeleccionadas.isEmpty()) {
+			for (Habitacion habitacionSeleccionada : listaHabitacionesSeleccionadas) {
+				listaHabitacionSuplementos.add(new HabitacionSuplemento(habitacionSeleccionada, suplemento));
+			}
+			habitacionSuplementoService.actualizar(listaHabitacionSuplementos);
 		}
-
 	}
 
 	public void eliminar(ActionEvent actionEvent) {
@@ -191,6 +192,14 @@ public class SuplementoBean implements Serializable {
 
 	public void setTemporada(boolean temporada) {
 		this.temporada = temporada;
+	}
+
+	public List<HabitacionSuplemento> getListaHabitacionSuplementos() {
+		return listaHabitacionSuplementos;
+	}
+
+	public void setListaHabitacionSuplementos(List<HabitacionSuplemento> listaHabitacionSuplementos) {
+		this.listaHabitacionSuplementos = listaHabitacionSuplementos;
 	}
 
 }

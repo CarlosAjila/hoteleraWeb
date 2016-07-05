@@ -20,7 +20,7 @@ public class SuplementoDaoImpl extends GenericDaoImpl<Suplemento, Integer> imple
 	private GenericSQLDao genericSQLDao;
 
 	public List<Suplemento> obtenerSuplementosPorHotel(String codigoHotel) {
-		String sql = "select s.* from suplemento s "
+		String sql = "select distinct s.* from suplemento s "
 				+ "inner join habitacion_suplemento hs on hs.sup_codigo=s.sup_codigo "
 				+ "inner join habitacion h on h.hab_codigo=hs.hab_codigo " + "where h.hot_codigo='" + codigoHotel + "'";
 		List<Suplemento> suplementos = new ArrayList<Suplemento>();

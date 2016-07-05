@@ -28,13 +28,15 @@ public class SuplementoServiceImpl implements SuplementoService, Serializable {
 	public void insertar(Suplemento suplemento) {
 		suplemento.setSupActivo(true);
 		suplementoDao.insertar(suplemento);
-		presentaMensaje(FacesMessage.SEVERITY_INFO, "Empleado insertado correctamente", "cerrar", true);
+		presentaMensaje(FacesMessage.SEVERITY_INFO,
+				"Suplemento " + suplemento.getSupDetalle() + " insertado correctamente", "cerrar", true);
 	}
 
 	public void actualizar(Suplemento suplemento) {
 		suplemento.setSupActivo(true);
 		suplementoDao.insertar(suplemento);
-		presentaMensaje(FacesMessage.SEVERITY_INFO, "Empleado modificado correctamente", "cerrar", true);
+		presentaMensaje(FacesMessage.SEVERITY_INFO,
+				"Suplemento " + suplemento.getSupDetalle() + " actualizado correctamente", "cerrar", true);
 	}
 
 	public void eliminar(Suplemento suplemento) {
@@ -42,9 +44,9 @@ public class SuplementoServiceImpl implements SuplementoService, Serializable {
 		suplementoDao.actualizar(suplemento);
 
 		if (suplemento.getSupActivo())
-			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se activo el Empleado: " + suplemento.getSupDetalle());
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se activo el suplemento: " + suplemento.getSupDetalle());
 		else
-			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se desactivo al Hotel: " + suplemento.getSupDetalle());
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se desactivo el suplemento: " + suplemento.getSupDetalle());
 	}
 
 }

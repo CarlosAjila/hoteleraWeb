@@ -34,6 +34,11 @@ public class HabitacionSuplemento implements Serializable {
 	public HabitacionSuplemento() {
 	}
 
+	public HabitacionSuplemento(Habitacion habitacion, Suplemento suplemento) {
+		this.habitacion = habitacion;
+		this.suplemento = suplemento;
+	}
+
 	public Integer getHabSupId() {
 		return this.habSupId;
 	}

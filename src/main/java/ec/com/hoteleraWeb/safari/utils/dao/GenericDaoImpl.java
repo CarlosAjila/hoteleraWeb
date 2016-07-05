@@ -11,26 +11,23 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class GenericDaoImpl<T, K extends Serializable> implements
-		GenericDao<T, K> {
+public class GenericDaoImpl<T, K extends Serializable> implements GenericDao<T, K> {
 
 	@Autowired
 	public SessionFactory sessionFactory;
 
 	public void actualizar(T t) {
-		session().update(t);
+		session().saveOrUpdate(t);
 	}
 
-	public Boolean comprobarIndices(Class<T> type, String atributo,
-			String valor, String id) {
+	public Boolean comprobarIndices(Class<T> type, String atributo, String valor, String id) {
 		T t = null;
 		t = obtenerPorAtributo(type, atributo, valor, null);
 		if (t != null) {
 			Object o = t;
 			String idOriginal;
 			try {
-				idOriginal = String.valueOf(o.getClass().getMethod("getUsuId")
-						.invoke(o));
+				idOriginal = String.valueOf(o.getClass().getMethod("getUsuId").invoke(o));
 				if (idOriginal.compareTo(id) == 0) {
 					evict(t);
 					return false;
@@ -43,16 +40,14 @@ public class GenericDaoImpl<T, K extends Serializable> implements
 		return false;
 	}
 
-	public Boolean comprobarIndicesMinuscula(Class<T> type, String atributo,
-			String valor, String id) {
+	public Boolean comprobarIndicesMinuscula(Class<T> type, String atributo, String valor, String id) {
 		T t = null;
 		t = obtenerPorAtributo(type, atributo, valor, null);
 		if (t != null) {
 			Object o = t;
 			String idOriginal;
 			try {
-				idOriginal = String.valueOf(o.getClass().getMethod("getId")
-						.invoke(o));
+				idOriginal = String.valueOf(o.getClass().getMethod("getId").invoke(o));
 				if (idOriginal.compareTo(id) == 0) {
 					evict(t);
 					return false;
@@ -66,8 +61,7 @@ public class GenericDaoImpl<T, K extends Serializable> implements
 	}
 
 	public Object contar(Class<T> type) {
-		return session().createCriteria(type.getName())
-.setProjection(Projections.count("id")).uniqueResult();
+		return session().createCriteria(type.getName()).setProjection(Projections.count("id")).uniqueResult();
 	}
 
 	public Object contar(String consulta, Object[] valores) {
@@ -102,38 +96,30 @@ public class GenericDaoImpl<T, K extends Serializable> implements
 	@SuppressWarnings("unchecked")
 	public List<T> obtener(Class<T> type, String atributoOrden, Boolean activo) {
 		if (activo != null)
-			return session().createCriteria(type.getName())
-					.add(Restrictions.eq("activo", activo))
+			return session().createCriteria(type.getName()).add(Restrictions.eq("activo", activo))
 					.addOrder(Order.asc(atributoOrden)).list();
 		else
-			return session().createCriteria(type.getName())
-					.addOrder(Order.asc(atributoOrden)).list();
+			return session().createCriteria(type.getName()).addOrder(Order.asc(atributoOrden)).list();
 
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<T> obtenerListaPorAtributo(Class<T> type, String Atributo,
-			String valorAtributo, Boolean activo) {
+	public List<T> obtenerListaPorAtributo(Class<T> type, String Atributo, String valorAtributo, Boolean activo) {
 		if (activo != null)
-			return session().createCriteria(type.getName())
-					.add(Restrictions.eq(Atributo, valorAtributo))
+			return session().createCriteria(type.getName()).add(Restrictions.eq(Atributo, valorAtributo))
 					.add(Restrictions.eq("activo", activo)).list();
 		else
-			return session().createCriteria(type.getName())
-					.add(Restrictions.eq(Atributo, valorAtributo)).list();
+			return session().createCriteria(type.getName()).add(Restrictions.eq(Atributo, valorAtributo)).list();
 
 	}
 
 	@SuppressWarnings("unchecked")
-	public T obtenerPorAtributo(Class<T> type, String Atributo,
-			String valorAtributo, Boolean activo) {
+	public T obtenerPorAtributo(Class<T> type, String Atributo, String valorAtributo, Boolean activo) {
 		if (activo != null)
-			return (T) session().createCriteria(type.getName())
-					.add(Restrictions.eq(Atributo, valorAtributo))
+			return (T) session().createCriteria(type.getName()).add(Restrictions.eq(Atributo, valorAtributo))
 					.add(Restrictions.eq("activo", activo)).uniqueResult();
 		else
-			return (T) session().createCriteria(type.getName())
-					.add(Restrictions.eq(Atributo, valorAtributo))
+			return (T) session().createCriteria(type.getName()).add(Restrictions.eq(Atributo, valorAtributo))
 					.uniqueResult();
 	}
 
@@ -148,10 +134,8 @@ public class GenericDaoImpl<T, K extends Serializable> implements
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<T> obtenerPorHql(String consulta, Object[] valores, int min,
-			int max) {
-		Query query = (Query) session().createQuery(consulta)
-				.setFirstResult(min).setMaxResults(max);
+	public List<T> obtenerPorHql(String consulta, Object[] valores, int min, int max) {
+		Query query = (Query) session().createQuery(consulta).setFirstResult(min).setMaxResults(max);
 		if (valores != null)
 			for (int i = 0; i < valores.length; i++)
 				query.setParameter(String.valueOf(i + 1), valores[i]);
@@ -161,8 +145,7 @@ public class GenericDaoImpl<T, K extends Serializable> implements
 
 	@SuppressWarnings("unchecked")
 	public List<T> obtenerPorSql(String consulta, Class<T> type) {
-		Query query = (Query) session().createSQLQuery(consulta).addEntity(
-				type.getName());
+		Query query = (Query) session().createSQLQuery(consulta).addEntity(type.getName());
 		return query.list();
 	}
 

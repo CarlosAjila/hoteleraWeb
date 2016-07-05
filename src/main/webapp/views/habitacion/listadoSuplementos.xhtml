@@ -39,6 +39,15 @@
 								oncomplete="mostarPanelInsertar('')" id="btnNuevo"
 								icon="#{msg['i.nuevo']}" />
 						</f:facet>
+						<p:column headerText="#{msg['lbl.gestionar']}">
+							<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
+							<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
+								actionListener="#{suplementoBean.cargarEditar(suplemento)}"
+								oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
+								<f:setPropertyActionListener value="#{suplemento}"
+									target="#{suplementoBean.suplemento}" />
+							</p:commandButton>
+						</p:column>
 						<p:column headerText="Codigo.">
 							<p:outputLabel value="#{suplemento.supCodigo}" />
 						</p:column>
@@ -76,11 +85,12 @@
 									itemLabel="#{hotel.hotNombre}" />
 								<p:ajax event="change"
 									listener="#{suplementoBean.obtenerHabitacionesPorHotel}"
-									update=":formHabitaciones" />
+									update="habitaciones" />
 							</p:selectOneMenu>
 							<p:outputLabel value="Detalle" for="detalle"
 								styleClass="DispBlock negrita" />
 							<p:inputText id="detalle"
+								onblur="this.value = this.value.toUpperCase()"
 								value="#{suplementoBean.suplemento.supDetalle}" required="true"
 								requiredMessage="Debe ingresar un detalle"
 								styleClass="DispBlock Wid50" />
@@ -99,48 +109,131 @@
 								value="#{suplementoBean.suplemento.supTemporada}" onLabel="Yes"
 								offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close"
 								style="width:60px">
-								<p:ajax update=":formHabitaciones"
+								<p:ajax update="habitaciones"
 									listener="#{suplementoBean.renderTabla}" />
 							</p:selectBooleanButton>
-						</div>
-					</div>
-				</h:form>
-				<h:form id="formHabitaciones">
-					<p:outputLabel value="Habitaciones"
-						rendered="#{suplementoBean.temporada}" for="habitaciones"
-						styleClass="DispBlock negrita" />
-					<p:dataTable id="habitaciones"
-						rendered="#{suplementoBean.temporada}" var="habitacion"
-						reflow="true" value="#{suplementoBean.listaHabitacion}"
-						selection="#{suplementoBean.listaHabitacionesSeleccionadas}"
-						rowKey="#{habitacion.habCodigo}" style="margin-bottom:0">
-						<f:facet name="header">
+
+							<p:outputLabel value="Habitaciones" for="habitaciones"
+								styleClass="DispBlock negrita" />
+							<p:dataTable id="habitaciones" var="habitacion" reflow="true"
+								value="#{suplementoBean.listaHabitacion}"
+								selection="#{suplementoBean.listaHabitacionesSeleccionadas}"
+								rowKey="#{habitacion.habCodigo}" style="margin-bottom:0">
+								<f:facet name="header">
 						            Lista de habitaciones
 						        </f:facet>
-						<p:column selectionMode="multiple"
-							style="width:35px;text-align:center" />
-						<p:column headerText="Numero">
-							<h:outputText value="#{habitacion.habNumero}" />
-						</p:column>
-						<p:column headerText="Tipo">
-							<h:outputText value="#{habitacion.habTipo}" />
-						</p:column>
-						<p:column headerText="Precio">
-							<h:outputText value="#{habitacion.habPrecioReferencial}">
-								<f:convertNumber pattern="#0.00" />
-							</h:outputText>
-						</p:column>
-					</p:dataTable>
+								<p:column selectionMode="multiple"
+									style="width:35px;text-align:center" />
+								<p:column headerText="Numero">
+									<h:outputText value="#{habitacion.habNumero}" />
+								</p:column>
+								<p:column headerText="Tipo">
+									<h:outputText value="#{habitacion.habTipo}" />
+								</p:column>
+								<p:column headerText="Precio">
+									<h:outputText value="#{habitacion.habPrecioReferencial}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
 					<div class="EmptyBox10"></div>
 					<p:separator />
 					<p:commandButton value="#{msg['btn.guardar']}"
-						update=":formDataTable ,:mensaje, formNuevo,:formBusqueda:comboHotel"
+						update=":formDataTable ,:mensaje, :formNuevo,:formBusqueda:comboHotel"
 						oncomplete="comprobarInsertar(xhr, status, args, '')"
 						id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
 						actionListener="#{suplementoBean.insertar}"
 						styleClass="GreenButton" />
 					<p:commandButton value="#{msg['btn.cancelar']}"
 						oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
+						icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+				</h:form>
+			</p:panel>
+
+			<p:panel id="panelEditar" header="#{msg['lbl.editar']}"
+				styleClass="DispNone">
+				<h:form id="formEditar">
+					<p:outputLabel value="Los campos marcados con * son Obligatorios"
+						styleClass="DispBlock" />
+					<div class="divDatosIzq50">
+						<div id="datosSuplemento" class="divDatosIzq50">
+							<p:outputLabel value="Datos de Suplemento"
+								styleClass="subTitulos" />
+							<p:outputLabel value="Hotel" for="comboHotelInsertar"
+								styleClass="DispBlock negrita" />
+							<p:selectOneMenu id="comboHotelInsertar" disabled="true"
+								value="#{suplementoBean.codigoHotel}" style="width:165px;">
+								<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+								<f:selectItems value="#{suplementoBean.listaHoteles}"
+									var="hotel" itemValue="#{hotel.hotCodigo}"
+									itemLabel="#{hotel.hotNombre}" />
+								<p:ajax event="change"
+									listener="#{suplementoBean.obtenerHabitacionesPorHotel}"
+									update="habitaciones" />
+							</p:selectOneMenu>
+							<p:outputLabel value="Detalle" for="detalle"
+								styleClass="DispBlock negrita" />
+							<p:inputText id="detalle"
+								onblur="this.value = this.value.toUpperCase()"
+								value="#{suplementoBean.suplemento.supDetalle}" required="true"
+								requiredMessage="Debe ingresar un detalle"
+								styleClass="DispBlock Wid50" />
+							<p:outputLabel value="Precio" for="valor"
+								styleClass="DispBlock negrita" />
+							<pe:inputNumber styleClass="numeroCentrado" id="valor"
+								required="true" requiredMessage="Debe ingresar el precio"
+								class="inputNumberWid50"
+								value="#{suplementoBean.suplemento.supValor}"
+								onkeypress="if (event.keyCode == 13) { return false; }"
+								minValue="0.00" decimalSeparator="." thousandSeparator="," />
+
+							<p:outputLabel value="Temporada" for="temporada"
+								styleClass="DispBlock negrita" />
+							<p:selectBooleanButton id="temporada"
+								value="#{suplementoBean.suplemento.supTemporada}" onLabel="Yes"
+								offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close"
+								style="width:60px">
+								<p:ajax update="habitaciones"
+									listener="#{suplementoBean.renderTabla}" />
+							</p:selectBooleanButton>
+
+							<p:outputLabel value="Habitaciones" for="habitaciones"
+								styleClass="DispBlock negrita" />
+							<p:dataTable id="habitaciones" var="habitacion" reflow="true"
+								value="#{suplementoBean.listaHabitacion}"
+								selection="#{suplementoBean.listaHabitacionesSeleccionadas}"
+								rowKey="#{habitacion.habCodigo}" style="margin-bottom:0">
+								<f:facet name="header">
+						            Lista de habitaciones
+						        </f:facet>
+								<p:column selectionMode="multiple"
+									style="width:35px;text-align:center" />
+								<p:column headerText="Numero">
+									<h:outputText value="#{habitacion.habNumero}" />
+								</p:column>
+								<p:column headerText="Tipo">
+									<h:outputText value="#{habitacion.habTipo}" />
+								</p:column>
+								<p:column headerText="Precio">
+									<h:outputText value="#{habitacion.habPrecioReferencial}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+					<div class="EmptyBox10"></div>
+					<p:separator />
+					<p:commandButton value="#{msg['btn.guardar']}"
+						update=":formDataTable ,:mensaje, formEditar,:formBusqueda:comboHotel"
+						oncomplete="comprobarEditar(xhr, status, args, '')" id="btnEditar"
+						icon="#{msg['i.actualizar']}"
+						actionListener="#{suplementoBean.actualizar}"
+						styleClass="GreenButton" />
+					<p:commandButton value="#{msg['btn.cancelar']}"
+						oncomplete="mostarPanelEditar('')" id="btnNuevolimpiar"
 						icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
 				</h:form>
 			</p:panel>
