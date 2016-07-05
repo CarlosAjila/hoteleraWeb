@@ -201,4 +201,8 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 		return usuarioDao.obtenerUsuarioPorNick(nick);
 	}
 
+	public List<Usuario> obtenerUsuarioPorHotel(String criterioUsuarioBusqueda) {
+		return usuarioDao.obtenerUsuarioPorHotel(criterioUsuarioBusqueda);
+	}
+
 }

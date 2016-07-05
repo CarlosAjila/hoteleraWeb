@@ -58,4 +58,7 @@ public interface UsuarioService {
 
 	@Transactional
 	public Usuario obtenerUsuarioPorNick(String nick);
+	
+	@Transactional
+	public List<Usuario> obtenerUsuarioPorHotel(String codigoHotel);
 }

@@ -4,31 +4,38 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">-Chofer</ui:define>
+	<ui:define name="title">-Usuario</ui:define>
 
 	<ui:define name="content">
-		<p:panel id="panelPrincipal" header="Hoteles">
+		<p:panel id="panelPrincipal" header="Lista de Usuarios">
+			<div class="EmptyBox10"></div>
+			<h:form id="formBusqueda">
+				<p:selectOneMenu id="comboHotel" value="#{usuarioBean.codigoHotel}"
+					style="width:165px;">
+					<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+					<f:selectItems value="#{usuarioBean.listaHoteles}" var="hotel"
+						itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+					<p:ajax event="change" update=":formDataTable"
+						listener="#{usuarioBean.obtenerUsuariosPorHotel}" />
+				</p:selectOneMenu>
+			</h:form>
+			<div class="EmptyBox10"></div>
+
 			<h:form id="formDataTable">
-				<p:dataTable id="tablaHoteles" var="hotel" scrollable="true"
-					reflow="true" value="#{hotelBean.listaHoteles}" paginator="true"
-					rows="10"
+			<p:dataTable id="tablaEmpleado" var="usuario" scrollable="true"
+					rowStyleClass="#{usuario.usuActivo eq true ? null:'desactivo'}"
+					reflow="true" value="#{usuarioBean.listaUsuarios}"
+					paginator="true" rows="10"
 					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 					paginatorPosition="bottom"
 					emptyMessage="#{msg['lbl.mensajeTabla']}">
-					<p:column headerText="Codigo.">
-						<p:outputLabel value="#{hotel.hotCodigo}" />
+
+					<p:column headerText="Nick" filterBy="#{usuario.usuNick}">
+						<p:outputLabel value="#{usuario.usuNick}" />
 					</p:column>
-					<p:column headerText="Estrella">
-						<p:rating value="#{hotel.hotEstrella}" readonly="true" />
-					</p:column>
-					<p:column headerText="Hotel">
-						<p:outputLabel value="#{hotel.hotNombre}" />
-					</p:column>
-					<p:column headerText="Ruc">
-						<p:outputLabel value="#{hotel.hotRuc}" />
-					</p:column>
-					<p:column headerText="Telefono">
-						<p:outputLabel value="#{hotel.hotTelefono}" />
+
+					<p:column headerText="Nombre" filterBy="#{usuario.usuNombre}">
+						<p:outputLabel value="#{usuario.usuNombre}" />
 					</p:column>
 
 				</p:dataTable>

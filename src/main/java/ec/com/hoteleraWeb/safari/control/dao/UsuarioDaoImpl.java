@@ -1,6 +1,7 @@
 package ec.com.hoteleraWeb.safari.control.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,5 +25,12 @@ public class UsuarioDaoImpl extends GenericDaoImpl<Usuario, Integer> implements 
 		if (usuario != null)
 			return usuario;
 		return null;
+	}
+
+	public List<Usuario> obtenerUsuarioPorHotel(String codigoHotel) {
+		String sql = "Select usuario.* FROM usuario "
+				+ "INNER JOIN usuario_detalle ON usuario.usu_id = usuario_detalle.usu_id "
+				+ "WHERE usuario_detalle.hot_codigo =" + codigoHotel + ";";
+		return genericSQLDao.obtenerPorSql(sql, Usuario.class);
 	}
 }
