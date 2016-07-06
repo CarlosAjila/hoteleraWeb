@@ -61,7 +61,7 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 	public List<Habitacion> obtenerPorSuplemento(Integer codigoSuplemento) {
 		String sql = "select distinct h.* from habitacion h "
 				+ "inner join habitacion_suplemento hs on hs.hab_codigo=h.hab_codigo " + "where sup_codigo='"
-				+ codigoSuplemento + "'";
+				+ codigoSuplemento + "' order by h.hab_codigo";
 		List<Habitacion> habitaciones = new ArrayList<Habitacion>();
 		habitaciones = genericSQLDao.obtenerPorSql(sql, Habitacion.class);
 		if (habitaciones != null)
