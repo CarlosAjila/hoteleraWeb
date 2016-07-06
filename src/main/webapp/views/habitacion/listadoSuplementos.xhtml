@@ -40,7 +40,13 @@
 								icon="#{msg['i.nuevo']}" />
 						</f:facet>
 						<p:column headerText="#{msg['lbl.gestionar']}">
+							<p:tooltip for="btnMostrar" value="#{msg['lbl.mostrar']}" />
 							<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
+							<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
+								oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
+								<f:setPropertyActionListener value="#{suplemento}"
+									target="#{suplementoBean.cargarEditar(suplemento)}" />
+							</p:commandButton>
 							<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
 								actionListener="#{suplementoBean.cargarEditar(suplemento)}"
 								oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
@@ -110,12 +116,13 @@
 								offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close"
 								style="width:60px">
 								<p:ajax update="habitaciones"
-									listener="#{suplementoBean.renderTabla}" />
+									listener="#{suplementoBean.seleccionarTodas}" />
 							</p:selectBooleanButton>
 
 							<p:outputLabel value="Habitaciones" for="habitaciones"
 								styleClass="DispBlock negrita" />
 							<p:dataTable id="habitaciones" var="habitacion" reflow="true"
+								disabledSelection="#{suplementoBean.temporada}"
 								value="#{suplementoBean.listaHabitacion}"
 								selection="#{suplementoBean.listaHabitacionesSeleccionadas}"
 								rowKey="#{habitacion.habCodigo}" style="margin-bottom:0">
@@ -196,12 +203,13 @@
 								offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close"
 								style="width:60px">
 								<p:ajax update="habitaciones"
-									listener="#{suplementoBean.renderTabla}" />
+									listener="#{suplementoBean.seleccionarTodas}" />
 							</p:selectBooleanButton>
 
 							<p:outputLabel value="Habitaciones" for="habitaciones"
 								styleClass="DispBlock negrita" />
 							<p:dataTable id="habitaciones" var="habitacion" reflow="true"
+								disabledSelection="#{suplementoBean.temporada}"
 								value="#{suplementoBean.listaHabitacion}"
 								selection="#{suplementoBean.listaHabitacionesSeleccionadas}"
 								rowKey="#{habitacion.habCodigo}" style="margin-bottom:0">
@@ -235,6 +243,62 @@
 					<p:commandButton value="#{msg['btn.cancelar']}"
 						oncomplete="mostarPanelEditar('')" id="btnNuevolimpiar"
 						icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
+				</h:form>
+			</p:panel>
+
+			<p:panel id="panelMostrar" header="Datos de la Habitacion"
+				styleClass="DispNone">
+				<h:form id="formMostrar">
+					<div class="divDatosIzq50">
+						<div id="datosSuplemento" class="divDatosIzq50">
+							<p:outputLabel value="Codigo" styleClass="DispBlock negrita" />
+							<p:outputLabel value="#{suplementoBean.suplemento.supCodigo}"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+							<p:outputLabel value="Descripcion" styleClass="DispBlock negrita" />
+							<p:outputLabel value="#{suplementoBean.suplemento.supDetalle}"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+							<p:outputLabel value="Temporada" styleClass="DispBlock negrita" />
+							<p:outputLabel
+								value="#{habitacion.habDisponible eq true ? 'SI' : 'NO' }"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+							<p:outputLabel value="Precio Referencial" for="precio"
+								styleClass="DispBlock negrita" />
+							<p:outputLabel id="precio"
+								value="#{suplementoBean.suplemento.supValor}"
+								styleClass="DispBlock Wid90">
+								<f:convertNumber pattern="#0.00" />
+							</p:outputLabel>
+							<div class="EmptyBox10"></div>
+							<p:outputLabel value="Habitaciones" for="habitaciones"
+								styleClass="DispBlock negrita" />
+							<p:dataTable id="habitaciones" var="habitacion" reflow="true"
+								value="#{suplementoBean.listaHabitacionesSeleccionadas}">
+								<f:facet name="header">
+						            Lista de habitaciones
+						        </f:facet>
+								<p:column headerText="Numero">
+									<h:outputText value="#{habitacion.habNumero}" />
+								</p:column>
+								<p:column headerText="Tipo">
+									<h:outputText value="#{habitacion.habTipo}" />
+								</p:column>
+								<p:column headerText="Precio">
+									<h:outputText value="#{habitacion.habPrecioReferencial}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+
+						</div>
+					</div>
+					<div class="EmptyBox10"></div>
+					<p:separator />
+					<p:commandButton value="#{msg['btn.cerrar']}"
+						onclick="mostarPanelMostrar('')" icon="#{msg['i.cancelar']}"
+						styleClass="RedButton" />
 				</h:form>
 			</p:panel>
 		</div>

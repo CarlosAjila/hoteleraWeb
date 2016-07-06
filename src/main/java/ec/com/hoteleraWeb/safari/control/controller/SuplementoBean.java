@@ -1,14 +1,11 @@
 package ec.com.hoteleraWeb.safari.control.controller;
 
-import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,18 +76,23 @@ public class SuplementoBean implements Serializable {
 		habitacion.setHotel(new Hotel());
 		habitacion.setHabPrecioReferencial(ZERO);
 		listaHabitacionSuplementos = new ArrayList<HabitacionSuplemento>();
+		listaHabitacionesSeleccionadas = new ArrayList<Habitacion>();
 	}
 
 	public void obtenerSuplementosPorHotel() {
 		listaSuplemento = suplementoService.obtenerPorHotel(codigoHotel.toString());
 	}
 
-	public void renderTabla() {
-		if (suplemento.getSupTemporada())
+	public void seleccionarTodas() {
+		if (suplemento.getSupTemporada() && !listaHabitacion.isEmpty()) {
+			for (Habitacion habitacion : listaHabitacion) {
+				listaHabitacionesSeleccionadas.add(habitacion);
+			}
 			temporada = true;
-		else
+		} else if (!suplemento.getSupTemporada() && !listaHabitacion.isEmpty()) {
+			listaHabitacionesSeleccionadas = new ArrayList<Habitacion>();
 			temporada = false;
-		System.out.println(temporada);
+		}
 	}
 
 	public void obtenerHabitacionesPorHotel() {
