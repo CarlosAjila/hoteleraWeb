@@ -22,13 +22,20 @@
 			<div class="EmptyBox10"></div>
 
 			<h:form id="formDataTable">
-			<p:dataTable id="tablaEmpleado" var="usuario" scrollable="true"
+				<p:dataTable id="tablaUsuario" var="usuario" scrollable="true"
 					rowStyleClass="#{usuario.usuActivo eq true ? null:'desactivo'}"
-					reflow="true" value="#{usuarioBean.listaUsuarios}"
-					paginator="true" rows="10"
+					reflow="true" value="#{usuarioBean.listaUsuarios}" paginator="true"
+					rows="10"
 					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 					paginatorPosition="bottom"
 					emptyMessage="#{msg['lbl.mensajeTabla']}">
+					<f:facet name="header">
+						<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
+						<p:commandButton update=":formNuevo"
+							oncomplete="mostarPanelInsertar('')"
+							action="#{usuarioBean.cargarInsertar}" id="btnNuevo"
+							icon="#{msg['i.nuevo']}" />
+					</f:facet>
 
 					<p:column headerText="Nick" filterBy="#{usuario.usuNick}">
 						<p:outputLabel value="#{usuario.usuNick}" />
@@ -39,6 +46,95 @@
 					</p:column>
 
 				</p:dataTable>
+			</h:form>
+		</p:panel>
+
+		<p:panel id="panelInsertar" header="#{msg['lbl.insertar']}"
+			styleClass="DispNone">
+			<h:form id="formNuevo">
+				<p:outputLabel value="Los campos marcados con * son Obligatorios"
+					styleClass="DispBlock" />
+				<div class="divDatosIzq50">
+					<div id="datosEmpleado" class="divDatosIzq50">
+						<p:outputLabel value="Datos del Usuario" styleClass="subTitulos" />
+
+						<p:outputLabel for="comboEmpresa" value="Hotel"
+							styleClass="DispBlock" />
+						<p:selectOneMenu id="comboEmpresa" required="true"
+							requiredMessage="Debe seleccionar el Hotel"
+							value="#{empleadoBean.codigoHotel}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+							<f:selectItems value="#{usuarioBean.listaHoteles}" var="hotel"
+								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+							<p:ajax event="change" update=":mensaje" />
+
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Nick" for="nick" styleClass="DispBlock" />
+						<p:inputText id="nick"
+							value="#{usuarioBean.usuario.usuNick}" required="true"
+							requiredMessage="Debe ingresar el usuario"
+							styleClass="DispBlock Wid90">
+							<p:ajax event="blur"
+								listener="#{usuarioBean.comprobarUsuarioInsertar}"
+								update="formNuevo,:mensaje" />
+						</p:inputText>
+						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
+						<p:inputText id="nombre"
+							value="#{empleadoBean.empleado.empNombre}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el nombre"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="Apellido" for="apellido"
+							styleClass="DispBlock" />
+						<p:inputText id="apellido"
+							value="#{empleadoBean.empleado.empApellido}"
+							onblur="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="Debe ingresar el Apellido"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+						<p:outputLabel value="Direccion" for="direccion"
+							styleClass="DispBlock" />
+						<p:inputText id="direccion"
+							value="#{empleadoBean.empleado.empDireccion}"
+							onblur="this.value = this.value.toUpperCase()"
+							styleClass="DispBlock Wid90">
+						</p:inputText>
+
+						<p:outputLabel value="Título" for="titulo" styleClass="DispBlock" />
+						<p:selectOneMenu id="titulo" required="true"
+							requiredMessage="Debe seleccionar el Titulo"
+							value="#{empleadoBean.empleado.empTitulo}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja un Titulo" itemValue="0" />
+							<f:selectItems value="#{empleadoBean.listaTitulos}" var="titulo"
+								itemValue="#{titulo}" itemLabel="#{titulo.nombre}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Tipo empleado" for="tipoEmpleado"
+							styleClass="DispBlock" />
+						<p:selectOneMenu id="tipoEmpleado" required="true"
+							requiredMessage="Debe seleccionar el Tipo de Empleado"
+							value="#{empleadoBean.empleado.empTipo}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja el Tipo de empleado"
+								itemValue="0" />
+							<f:selectItems value="#{empleadoBean.listaTipoEmpleados}"
+								var="tipoEmpleado" itemValue="#{tipoEmpleado}"
+								itemLabel="#{tipoEmpleado.nombre}" />
+						</p:selectOneMenu>
+
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+				<p:separator />
+				<p:commandButton value="#{msg['btn.guardar']}"
+					update=":formDataTable ,:mensaje, formNuevo"
+					oncomplete="comprobarInsertar(xhr, status, args, '')"
+					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
+					actionListener="#{empleadoBean.insertar}" styleClass="GreenButton" />
+				<p:commandButton value="#{msg['btn.cancelar']}"
+					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
+					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />
 			</h:form>
 		</p:panel>
 	</ui:define>

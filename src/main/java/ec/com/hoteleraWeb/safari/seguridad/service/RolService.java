@@ -15,4 +15,7 @@ public interface RolService {
 
 	@Transactional
 	public Rol obtenerPorRolId(int rolId);
+	
+	@Transactional
+	public List<Rol> obtenerListaRol();
 }

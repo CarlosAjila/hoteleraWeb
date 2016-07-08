@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ec.com.hoteleraWeb.safari.seguridad.dao.RolDao;
 import ec.com.hoteleraWeb.safari.seguridad.entity.Rol;
@@ -27,6 +28,11 @@ public class RolServiceImpl implements RolService, Serializable {
 
 	public Rol obtenerPorRolId(int rolId) {
 		return rolDao.obtenerPorId(Rol.class, rolId);
+	}
+	
+	
+	public List<Rol> obtenerListaRol(){
+		return rolDao.obtenerListaRol();
 	}
 
 }

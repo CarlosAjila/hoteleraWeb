@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">-Usuario</ui:define>
+
+	<ui:define name="content">
+		<p:panel id="panelPrincipal" header="Lista de Roles">
+			<div class="EmptyBox10"></div>
+			<h:form id="formDataTable">
+			<p:dataTable id="tablaRol" var="rol" scrollable="true"
+					reflow="true" value="#{rolBean.obtenerListaRol}"
+					paginator="true" rows="10"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					paginatorPosition="bottom"
+					emptyMessage="#{msg['lbl.mensajeTabla']}">
+					<p:column headerText="Rol" filterBy="#{rol.rolNombre}">
+						<p:outputLabel value="#{rol.rolNombre}" />
+					</p:column>
+					<p:column headerText="Descripción" filterBy="#{rol.rolRescripcion}">
+						<p:outputLabel value="#{usuario.rolRescripcion}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
