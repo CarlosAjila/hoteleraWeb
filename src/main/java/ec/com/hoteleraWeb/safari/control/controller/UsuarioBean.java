@@ -1,27 +1,22 @@
 package ec.com.hoteleraWeb.safari.control.controller;
 
-import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
-import ec.com.hoteleraWeb.safari.control.entity.Empleado;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Usuario;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
-import ec.com.hoteleraWeb.safari.utils.enums.TipoEmpleado;
-import ec.com.hoteleraWeb.safari.utils.enums.Titulo;
+import ec.com.hoteleraWeb.safari.seguridad.entity.Rol;
+import ec.com.hoteleraWeb.safari.seguridad.service.RolService;
 
 @Controller
 @Scope("session")
@@ -32,16 +27,23 @@ public class UsuarioBean implements Serializable {
 	@Autowired
 	private UsuarioService usuarioService;
 
+	@Autowired
+	private HotelService hotelService;
+
+	@Autowired
+	private RolService rolService;
+
 	private List<Usuario> listaUsuarios;
 
 	private List<Hotel> listaHoteles;
 
-	@Autowired
-	private HotelService hotelService;
+	private List<Rol> listaRoles;
 
 	private Usuario usuario;
 
 	private Integer codigoHotel;
+
+	private Integer codigoRol;
 
 	public UsuarioBean() {
 	}
@@ -51,19 +53,23 @@ public class UsuarioBean implements Serializable {
 		limpiarObjetos();
 		listaUsuarios = new ArrayList<Usuario>();
 		listaHoteles = new ArrayList<Hotel>();
+
 		obtenerHoteles();
+		// obtenerRoles();
 		// obtenerEmpleados();
 
 	}
 
 	public void cargarInsertar() {
 		limpiarObjetos();
+		obtenerRoles();
 
 	}
 
 	public void limpiarObjetos() {
 		usuario = new Usuario();
-		//empleado.setHotel(new Hotel());
+		listaRoles = new ArrayList<Rol>();
+		// empleado.setHotel(new Hotel());
 	}
 
 	public void obtenerUsuariosPorHotel() {
@@ -73,6 +79,39 @@ public class UsuarioBean implements Serializable {
 	public void obtenerHoteles() {
 		listaHoteles = hotelService
 				.obtenerTodosPorUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
+	}
+
+	public void obtenerRoles() {
+		listaRoles = rolService.obtenerListaRol();
+	}
+
+	public boolean comprobarUsuarioInsertar() {
+		// boolean retorno = false;
+		// String cedula = empleado.getEmpCedula().trim();
+		// if (cedula.length() == 10) {
+		// if (empleadoService.obtenerPorCedula(cedula) != null) {
+		// empleado.setEmpCedula("");
+		// presentaMensaje(FacesMessage.SEVERITY_ERROR, "Ya existe un Empleado
+		// registrado con esa cédula");
+		// } else {
+		// empleado.setEmpCedula(cedula);
+		// retorno = true;
+		// }
+		// } else {
+		// presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una
+		// cedula valido de 10 digitos");
+		// empleado.setEmpCedula("");
+		// }
+		// return retorno;
+		return true;
+	}
+
+	public List<Rol> getListaRoles() {
+		return listaRoles;
+	}
+
+	public void setListaRoles(List<Rol> listaRoles) {
+		this.listaRoles = listaRoles;
 	}
 
 	public List<Usuario> getListaUsuarios() {
@@ -107,5 +146,12 @@ public class UsuarioBean implements Serializable {
 		this.codigoHotel = codigoHotel;
 	}
 
+	public Integer getCodigoRol() {
+		return codigoRol;
+	}
+
+	public void setCodigoRol(Integer codigoRol) {
+		this.codigoRol = codigoRol;
+	}
 
 }

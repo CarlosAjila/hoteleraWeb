@@ -62,65 +62,39 @@
 							styleClass="DispBlock" />
 						<p:selectOneMenu id="comboEmpresa" required="true"
 							requiredMessage="Debe seleccionar el Hotel"
-							value="#{empleadoBean.codigoHotel}" style="width:165px;">
+							value="#{usuarioBean.codigoHotel}" style="width:165px;">
 							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
 							<f:selectItems value="#{usuarioBean.listaHoteles}" var="hotel"
 								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
 							<p:ajax event="change" update=":mensaje" />
-
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Nick" for="nick" styleClass="DispBlock" />
-						<p:inputText id="nick"
-							value="#{usuarioBean.usuario.usuNick}" required="true"
-							requiredMessage="Debe ingresar el usuario"
+						<p:inputText id="nick" value="#{usuarioBean.usuario.usuNick}"
+							required="true"
+							requiredMessage="Debe ingresar el Nick del usuario"
 							styleClass="DispBlock Wid90">
 							<p:ajax event="blur"
 								listener="#{usuarioBean.comprobarUsuarioInsertar}"
 								update="formNuevo,:mensaje" />
 						</p:inputText>
-						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
-						<p:inputText id="nombre"
-							value="#{empleadoBean.empleado.empNombre}"
-							onblur="this.value = this.value.toUpperCase()" required="true"
-							requiredMessage="Debe ingresar el nombre"
-							styleClass="DispBlock Wid90">
-						</p:inputText>
-						<p:outputLabel value="Apellido" for="apellido"
+						<p:outputLabel value="Password" for="password"
 							styleClass="DispBlock" />
-						<p:inputText id="apellido"
-							value="#{empleadoBean.empleado.empApellido}"
+						<p:inputText id="password"
+							value="#{usuarioBean.usuario.usuPassword}"
 							onblur="this.value = this.value.toUpperCase()" required="true"
-							requiredMessage="Debe ingresar el Apellido"
-							styleClass="DispBlock Wid90">
-						</p:inputText>
-						<p:outputLabel value="Direccion" for="direccion"
-							styleClass="DispBlock" />
-						<p:inputText id="direccion"
-							value="#{empleadoBean.empleado.empDireccion}"
-							onblur="this.value = this.value.toUpperCase()"
+							requiredMessage="Debe ingresar el Password"
 							styleClass="DispBlock Wid90">
 						</p:inputText>
 
-						<p:outputLabel value="Título" for="titulo" styleClass="DispBlock" />
-						<p:selectOneMenu id="titulo" required="true"
-							requiredMessage="Debe seleccionar el Titulo"
-							value="#{empleadoBean.empleado.empTitulo}" style="width:165px;">
-							<f:selectItem itemLabel="Escoja un Titulo" itemValue="0" />
-							<f:selectItems value="#{empleadoBean.listaTitulos}" var="titulo"
-								itemValue="#{titulo}" itemLabel="#{titulo.nombre}" />
-						</p:selectOneMenu>
-
-						<p:outputLabel value="Tipo empleado" for="tipoEmpleado"
-							styleClass="DispBlock" />
-						<p:selectOneMenu id="tipoEmpleado" required="true"
-							requiredMessage="Debe seleccionar el Tipo de Empleado"
-							value="#{empleadoBean.empleado.empTipo}" style="width:165px;">
-							<f:selectItem itemLabel="Escoja el Tipo de empleado"
-								itemValue="0" />
-							<f:selectItems value="#{empleadoBean.listaTipoEmpleados}"
-								var="tipoEmpleado" itemValue="#{tipoEmpleado}"
-								itemLabel="#{tipoEmpleado.nombre}" />
+						<p:outputLabel for="comboRol" value="Rol" styleClass="DispBlock" />
+						<p:selectOneMenu id="comboRol" required="true"
+							requiredMessage="Debe seleccionar el Rol"
+							value="#{usuarioBean.codigoRol}" style="width:165px;">
+							<f:selectItem itemLabel="Escoja un Rol" itemValue="0" />
+							<f:selectItems value="#{usuarioBean.listaRoles}" var="rol"
+								itemValue="#{rol.rolId}" itemLabel="#{rol.rolNombre}" />
+							<p:ajax event="change" update=":mensaje" />
 						</p:selectOneMenu>
 
 					</div>
