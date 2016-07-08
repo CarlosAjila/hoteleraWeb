@@ -1,6 +1,7 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +26,9 @@ public class ClienteActividad implements Serializable {
 
 	@Column(name = "num_persona")
 	private Integer numPersona;
+
+	@Column(name = "cli_act_precio")
+	private BigDecimal precio;
 
 	// bi-directional many-to-one association to Actividad
 	@ManyToOne
@@ -69,6 +73,14 @@ public class ClienteActividad implements Serializable {
 
 	public void setReservacion(Reservacion reservacion) {
 		this.reservacion = reservacion;
+	}
+
+	public BigDecimal getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(BigDecimal precio) {
+		this.precio = precio;
 	}
 
 }

@@ -13,16 +13,15 @@ public interface HabitacionDao extends GenericDao<Habitacion, Integer> {
 	public List<Habitacion> obtenerTodos();
 
 	@Transactional
-	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel);
+	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel, Boolean disponibles);
 
 	@Transactional
 	public List<Habitacion> obtenerPorNumHabitacionYHotel(String numeroHabitacion, String codigoHotel);
 
 	@Transactional
 	public Integer obtenerUltimoNumeroHabitacion(String codigoHotel);
-	
+
 	@Transactional
 	public List<Habitacion> obtenerPorSuplemento(Integer codigoSuplemento);
-
 
 }

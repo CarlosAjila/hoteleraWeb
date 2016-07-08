@@ -24,8 +24,8 @@ public class HabitacionDetalle implements Serializable {
 	@Column(name = "hab_det_id")
 	private Integer habDetId;
 
-	@Column(name = "hab_det_valor")
-	private BigDecimal habDetValor;
+	@Column(name = "hab_det_total_habitaciones")
+	private BigDecimal habDetTotalHabitaciones;
 
 	// bi-directional many-to-one association to Habitacione
 	@ManyToOne
@@ -40,20 +40,34 @@ public class HabitacionDetalle implements Serializable {
 	public HabitacionDetalle() {
 	}
 
+	public HabitacionDetalle(BigDecimal habDetTotalHabitaciones, Habitacion habitacion, Reservacion reservacion) {
+		this.habDetTotalHabitaciones = habDetTotalHabitaciones;
+		this.habitacion = habitacion;
+		this.reservacion = reservacion;
+	}
+
+	public BigDecimal getHabDetTotalHabitaciones() {
+		return habDetTotalHabitaciones;
+	}
+
+	public void setHabDetTotalHabitaciones(BigDecimal habDetTotalHabitaciones) {
+		this.habDetTotalHabitaciones = habDetTotalHabitaciones;
+	}
+
+	public Habitacion getHabitacion() {
+		return habitacion;
+	}
+
+	public void setHabitacion(Habitacion habitacion) {
+		this.habitacion = habitacion;
+	}
+
 	public Integer getHabDetId() {
 		return this.habDetId;
 	}
 
 	public void setHabDetId(Integer habDetId) {
 		this.habDetId = habDetId;
-	}
-
-	public BigDecimal getHabDetValor() {
-		return this.habDetValor;
-	}
-
-	public void setHabDetValor(BigDecimal habDetValor) {
-		this.habDetValor = habDetValor;
 	}
 
 	public Habitacion getHabitacione() {

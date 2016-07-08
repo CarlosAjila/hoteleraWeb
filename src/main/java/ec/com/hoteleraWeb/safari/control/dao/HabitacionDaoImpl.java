@@ -29,8 +29,10 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 		return null;
 	}
 
-	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel) {
+	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel, Boolean disponibles) {
 		String sql = "Select * FROM habitacion where hot_codigo='" + codigoHotel + "' ORDER BY hab_numero;";
+		if (disponibles)
+			sql = "Select * FROM habitacion where hot_codigo='" + codigoHotel + "' and hab_disponible=true ORDER BY hab_numero;";
 		List<Habitacion> habitaciones = new ArrayList<Habitacion>();
 		habitaciones = genericSQLDao.obtenerPorSql(sql, Habitacion.class);
 		if (habitaciones != null)

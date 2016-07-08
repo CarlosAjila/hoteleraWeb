@@ -12,7 +12,7 @@ public interface HabitacionService {
 	public List<Habitacion> obtenerTodos();
 
 	@Transactional
-	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel);
+	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel, Boolean disponibles);
 
 	@Transactional
 	public void insertar(Habitacion habitacion);

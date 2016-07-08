@@ -16,12 +16,17 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
+import ec.com.hoteleraWeb.safari.control.entity.Actividad;
 import ec.com.hoteleraWeb.safari.control.entity.Cliente;
 import ec.com.hoteleraWeb.safari.control.entity.Habitacion;
+import ec.com.hoteleraWeb.safari.control.entity.HabitacionDetalle;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Reservacion;
+import ec.com.hoteleraWeb.safari.control.entity.Suplemento;
 import ec.com.hoteleraWeb.safari.control.entity.Usuario;
+import ec.com.hoteleraWeb.safari.control.service.ActividadService;
 import ec.com.hoteleraWeb.safari.control.service.ClienteService;
+import ec.com.hoteleraWeb.safari.control.service.HabitacionDetalleService;
 import ec.com.hoteleraWeb.safari.control.service.HabitacionService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.control.service.ReservacionService;
@@ -48,12 +53,22 @@ public class ReservacionBean implements Serializable {
 	@Autowired
 	private HabitacionService habitacionService;
 
+	@Autowired
+	private ActividadService actividadService;
+
+	@Autowired
+	private HabitacionDetalleService habitacionDetalleService;
+
 	private List<Reservacion> listaReservacion;
 	private Reservacion reservacion;
 	private Integer codigoHotel;
 	private List<Hotel> listaHoteles;
 	private String clienteReservacion;
 	private List<Habitacion> listaHabitaciones;
+	private List<Habitacion> listaHabitacionesSeleccionadas;
+	private List<Actividad> listaActividades;
+	private List<Actividad> listaActividadesSeleccionadas;
+	private List<HabitacionDetalle> listaHabitacionDetalle;
 
 	private final BigDecimal ZERO = new BigDecimal("0.00");
 
@@ -78,6 +93,8 @@ public class ReservacionBean implements Serializable {
 		reservacion.setCliente(new Cliente());
 		clienteReservacion = "";
 		reservacion.setResAbono(ZERO);
+		listaHabitacionesSeleccionadas = new ArrayList<Habitacion>();
+		listaHabitacionDetalle = new ArrayList<HabitacionDetalle>();
 	}
 
 	public void obtenerReservacionesPorHotel() {
@@ -97,8 +114,15 @@ public class ReservacionBean implements Serializable {
 		return lista;
 	}
 
-	public void obtenerHabitacionesPorHotel() {
-		listaHabitaciones = habitacionService.obtenerTodosPorHotel(codigoHotel.toString());
+	public void obtenerHabitacionesYActividadesPorHotel() {
+		listaHabitaciones = habitacionService.obtenerTodosPorHotel(codigoHotel.toString(), true);
+		listaActividades = actividadService.obtenerActividadesPorHotel(codigoHotel);
+	}
+
+	public void cargarEditar(Suplemento suplemento) {
+		// obtenerHabitacionesYActividadesPorHotel();
+		// setListaHabitacionesSeleccionadas(habitacionService.obtenerPorSuplemento(suplemento.getSupCodigo()));
+		// setListaActividadesSeleccionadas(actividadService.obtenerPorSuplemento(suplemento.getSupCodigo()));
 	}
 
 	public void insertar(ActionEvent actionEvent) {
@@ -112,6 +136,8 @@ public class ReservacionBean implements Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar la fecha de ingreso");
 		else if (reservacion.getResFechaSalido() == null)
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar la fecha de salida");
+		else if (listaHabitacionesSeleccionadas.isEmpty())
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer al menos una Habitacion");
 		else {
 			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
 			Usuario usuario = usuarioService
@@ -120,6 +146,14 @@ public class ReservacionBean implements Serializable {
 			reservacion.setResInstancia(false);
 			reservacion.setResCancelada(false);
 			reservacionService.insertar(reservacion);
+
+			if (!listaHabitacionesSeleccionadas.isEmpty()) {
+				for (Habitacion habitacionSeleccionada : listaHabitacionesSeleccionadas) {
+					listaHabitacionDetalle.add(new HabitacionDetalle(habitacionSeleccionada.getHabPrecioReferencial(),
+							habitacionSeleccionada, reservacion));
+				}
+				habitacionDetalleService.insertar(listaHabitacionDetalle);
+			}
 			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se creo la Reservacion con codigo: "
 					+ reservacion.getResCodigo() + " en el Hotel: " + hotel.getHotNombre(), "cerrar", true);
 			obtenerReservacionesPorHotel();
@@ -207,6 +241,30 @@ public class ReservacionBean implements Serializable {
 
 	public void setListaHabitaciones(List<Habitacion> listaHabitaciones) {
 		this.listaHabitaciones = listaHabitaciones;
+	}
+
+	public List<Habitacion> getListaHabitacionesSeleccionadas() {
+		return listaHabitacionesSeleccionadas;
+	}
+
+	public void setListaHabitacionesSeleccionadas(List<Habitacion> listaHabitacionesSeleccionadas) {
+		this.listaHabitacionesSeleccionadas = listaHabitacionesSeleccionadas;
+	}
+
+	public List<Actividad> getListaActividades() {
+		return listaActividades;
+	}
+
+	public void setListaActividades(List<Actividad> listaActividades) {
+		this.listaActividades = listaActividades;
+	}
+
+	public List<Actividad> getListaActividadesSeleccionadas() {
+		return listaActividadesSeleccionadas;
+	}
+
+	public void setListaActividadesSeleccionadas(List<Actividad> listaActividadesSeleccionadas) {
+		this.listaActividadesSeleccionadas = listaActividadesSeleccionadas;
 	}
 
 }

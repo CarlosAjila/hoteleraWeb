@@ -70,7 +70,7 @@ public class HabitacionBean implements Serializable {
 	}
 
 	public void obtenerHabitacionesPorHotel() {
-		listaHabitacion = habitacionService.obtenerTodosPorHotel(codigoHotel.toString());
+		listaHabitacion = habitacionService.obtenerTodosPorHotel(codigoHotel.toString(), false);
 	}
 
 	public void insertar(ActionEvent actionEvent) {

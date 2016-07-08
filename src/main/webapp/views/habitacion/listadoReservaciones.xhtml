@@ -81,17 +81,56 @@
 								<f:selectItems value="#{reservacionBean.listaHoteles}"
 									var="hotel" itemValue="#{hotel.hotCodigo}"
 									itemLabel="#{hotel.hotNombre}" />
-								<p:ajax event="change" update=":mensaje,tablaHabitaciones"
-									listener="#{reservacionBean.obtenerHabitacionesPorHotel}" />
+								<p:ajax event="change"
+									update=":mensaje,tablaHabitaciones,tablaActividades"
+									listener="#{reservacionBean.obtenerHabitacionesYActividadesPorHotel}" />
 							</p:selectOneMenu>
 
-							<p:dataTable var="habitacion"
-								value="#{reservacionBean.listaHabitaciones}">
+							<p:outputLabel value="Habitaciones" for="tablaHabitaciones"
+								styleClass="DispBlock negrita" />
+							<p:dataTable var="habitacion" id="tablaHabitaciones"
+								reflow="true" value="#{reservacionBean.listaHabitaciones}"
+								selection="#{reservacionBean.listaHabitacionesSeleccionadas}"
+								rowKey="#{habitacion.habCodigo}" style="margin-bottom:0">
+								<f:facet name="header">
+						            Lista de habitaciones
+						        </f:facet>
+								<p:column selectionMode="multiple"
+									style="width:35px;text-align:center" />
 								<p:column headerText="Numero">
 									<h:outputText value="#{habitacion.habNumero}" />
 								</p:column>
 								<p:column headerText="Tipo">
 									<h:outputText value="#{habitacion.habTipo}" />
+								</p:column>
+								<p:column headerText="Precio">
+									<h:outputText value="#{habitacion.habPrecioReferencial}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+
+							<p:outputLabel value="Actividades" for="tablaActividades"
+								styleClass="DispBlock negrita" />
+							<p:dataTable var="actividad" id="tablaActividades" reflow="true"
+								value="#{reservacionBean.listaActividades}"
+								selection="#{reservacionBean.listaActividadesSeleccionadas}"
+								rowKey="#{actividad.actCodigo}" style="margin-bottom:0">
+								<f:facet name="header">
+						            Lista de Actividades
+						        </f:facet>
+								<p:column selectionMode="multiple"
+									style="width:35px;text-align:center" />
+								<p:column headerText="Nombre">
+									<h:outputText value="#{actividad.actNombre}" />
+								</p:column>
+								<p:column headerText="Descripcion">
+									<h:outputText value="#{actividad.actDescripcion}" />
+								</p:column>
+								<p:column headerText="Precio">
+									<h:outputText value="#{actividad.actValor}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputText>
 								</p:column>
 							</p:dataTable>
 
