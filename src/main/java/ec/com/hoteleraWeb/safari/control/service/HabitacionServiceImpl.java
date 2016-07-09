@@ -3,6 +3,7 @@ package ec.com.hoteleraWeb.safari.control.service;
 import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -64,6 +65,15 @@ public class HabitacionServiceImpl implements HabitacionService, Serializable {
 
 	public List<Habitacion> obtenerPorSuplemento(Integer codigoSuplemento) {
 		return habitacionDao.obtenerPorSuplemento(codigoSuplemento);
+	}
+
+	public List<Habitacion> obtenerPorReservacion(Integer codigoReservacion) {
+		return habitacionDao.obtenerPorReservacion(codigoReservacion);
+	}
+
+	public List<Habitacion> obtenerHabitacionesDisponiblre(Integer codigoHotel, Date fechaIngreso,
+			Date fechaSalida) {
+		return habitacionDao.obtenerHabitacionesDisponible(codigoHotel, fechaIngreso, fechaSalida);
 	}
 
 }

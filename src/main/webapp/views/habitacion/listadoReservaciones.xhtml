@@ -26,7 +26,7 @@
 				<h:form id="formDataTable">
 					<p:dataTable id="tablaReservaciones" var="reservacion"
 						styleClass="TexAlCenter" scrollable="true"
-						rowStyleClass="#{reservacion.resCancelada eq true ? null:'desactivo'}"
+						rowStyleClass="#{reservacion.resCancelada eq false ? null:'desactivo'}"
 						reflow="true" value="#{reservacionBean.listaReservacion}"
 						paginator="true" rows="10"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -39,6 +39,15 @@
 								oncomplete="mostarPanelInsertar('')" id="btnNuevo"
 								icon="#{msg['i.nuevo']}" />
 						</f:facet>
+						<p:column headerText="#{msg['lbl.gestionar']}">
+							<p:tooltip for="btnMostrar" value="#{msg['lbl.mostrar']}" />
+							<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
+								actionListener="#{reservacionBean.cargarMostrar(reservacion)}"
+								oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
+								<f:setPropertyActionListener value="#{reservacion}"
+									target="#{reservacionBean.reservacion}" />
+							</p:commandButton>
+						</p:column>
 						<p:column headerText="Codigo.">
 							<p:outputLabel value="#{reservacion.resCodigo}" />
 						</p:column>
@@ -85,6 +94,42 @@
 									update=":mensaje,tablaHabitaciones,tablaActividades"
 									listener="#{reservacionBean.obtenerHabitacionesYActividadesPorHotel}" />
 							</p:selectOneMenu>
+
+							<p:outputLabel value="Fecha Reserva" for="fechaReserva"
+								styleClass="DispBlock negrita" />
+							<p:calendar id="fechaReserva"
+								value="#{reservacionBean.reservacion.resFechaReserva}"
+								onblur="this.value = this.value.toUpperCase()" required="true"
+								requiredMessage="Debe ingresar la fecha de la reserva"
+								styleClass="DispBlock Wid90">
+								<p:ajax event="dateSelect" update="formNuevo" />
+							</p:calendar>
+
+							<p:outputLabel value="Fecha Ingreso" for="fechaIngreso"
+								styleClass="DispBlock negrita" />
+							<p:calendar id="fechaIngreso"
+								value="#{reservacionBean.reservacion.resFechaIngreso}"
+								onblur="this.value = this.value.toUpperCase()" required="true"
+								requiredMessage="Debe ingresar la fecha de ingreso"
+								styleClass="DispBlock Wid90">
+								<p:ajax event="dateSelect" update="formNuevo" />
+							</p:calendar>
+
+							<p:outputLabel value="Fecha Salida" for="fechaSalida"
+								styleClass="DispBlock negrita" />
+							<h:panelGrid columns="2">
+								<p:calendar id="fechaSalida"
+									value="#{reservacionBean.reservacion.resFechaSalido}"
+									onblur="this.value = this.value.toUpperCase()" required="true"
+									requiredMessage="Debe ingresar la fecha de salida"
+									styleClass="DispBlock Wid90" />
+
+								<p:commandButton update="tablaHabitaciones"
+									icon="#{msg['i.buscar']}" immediate="true" process="@this"
+									actionListener="#{reservacionBean.cargarhabitacionesDisponibles}" />
+
+							</h:panelGrid>
+
 
 							<p:outputLabel value="Habitaciones" for="tablaHabitaciones"
 								styleClass="DispBlock negrita" />
@@ -153,30 +198,6 @@
 									update="autoCompletarClienteReservacion, :mensaje" />
 							</p:autoComplete>
 
-							<p:outputLabel value="Fecha Reserva" for="fechaReserva"
-								styleClass="DispBlock negrita" />
-							<p:calendar id="fechaReserva"
-								value="#{reservacionBean.reservacion.resFechaReserva}"
-								onblur="this.value = this.value.toUpperCase()" required="true"
-								requiredMessage="Debe ingresar la fecha de la reserva"
-								styleClass="DispBlock Wid90" />
-
-							<p:outputLabel value="Fecha Ingreso" for="fechaIngreso"
-								styleClass="DispBlock negrita" />
-							<p:calendar id="fechaIngreso"
-								value="#{reservacionBean.reservacion.resFechaIngreso}"
-								onblur="this.value = this.value.toUpperCase()" required="true"
-								requiredMessage="Debe ingresar la fecha de ingreso"
-								styleClass="DispBlock Wid90" />
-
-							<p:outputLabel value="Fecha Salida" for="fechaSalida"
-								styleClass="DispBlock negrita" />
-							<p:calendar id="fechaSalida"
-								value="#{reservacionBean.reservacion.resFechaSalido}"
-								onblur="this.value = this.value.toUpperCase()" required="true"
-								requiredMessage="Debe ingresar la fecha de salida"
-								styleClass="DispBlock Wid90" />
-
 							<p:outputLabel value="Abono" for="abono"
 								styleClass="DispBlock negrita" />
 							<pe:inputNumber styleClass="numeroCentrado" id="abono"
@@ -201,6 +222,101 @@
 				</h:form>
 			</p:panel>
 
+			<p:panel id="panelMostrar" header="Datos de la Reservacion"
+				styleClass="DispNone">
+				<h:form id="formMostrar">
+					<div class="divDatosIzq50">
+						<div id="datosEmpleado" class="divDatosIzq50">
+
+							<p:outputLabel value="Codigo" styleClass="DispBlock negrita" />
+							<p:outputLabel value="#{reservacionBean.reservacion.resCodigo}"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+
+							<p:outputLabel value="Fecha Reserva"
+								styleClass="DispBlock negrita" />
+							<p:outputLabel
+								value="#{reservacionBean.reservacion.resFechaReserva}"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+
+							<p:outputLabel value="Fecha Ingreso"
+								styleClass="DispBlock negrita" />
+							<p:outputLabel
+								value="#{reservacionBean.reservacion.resFechaIngreso}"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+
+							<p:outputLabel value="Fecha Salida"
+								styleClass="DispBlock negrita" />
+							<p:outputLabel
+								value="#{reservacionBean.reservacion.resFechaSalido}"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+
+							<p:outputLabel value="Cliente" styleClass="DispBlock negrita" />
+							<p:outputLabel
+								value="#{reservacionBean.reservacion.cliente.cliApellido} #{reservacionBean.reservacion.cliente.cliNombre}"
+								styleClass="DispBlock Wid90" />
+							<div class="EmptyBox10"></div>
+
+							<p:outputLabel value="Abono" styleClass="DispBlock negrita" />
+							<p:outputLabel value="#{reservacionBean.reservacion.resAbono}"
+								styleClass="DispBlock Wid90">
+								<f:convertNumber pattern="#0.00" />
+							</p:outputLabel>
+							<div class="EmptyBox10"></div>
+
+							<p:outputLabel value="Habitaciones" for="tablaHabitaciones"
+								styleClass="DispBlock negrita" />
+							<p:dataTable var="habitacion" id="tablaHabitaciones"
+								reflow="true" value="#{reservacionBean.listaHabitaciones}">
+								<p:column headerText="Numero">
+									<h:outputText value="#{habitacion.habNumero}" />
+								</p:column>
+								<p:column headerText="Tipo">
+									<h:outputText value="#{habitacion.habTipo}" />
+								</p:column>
+								<p:column headerText="Precio">
+									<h:outputText value="#{habitacion.habPrecioReferencial}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+
+							<div class="EmptyBox10"></div>
+
+							<p:outputLabel value="Actividades" for="tablaActividades"
+								styleClass="DispBlock negrita" />
+							<p:dataTable var="actividad" id="tablaActividades" reflow="true"
+								value="#{reservacionBean.listaActividades}"
+								emptyMessage="No hay actividades seleccionadas">
+								<p:column headerText="Nombre">
+									<h:outputText value="#{actividad.actNombre}" />
+								</p:column>
+								<p:column headerText="Descripcion">
+									<h:outputText value="#{actividad.actDescripcion}" />
+								</p:column>
+								<p:column headerText="Cantidad">
+									<h:outputLabel value="#{actividad.actNumeroPersonas}" />
+								</p:column>
+								<p:column headerText="Precio">
+									<h:outputText value="#{actividad.actValor}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+
+
+						</div>
+					</div>
+					<div class="EmptyBox10"></div>
+					<p:separator />
+					<p:commandButton value="#{msg['btn.cerrar']}"
+						onclick="mostarPanelMostrar('')" icon="#{msg['i.cancelar']}"
+						styleClass="RedButton" />
+				</h:form>
+			</p:panel>
 		</div>
 	</ui:define>
 </ui:composition>

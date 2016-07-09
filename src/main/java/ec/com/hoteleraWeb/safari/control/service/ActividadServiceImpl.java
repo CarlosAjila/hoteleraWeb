@@ -61,4 +61,8 @@ public class ActividadServiceImpl implements ActividadService, Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se desactivo al Hotel: " + actividad.getActNombre());
 	}
 
+	public List<Actividad> obtenerPorReservacion(Integer codigoReservacion) {
+		return actividadDao.obtenerPorReservacion(codigoReservacion);
+	}
+
 }

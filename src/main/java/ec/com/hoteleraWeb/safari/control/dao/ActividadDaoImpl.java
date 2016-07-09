@@ -1,6 +1,7 @@
 package ec.com.hoteleraWeb.safari.control.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,18 @@ public class ActividadDaoImpl extends GenericDaoImpl<Actividad, Integer> impleme
 	public Actividad cargarActividad(Integer codigoActividad) {
 		String sql = "Select * FROM public.actividad";
 		return genericSQLDao.obtenerObjetoPorSql(sql, Actividad.class);
+	}
+
+	public List<Actividad> obtenerPorReservacion(Integer codigoReservacion) {
+		String sql = "select distinct a.* from actividad a "
+				+ "inner join cliente_actividad ca on ca.act_codigo=a.act_codigo "
+				+ "inner join reservacion r on r.res_codigo=ca.res_codigo " + "where r.res_codigo='" + codigoReservacion
+				+ "' order by a.act_codigo;";
+		List<Actividad> actividades = new ArrayList<Actividad>();
+		actividades = genericSQLDao.obtenerPorSql(sql, Actividad.class);
+		if (actividades != null)
+			if (actividades.size() != 0)
+				return actividades;
+		return null;
 	}
 }

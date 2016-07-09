@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ec.com.hoteleraWeb.safari.control.entity.Actividad;
 import ec.com.hoteleraWeb.safari.control.entity.Empleado;
+import ec.com.hoteleraWeb.safari.control.entity.Habitacion;
 
 public interface ActividadService {
 
@@ -14,6 +15,9 @@ public interface ActividadService {
 
 	@Transactional
 	public List<Actividad> obtenerActividadesPorHotel(Integer codigoHotel);
+	
+	@Transactional
+	public List<Actividad> obtenerPorReservacion(Integer codigoReservacion);
 
 	@Transactional
 	public void insertar(Actividad actividad);

@@ -23,7 +23,6 @@ import ec.com.hoteleraWeb.safari.control.entity.Habitacion;
 import ec.com.hoteleraWeb.safari.control.entity.HabitacionDetalle;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Reservacion;
-import ec.com.hoteleraWeb.safari.control.entity.Suplemento;
 import ec.com.hoteleraWeb.safari.control.entity.Usuario;
 import ec.com.hoteleraWeb.safari.control.service.ActividadService;
 import ec.com.hoteleraWeb.safari.control.service.ClienteActividadService;
@@ -126,10 +125,19 @@ public class ReservacionBean implements Serializable {
 		listaActividades = actividadService.obtenerActividadesPorHotel(codigoHotel);
 	}
 
-	public void cargarEditar(Suplemento suplemento) {
-		// obtenerHabitacionesYActividadesPorHotel();
-		// setListaHabitacionesSeleccionadas(habitacionService.obtenerPorSuplemento(suplemento.getSupCodigo()));
-		// setListaActividadesSeleccionadas(actividadService.obtenerPorSuplemento(suplemento.getSupCodigo()));
+	public void cargarMostrar(Reservacion reservacion) {
+		obtenerHabitacionesYActividadesPorHotel();
+		setListaHabitaciones(habitacionService.obtenerPorReservacion(reservacion.getResCodigo()));
+		setListaActividades(actividadService.obtenerPorReservacion(reservacion.getResCodigo()));
+	}
+
+	public void cargarhabitacionesDisponibles() {
+		System.out.println("codigoHotel " + codigoHotel);
+		System.out.println("reservacion.getResFechaIngreso() " + reservacion.getResFechaIngreso());
+		System.out.println("reservacion.getResFechaSalido() " + reservacion.getResFechaSalido());
+
+		setListaHabitaciones(habitacionService.obtenerHabitacionesDisponiblre(codigoHotel,
+				reservacion.getResFechaIngreso(), reservacion.getResFechaSalido()));
 	}
 
 	public void insertar(ActionEvent actionEvent) {
@@ -158,6 +166,8 @@ public class ReservacionBean implements Serializable {
 				for (Habitacion habitacionSeleccionada : listaHabitacionesSeleccionadas) {
 					listaHabitacionDetalle.add(new HabitacionDetalle(habitacionSeleccionada.getHabPrecioReferencial(),
 							habitacionSeleccionada, reservacion));
+					habitacionSeleccionada.setHabDisponible(false);
+					habitacionService.actualizar(habitacionSeleccionada);
 				}
 				habitacionDetalleService.insertar(listaHabitacionDetalle);
 			} else {

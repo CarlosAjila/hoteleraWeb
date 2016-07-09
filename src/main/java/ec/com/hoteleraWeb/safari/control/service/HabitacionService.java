@@ -1,5 +1,6 @@
 package ec.com.hoteleraWeb.safari.control.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -31,5 +32,13 @@ public interface HabitacionService {
 
 	@Transactional
 	public List<Habitacion> obtenerPorSuplemento(Integer codigoSuplemento);
+
+	@Transactional
+	public List<Habitacion> obtenerPorReservacion(Integer codigoReservacion);
+
+	@Transactional
+
+	public List<Habitacion> obtenerHabitacionesDisponiblre(Integer codigoHotel, Date fechaIngreso,
+			Date fechaSalida);
 
 }

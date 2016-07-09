@@ -16,4 +16,7 @@ public interface ActividadDao extends GenericDao<Actividad, Integer> {
 
 	@Transactional
 	public Actividad cargarActividad(Integer codigoActividad);
+
+	@Transactional
+	public List<Actividad> obtenerPorReservacion(Integer codigoReservacion);
 }
