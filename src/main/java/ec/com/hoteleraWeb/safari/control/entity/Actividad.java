@@ -32,9 +32,12 @@ public class Actividad implements Serializable {
 	@Column(name = "act_nombre")
 	private String actNombre;
 
+	@Column(name = "act_numero_personas")
+	private Integer actNumeroPersonas;
+
 	@Column(name = "act_pagado")
 	private Boolean actPagado;
-	
+
 	@Column(name = "act_activo")
 	private Boolean actActivo;
 
@@ -84,8 +87,6 @@ public class Actividad implements Serializable {
 	public Boolean getActPagado() {
 		return this.actPagado;
 	}
-	
-	
 
 	public Boolean getActActivo() {
 		return actActivo;
@@ -113,6 +114,14 @@ public class Actividad implements Serializable {
 
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
+	}
+
+	public Integer getActNumeroPersonas() {
+		return actNumeroPersonas;
+	}
+
+	public void setActNumeroPersonas(Integer actNumeroPersonas) {
+		this.actNumeroPersonas = actNumeroPersonas;
 	}
 
 	public List<Calendario> getCalendarios() {

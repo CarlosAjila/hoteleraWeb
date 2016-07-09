@@ -43,6 +43,13 @@ public class ClienteActividad implements Serializable {
 	public ClienteActividad() {
 	}
 
+	public ClienteActividad(Integer numPersona, BigDecimal precio, Actividad actividad, Reservacion reservacion) {
+		this.numPersona = numPersona;
+		this.precio = precio;
+		this.actividad = actividad;
+		this.reservacion = reservacion;
+	}
+
 	public Integer getCliActId() {
 		return this.cliActId;
 	}

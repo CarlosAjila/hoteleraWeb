@@ -24,7 +24,7 @@ public class HabitacionDetalle implements Serializable {
 	@Column(name = "hab_det_id")
 	private Integer habDetId;
 
-	@Column(name = "hab_det_total_habitaciones")
+	@Column(name = "hab_det_valor")
 	private BigDecimal habDetTotalHabitaciones;
 
 	// bi-directional many-to-one association to Habitacione

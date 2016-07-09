@@ -127,6 +127,9 @@
 								<p:column headerText="Descripcion">
 									<h:outputText value="#{actividad.actDescripcion}" />
 								</p:column>
+								<p:column headerText="Cantidad">
+									<p:inputText value="#{actividad.actNumeroPersonas}" />
+								</p:column>
 								<p:column headerText="Precio">
 									<h:outputText value="#{actividad.actValor}">
 										<f:convertNumber pattern="#0.00" />
