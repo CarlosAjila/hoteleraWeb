@@ -122,7 +122,9 @@
 									value="#{reservacionBean.reservacion.resFechaSalido}"
 									onblur="this.value = this.value.toUpperCase()" required="true"
 									requiredMessage="Debe ingresar la fecha de salida"
-									styleClass="DispBlock Wid90" />
+									styleClass="DispBlock Wid90">
+									<p:ajax event="dateSelect" update="formNuevo" />
+								</p:calendar>
 
 								<p:commandButton update="tablaHabitaciones"
 									icon="#{msg['i.buscar']}" immediate="true" process="@this"
