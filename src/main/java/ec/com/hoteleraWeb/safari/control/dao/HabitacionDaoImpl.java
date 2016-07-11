@@ -90,7 +90,7 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 	public List<Habitacion> obtenerHabitacionesDisponible(Integer codigoHotel, Date fechaIngreso,
 			Date fechaSalida) {
 		String sql = "select * from habitacion as h1 "
-				+ "WHERE h1.hot_codigo = "+codigoHotel+" and h1.hab_codigo "
+				+ "WHERE h1.hot_codigo = "+codigoHotel+" and h1.hab_disponible=true and h1.hab_codigo "
 				+ "NOT IN (Select distinct h.hab_codigo FROM habitacion as h "
 				+ "INNER JOIN habitacion_detalle as hd ON h.hab_codigo = hd.hab_codigo "
 				+ "INNER JOIN reservacion as r ON hd.res_codigo = r.res_codigo "

@@ -5,7 +5,7 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">-habitaciones</ui:define>
+	<ui:define name="title">-Reservaciones</ui:define>
 
 	<ui:define name="content">
 		<div class="ui-lesscurve">
@@ -126,9 +126,9 @@
 									<p:ajax event="dateSelect" update="formNuevo" />
 								</p:calendar>
 
-								<p:commandButton update="tablaHabitaciones"
+								<p:commandButton update="tablaHabitaciones"	
 									icon="#{msg['i.buscar']}" immediate="true" process="@this"
-									actionListener="#{reservacionBean.cargarhabitacionesDisponibles}" />
+									actionListener="#{reservacionBean.cargarHabitacionesDisponibles}" />
 
 							</h:panelGrid>
 
@@ -136,6 +136,7 @@
 							<p:outputLabel value="Habitaciones" for="tablaHabitaciones"
 								styleClass="DispBlock negrita" />
 							<p:dataTable var="habitacion" id="tablaHabitaciones"
+								disabledSelection="#{reservacionBean.activarTabla}"
 								reflow="true" value="#{reservacionBean.listaHabitaciones}"
 								selection="#{reservacionBean.listaHabitacionesSeleccionadas}"
 								rowKey="#{habitacion.habCodigo}" style="margin-bottom:0">
@@ -166,6 +167,7 @@
 								<f:facet name="header">
 						            Lista de Actividades
 						        </f:facet>
+
 								<p:column selectionMode="multiple"
 									style="width:35px;text-align:center" />
 								<p:column headerText="Nombre">
@@ -175,7 +177,8 @@
 									<h:outputText value="#{actividad.actDescripcion}" />
 								</p:column>
 								<p:column headerText="Cantidad">
-									<p:inputText value="#{actividad.actNumeroPersonas}" />
+									<p:inputText id="numeroPersonas"
+										value="#{actividad.actNumeroPersonas}" />
 								</p:column>
 								<p:column headerText="Precio">
 									<h:outputText value="#{actividad.actValor}">
@@ -298,9 +301,6 @@
 								</p:column>
 								<p:column headerText="Descripcion">
 									<h:outputText value="#{actividad.actDescripcion}" />
-								</p:column>
-								<p:column headerText="Cantidad">
-									<h:outputLabel value="#{actividad.actNumeroPersonas}" />
 								</p:column>
 								<p:column headerText="Precio">
 									<h:outputText value="#{actividad.actValor}">

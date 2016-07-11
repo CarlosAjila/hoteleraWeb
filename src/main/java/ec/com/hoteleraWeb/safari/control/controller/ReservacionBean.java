@@ -74,6 +74,7 @@ public class ReservacionBean implements Serializable {
 	private List<Actividad> listaActividadesSeleccionadas;
 	private List<HabitacionDetalle> listaHabitacionDetalle;
 	private List<ClienteActividad> listaClienteActividad;
+	private boolean activarTabla;
 
 	private final BigDecimal ZERO = new BigDecimal("0.00");
 
@@ -101,6 +102,9 @@ public class ReservacionBean implements Serializable {
 		listaHabitacionesSeleccionadas = new ArrayList<Habitacion>();
 		listaHabitacionDetalle = new ArrayList<HabitacionDetalle>();
 		listaClienteActividad = new ArrayList<ClienteActividad>();
+		activarTabla = true;
+		listaHabitaciones = new ArrayList<Habitacion>();
+		listaActividades = new ArrayList<Actividad>();
 	}
 
 	public void obtenerReservacionesPorHotel() {
@@ -131,13 +135,14 @@ public class ReservacionBean implements Serializable {
 		setListaActividades(actividadService.obtenerPorReservacion(reservacion.getResCodigo()));
 	}
 
-	public void cargarhabitacionesDisponibles() {
+	public void cargarHabitacionesDisponibles() {
 		System.out.println("codigoHotel " + codigoHotel);
 		System.out.println("reservacion.getResFechaIngreso() " + reservacion.getResFechaIngreso());
 		System.out.println("reservacion.getResFechaSalido() " + reservacion.getResFechaSalido());
 
 		setListaHabitaciones(habitacionService.obtenerHabitacionesDisponiblre(codigoHotel,
 				reservacion.getResFechaIngreso(), reservacion.getResFechaSalido()));
+		activarTabla = false;
 	}
 
 	public void insertar(ActionEvent actionEvent) {
@@ -154,6 +159,7 @@ public class ReservacionBean implements Serializable {
 		else if (listaHabitacionesSeleccionadas.isEmpty())
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer al menos una Habitacion");
 		else {
+			boolean bandera = false;
 			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
 			Usuario usuario = usuarioService
 					.obtenerUsuarioPorNick(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -176,21 +182,25 @@ public class ReservacionBean implements Serializable {
 			if (!listaActividadesSeleccionadas.isEmpty()) {
 				for (Actividad actividadSeleccionada : listaActividadesSeleccionadas) {
 					System.out.println("objeto " + actividadSeleccionada);
-					if (actividadSeleccionada.getActNumeroPersonas() == null)
+					if (actividadSeleccionada.getActNumeroPersonas() == null) {
 						presentaMensaje(FacesMessage.SEVERITY_INFO, "Debe ingresar el numero de personas");
-					else
+						bandera = true;
+					} else
 						listaClienteActividad.add(new ClienteActividad(actividadSeleccionada.getActNumeroPersonas(),
 								actividadSeleccionada.getActValor(), actividadSeleccionada, reservacion));
 				}
-				clienteActividadService.insertar(listaClienteActividad);
+				if (!bandera)
+					clienteActividadService.insertar(listaClienteActividad);
 			}
-			presentaMensaje(FacesMessage.SEVERITY_INFO,
-					"Se creo la Reservacion con codigo: " + reservacion.getResCodigo() + " en el Hotel: "
-							+ hotel.getHotNombre() + " para el cliente " + reservacion.getCliente().getCliApellido()
-							+ " " + reservacion.getCliente().getCliNombre(),
-					"cerrar", true);
-			obtenerReservacionesPorHotel();
-			codigoHotel = hotel.getHotCodigo();
+			if (!bandera) {
+				presentaMensaje(FacesMessage.SEVERITY_INFO,
+						"Se creo la Reservacion con codigo: " + reservacion.getResCodigo() + " en el Hotel: "
+								+ hotel.getHotNombre() + " para el cliente " + reservacion.getCliente().getCliApellido()
+								+ " " + reservacion.getCliente().getCliNombre(),
+						"cerrar", true);
+				obtenerReservacionesPorHotel();
+				codigoHotel = hotel.getHotCodigo();
+			}
 		}
 
 	}
@@ -306,6 +316,14 @@ public class ReservacionBean implements Serializable {
 
 	public void setListaClienteActividad(List<ClienteActividad> listaClienteActividad) {
 		this.listaClienteActividad = listaClienteActividad;
+	}
+
+	public boolean isActivarTabla() {
+		return activarTabla;
+	}
+
+	public void setActivarTabla(boolean activarTabla) {
+		this.activarTabla = activarTabla;
 	}
 
 }
