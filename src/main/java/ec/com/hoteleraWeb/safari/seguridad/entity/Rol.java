@@ -26,7 +26,7 @@ public class Rol implements Serializable {
 	@Column(name = "rol_nombre")
 	private String rolNombre;
 
-	@Column(name = "rol_rescripcion")
+	@Column(name = "rol_descripcion")
 	private String rolRescripcion;
 
 	// bi-directional many-to-one association to RolMenu

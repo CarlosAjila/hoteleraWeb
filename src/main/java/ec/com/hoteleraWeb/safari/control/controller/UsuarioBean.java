@@ -82,7 +82,11 @@ public class UsuarioBean implements Serializable {
 	}
 
 	public void obtenerRoles() {
+		System.out.println("dfgklhkld dhfglhdl ");
 		listaRoles = rolService.obtenerListaRol();
+		for (Rol rol : listaRoles) {
+			System.out.println("jhklfjl "+rol.getRolNombre());
+		}
 	}
 
 	public boolean comprobarUsuarioInsertar() {
