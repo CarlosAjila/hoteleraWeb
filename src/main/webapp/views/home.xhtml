@@ -10,6 +10,27 @@
 				<div class="ShadowBox TexAlCenter whiteback BlueBorderedBox">
 					<h1 class="BigTopic">SISTEMA PARA EL CONTROL HOTELERO</h1>
 				</div>
+				<h:panelGrid columns="2">
+					<p:chart type="line" model="#{reportesBean.animatedModel1}"
+						style="width:400px;" />
+					<p:chart type="bar" model="#{reportesBean.animatedModel2}"
+						style="width:400px;" />
+				</h:panelGrid>
+
+
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="ui-grid-col-5">
+							<p:inputText value="#{consumosListadoBean.busqueda}"
+								styleClass="Wid90"></p:inputText>
+						</div>
+						<div class="ui-grid-col-1">
+							<p:commandButton value="Buscar" icon="fa fa-search"
+								actionListener="#{consumosListadoBean.obtenerConsumos}"
+								update=":formTabla,:mensaje" />
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</ui:define>
