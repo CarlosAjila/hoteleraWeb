@@ -108,7 +108,8 @@ public class SuplementoBean implements Serializable {
 		suplementoService.insertar(suplemento);
 		if (!listaHabitacionesSeleccionadas.isEmpty()) {
 			for (Habitacion habitacionSeleccionada : listaHabitacionesSeleccionadas) {
-				listaHabitacionSuplementos.add(new HabitacionSuplemento(habitacionSeleccionada, suplemento));
+				listaHabitacionSuplementos
+						.add(new HabitacionSuplemento(habitacionSeleccionada, suplemento, suplemento.getSupValor()));
 			}
 			habitacionSuplementoService.insertar(listaHabitacionSuplementos);
 		}
@@ -118,7 +119,8 @@ public class SuplementoBean implements Serializable {
 		suplementoService.actualizar(suplemento);
 		if (!listaHabitacionesSeleccionadas.isEmpty()) {
 			for (Habitacion habitacionSeleccionada : listaHabitacionesSeleccionadas) {
-				listaHabitacionSuplementos.add(new HabitacionSuplemento(habitacionSeleccionada, suplemento));
+				listaHabitacionSuplementos
+						.add(new HabitacionSuplemento(habitacionSeleccionada, suplemento, suplemento.getSupValor()));
 			}
 			habitacionSuplementoService.actualizar(listaHabitacionSuplementos);
 		}

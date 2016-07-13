@@ -1,6 +1,7 @@
 package ec.com.hoteleraWeb.safari.control.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,9 +23,13 @@ public class HabitacionSuplemento implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habitacion_suplemento_hab_sup_id_seq")
 	@Column(name = "hab_sup_id")
 	private Integer habSupId;
+
 	@ManyToOne
 	@JoinColumn(name = "hab_codigo")
 	private Habitacion habitacion;
+
+	@Column(name = "sup_hab_valor")
+	private BigDecimal valor;
 
 	// bi-directional many-to-one association to Suplemento
 	@ManyToOne
@@ -34,9 +39,10 @@ public class HabitacionSuplemento implements Serializable {
 	public HabitacionSuplemento() {
 	}
 
-	public HabitacionSuplemento(Habitacion habitacion, Suplemento suplemento) {
+	public HabitacionSuplemento(Habitacion habitacion, Suplemento suplemento, BigDecimal valor) {
 		this.habitacion = habitacion;
 		this.suplemento = suplemento;
+		this.valor = valor;
 	}
 
 	public Integer getHabSupId() {
@@ -61,6 +67,14 @@ public class HabitacionSuplemento implements Serializable {
 
 	public void setSuplemento(Suplemento suplemento) {
 		this.suplemento = suplemento;
+	}
+
+	public BigDecimal getValor() {
+		return this.valor;
+	}
+
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 
 }

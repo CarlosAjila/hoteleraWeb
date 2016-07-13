@@ -1,15 +1,18 @@
 package ec.com.hoteleraWeb.safari.control.controller;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.annotation.PostConstruct;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -19,90 +22,68 @@ public class ReportesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private LineChartModel animatedModel1;
-	private BarChartModel animatedModel2;
+	private LineChartModel modeloLineaLibraFecha;
 
 	@PostConstruct
 	public void init() {
-		createAnimatedModels();
+		crearGraficoLinealTallaFecha();
 	}
 
-	public LineChartModel getAnimatedModel1() {
-		return animatedModel1;
-	}
+	public void crearGraficoLinealTallaFecha() {
 
-	public BarChartModel getAnimatedModel2() {
-		return animatedModel2;
-	}
-
-	private void createAnimatedModels() {
-		animatedModel1 = initLinearModel();
-		animatedModel1.setTitle("Line Chart");
-		animatedModel1.setAnimate(true);
-		animatedModel1.setLegendPosition("se");
-		Axis yAxis = animatedModel1.getAxis(AxisType.Y);
+		modeloLineaLibraFecha = initCategoryModel();
+		modeloLineaLibraFecha.setTitle("Gafica Lineal");
+		modeloLineaLibraFecha.setAnimate(true);
+		modeloLineaLibraFecha.setLegendPosition("s");
+		modeloLineaLibraFecha.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+		Axis yAxis = modeloLineaLibraFecha.getAxis(AxisType.Y);
+		// modeloLineaLibraFecha.setShowPointLabels(true);
+		modeloLineaLibraFecha.getAxes().put(AxisType.X, new CategoryAxis("Fecha"));
+		yAxis = modeloLineaLibraFecha.getAxis(AxisType.Y);
+		yAxis.setLabel("Libras");
 		yAxis.setMin(0);
-		yAxis.setMax(10);
+		yAxis.setMax(ObtenerNumeroMayorEjeY() * 1.1);
+		modeloLineaLibraFecha.setZoom(true);
 
-		animatedModel2 = initBarModel();
-		animatedModel2.setTitle("Bar Charts");
-		animatedModel2.setAnimate(true);
-		animatedModel2.setLegendPosition("ne");
-		yAxis = animatedModel2.getAxis(AxisType.Y);
-		yAxis.setMin(0);
-		yAxis.setMax(200);
+		DateAxis axis = new DateAxis("Fechas");
+		axis.setTickAngle(-50);
+		// axis.setMax("2014-02-01");
+		axis.setTickFormat("%b %#d, %y");
+		modeloLineaLibraFecha.getAxes().put(AxisType.X, axis);
 	}
 
-	private BarChartModel initBarModel() {
-		BarChartModel model = new BarChartModel();
-
-		ChartSeries boys = new ChartSeries();
-		boys.setLabel("Boys");
-		boys.set("2004", 120);
-		boys.set("2005", 100);
-		boys.set("2006", 44);
-		boys.set("2007", 150);
-		boys.set("2008", 25);
-
-		ChartSeries girls = new ChartSeries();
-		girls.setLabel("Girls");
-		girls.set("2004", 52);
-		girls.set("2005", 60);
-		girls.set("2006", 110);
-		girls.set("2007", 135);
-		girls.set("2008", 120);
-
-		model.addSeries(boys);
-		model.addSeries(girls);
-
-		return model;
-	}
-
-	private LineChartModel initLinearModel() {
+	private LineChartModel initCategoryModel() {
 		LineChartModel model = new LineChartModel();
 
-		LineChartSeries series1 = new LineChartSeries();
-		series1.setLabel("Series 1");
+		ChartSeries balanceado = new ChartSeries();
+		ChartSeries biomasa = new ChartSeries();
+		balanceado.setLabel("Balanceado");
+		biomasa.setLabel("Biomasa");
 
-		series1.set(1, 2);
-		series1.set(2, 1);
-		series1.set(3, 3);
-		series1.set(4, 6);
-		series1.set(5, 8);
+		for (ListadoGrameaje g : listaGrameajes) {
+			balanceado.set(g.getGraFecha().toString(), g.getGraBalanciadoAcumulado());
+			biomasa.set(g.getGraFecha().toString(), g.getGraBiomasa());
+		}
 
-		LineChartSeries series2 = new LineChartSeries();
-		series2.setLabel("Series 2");
-
-		series2.set(1, 6);
-		series2.set(2, 3);
-		series2.set(3, 2);
-		series2.set(4, 7);
-		series2.set(5, 9);
-
-		model.addSeries(series1);
-		model.addSeries(series2);
+		model.addSeries(balanceado);
+		model.addSeries(biomasa);
 
 		return model;
+	}
+
+	public int ObtenerNumeroMayorEjeY() {
+		BigDecimal numeroMayor = ZERO;
+		for (ListadoGrameaje g : listaGrameajes) {
+			if (g.getGraBalanciadoAcumulado().compareTo(numeroMayor) == 1) {
+				numeroMayor = g.getGraBalanciadoAcumulado();
+			}
+		}
+		for (ListadoGrameaje g : listaGrameajes) {
+			if (g.getGraBiomasa().compareTo(numeroMayor) == 1) {
+				numeroMayor = g.getGraBiomasa();
+			}
+		}
+		return numeroMayor.intValue();
 	}
 
 }
