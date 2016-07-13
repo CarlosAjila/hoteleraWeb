@@ -5,11 +5,13 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class HotelReservacionTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	@Column(name = "hot_codigo")
 	private Integer codigoHotel;
 

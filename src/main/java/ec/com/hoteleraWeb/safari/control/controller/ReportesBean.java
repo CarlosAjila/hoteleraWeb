@@ -2,19 +2,23 @@ package ec.com.hoteleraWeb.safari.control.controller;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import ec.com.hoteleraWeb.safari.control.entityAux.HotelReservacionTO;
+import ec.com.hoteleraWeb.safari.control.service.ReporteService;
 
 @Controller
 @Scope("session")
@@ -22,68 +26,68 @@ public class ReportesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private LineChartModel modeloLineaLibraFecha;
+	@Autowired
+	private ReporteService reporteService;
+
+	private LineChartModel modeloLineaHotelReservacion;
+	private List<HotelReservacionTO> listaHotelReservacionTO;
+
+	private final BigDecimal ZERO = new BigDecimal("0.00");
 
 	@PostConstruct
 	public void init() {
-		crearGraficoLinealTallaFecha();
+		listaHotelReservacionTO = new ArrayList<HotelReservacionTO>();
+		listaHotelReservacionTO = reporteService.obtenerCantidadReservasPorHotel();
+		// crearGraficoLinealTallaFecha();
 	}
 
 	public void crearGraficoLinealTallaFecha() {
 
-		modeloLineaLibraFecha = initCategoryModel();
-		modeloLineaLibraFecha.setTitle("Gafica Lineal");
-		modeloLineaLibraFecha.setAnimate(true);
-		modeloLineaLibraFecha.setLegendPosition("s");
-		modeloLineaLibraFecha.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
-		Axis yAxis = modeloLineaLibraFecha.getAxis(AxisType.Y);
+		modeloLineaHotelReservacion = initCategoryModel();
+		modeloLineaHotelReservacion.setTitle("Gafica Lineal");
+		modeloLineaHotelReservacion.setAnimate(true);
+		modeloLineaHotelReservacion.setLegendPosition("s");
+		modeloLineaHotelReservacion.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+		Axis yAxis = modeloLineaHotelReservacion.getAxis(AxisType.Y);
 		// modeloLineaLibraFecha.setShowPointLabels(true);
-		modeloLineaLibraFecha.getAxes().put(AxisType.X, new CategoryAxis("Fecha"));
-		yAxis = modeloLineaLibraFecha.getAxis(AxisType.Y);
-		yAxis.setLabel("Libras");
+		modeloLineaHotelReservacion.getAxes().put(AxisType.X, new CategoryAxis("Hoteles"));
+		yAxis = modeloLineaHotelReservacion.getAxis(AxisType.Y);
+		yAxis.setLabel("Reservaciones");
 		yAxis.setMin(0);
-		yAxis.setMax(ObtenerNumeroMayorEjeY() * 1.1);
-		modeloLineaLibraFecha.setZoom(true);
-
-		DateAxis axis = new DateAxis("Fechas");
-		axis.setTickAngle(-50);
-		// axis.setMax("2014-02-01");
-		axis.setTickFormat("%b %#d, %y");
-		modeloLineaLibraFecha.getAxes().put(AxisType.X, axis);
+		yAxis.setMax(ObtenerNumeroMayorEjeY());
+		modeloLineaHotelReservacion.setZoom(true);
 	}
 
 	private LineChartModel initCategoryModel() {
 		LineChartModel model = new LineChartModel();
 
-		ChartSeries balanceado = new ChartSeries();
-		ChartSeries biomasa = new ChartSeries();
-		balanceado.setLabel("Balanceado");
-		biomasa.setLabel("Biomasa");
+		ChartSeries hoteReservacion = new ChartSeries();
+		hoteReservacion.setLabel("Hotel Reservacion");
 
-		for (ListadoGrameaje g : listaGrameajes) {
-			balanceado.set(g.getGraFecha().toString(), g.getGraBalanciadoAcumulado());
-			biomasa.set(g.getGraFecha().toString(), g.getGraBiomasa());
+		for (HotelReservacionTO hr : listaHotelReservacionTO) {
+			hoteReservacion.set(hr.getNombreHotel(), hr.getCantidadReservacion());
 		}
 
-		model.addSeries(balanceado);
-		model.addSeries(biomasa);
-
+		model.addSeries(hoteReservacion);
 		return model;
 	}
 
 	public int ObtenerNumeroMayorEjeY() {
-		BigDecimal numeroMayor = ZERO;
-		for (ListadoGrameaje g : listaGrameajes) {
-			if (g.getGraBalanciadoAcumulado().compareTo(numeroMayor) == 1) {
-				numeroMayor = g.getGraBalanciadoAcumulado();
+		Integer numeroMayor = 0;
+		for (HotelReservacionTO hr : listaHotelReservacionTO) {
+			if (hr.getCantidadReservacion() != 0) {
+				numeroMayor = hr.getCantidadReservacion();
 			}
 		}
-		for (ListadoGrameaje g : listaGrameajes) {
-			if (g.getGraBiomasa().compareTo(numeroMayor) == 1) {
-				numeroMayor = g.getGraBiomasa();
-			}
-		}
-		return numeroMayor.intValue();
+		return numeroMayor;
+	}
+
+	public List<HotelReservacionTO> getListaHotelReservacionTO() {
+		return listaHotelReservacionTO;
+	}
+
+	public void setListaHotelReservacionTO(List<HotelReservacionTO> listaHotelReservacionTO) {
+		this.listaHotelReservacionTO = listaHotelReservacionTO;
 	}
 
 }
