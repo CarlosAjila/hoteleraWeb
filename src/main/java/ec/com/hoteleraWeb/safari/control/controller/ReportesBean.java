@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LegendPlacement;
@@ -30,6 +31,7 @@ public class ReportesBean implements Serializable {
 	ReportesService reportesService;
 
 	private LineChartModel modeloLineaHotelReservacion;
+	private BarChartModel modeloBarraHotelReservacionCostos;
 	private List<HotelReservacionTO> listaHotelReservacionTO;
 
 	private final BigDecimal ZERO = new BigDecimal("0.00");
@@ -38,10 +40,11 @@ public class ReportesBean implements Serializable {
 	public void init() {
 		listaHotelReservacionTO = new ArrayList<HotelReservacionTO>();
 		listaHotelReservacionTO = reportesService.obtenerCantidadReservasPorHotel();
-		crearGraficoLinealTallaFecha();
+		crearGraficoLinealHotelReservacionCantidad();
+		crearGraficoLinealHotelReservacionCostos();
 	}
 
-	public void crearGraficoLinealTallaFecha() {
+	public void crearGraficoLinealHotelReservacionCantidad() {
 
 		modeloLineaHotelReservacion = initCategoryModel();
 		modeloLineaHotelReservacion.setTitle("Gafica Lineal");
@@ -76,7 +79,48 @@ public class ReportesBean implements Serializable {
 		Integer numeroMayor = 0;
 		for (HotelReservacionTO hr : listaHotelReservacionTO) {
 			if (hr.getCantidadReservacion() != 0) {
-				numeroMayor = hr.getCantidadReservacion();
+				numeroMayor = hr.getCantidadReservacion() * 10;
+			}
+		}
+		return numeroMayor;
+	}
+
+	public void crearGraficoLinealHotelReservacionCostos() {
+
+		modeloBarraHotelReservacionCostos = initCategoryModelBarras();
+		modeloBarraHotelReservacionCostos.setTitle("Gafica Lineal");
+		modeloBarraHotelReservacionCostos.setAnimate(true);
+		modeloBarraHotelReservacionCostos.setLegendPosition("s");
+		modeloBarraHotelReservacionCostos.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+		Axis yAxis = modeloBarraHotelReservacionCostos.getAxis(AxisType.Y);
+		// modeloLineaLibraFecha.setShowPointLabels(true);
+		modeloBarraHotelReservacionCostos.getAxes().put(AxisType.X, new CategoryAxis("Hoteles"));
+		yAxis = modeloBarraHotelReservacionCostos.getAxis(AxisType.Y);
+		yAxis.setLabel("Reservaciones");
+		yAxis.setMin(0);
+		yAxis.setMax(ObtenerNumeroMayorEjeY());
+		modeloBarraHotelReservacionCostos.setZoom(true);
+	}
+
+	private BarChartModel initCategoryModelBarras() {
+		BarChartModel model = new BarChartModel();
+
+		ChartSeries hoteReservacion = new ChartSeries();
+		hoteReservacion.setLabel("Hotel Reservacion");
+
+		for (HotelReservacionTO hr : listaHotelReservacionTO) {
+			hoteReservacion.set(hr.getNombreHotel(), hr.getCantidadReservacion());
+		}
+
+		model.addSeries(hoteReservacion);
+		return model;
+	}
+
+	public int ObtenerNumeroMayorEjeYBarras() {
+		Integer numeroMayor = 0;
+		for (HotelReservacionTO hr : listaHotelReservacionTO) {
+			if (hr.getCantidadReservacion() != 0) {
+				numeroMayor = hr.getCantidadReservacion() * 10;
 			}
 		}
 		return numeroMayor;
