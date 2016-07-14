@@ -32,6 +32,9 @@ public class HotelReservacionTO implements Serializable {
 		this.cantidadReservacion = cantidadReservacion;
 	}
 
+	public HotelReservacionTO() {
+	}
+
 	public Integer getCodigoHotel() {
 		return codigoHotel;
 	}

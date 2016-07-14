@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entityAux.HotelReservacionTO;
-import ec.com.hoteleraWeb.safari.control.service.ReporteService;
+import ec.com.hoteleraWeb.safari.control.service.ReportesService;
 
 @Controller
 @Scope("session")
@@ -27,7 +27,7 @@ public class ReportesBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private ReporteService reporteService;
+	ReportesService reportesService;
 
 	private LineChartModel modeloLineaHotelReservacion;
 	private List<HotelReservacionTO> listaHotelReservacionTO;
@@ -37,8 +37,8 @@ public class ReportesBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		listaHotelReservacionTO = new ArrayList<HotelReservacionTO>();
-		listaHotelReservacionTO = reporteService.obtenerCantidadReservasPorHotel();
-		// crearGraficoLinealTallaFecha();
+		listaHotelReservacionTO = reportesService.obtenerCantidadReservasPorHotel();
+		crearGraficoLinealTallaFecha();
 	}
 
 	public void crearGraficoLinealTallaFecha() {
@@ -88,6 +88,14 @@ public class ReportesBean implements Serializable {
 
 	public void setListaHotelReservacionTO(List<HotelReservacionTO> listaHotelReservacionTO) {
 		this.listaHotelReservacionTO = listaHotelReservacionTO;
+	}
+
+	public LineChartModel getModeloLineaHotelReservacion() {
+		return modeloLineaHotelReservacion;
+	}
+
+	public void setModeloLineaHotelReservacion(LineChartModel modeloLineaHotelReservacion) {
+		this.modeloLineaHotelReservacion = modeloLineaHotelReservacion;
 	}
 
 }
