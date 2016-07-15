@@ -12,7 +12,6 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -47,10 +46,8 @@ public class ReportesBean implements Serializable {
 	public void crearGraficoLinealHotelReservacionCantidad() {
 
 		modeloLineaHotelReservacion = initCategoryModel();
-		modeloLineaHotelReservacion.setTitle("Gafica Lineal");
+		modeloLineaHotelReservacion.setTitle("Total Reservaciones Por Hotel");
 		modeloLineaHotelReservacion.setAnimate(true);
-		modeloLineaHotelReservacion.setLegendPosition("s");
-		modeloLineaHotelReservacion.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
 		Axis yAxis = modeloLineaHotelReservacion.getAxis(AxisType.Y);
 		// modeloLineaLibraFecha.setShowPointLabels(true);
 		modeloLineaHotelReservacion.getAxes().put(AxisType.X, new CategoryAxis("Hoteles"));
@@ -65,7 +62,6 @@ public class ReportesBean implements Serializable {
 		LineChartModel model = new LineChartModel();
 
 		ChartSeries hoteReservacion = new ChartSeries();
-		hoteReservacion.setLabel("Hotel Reservacion");
 
 		for (HotelReservacionTO hr : listaHotelReservacionTO) {
 			hoteReservacion.set(hr.getNombreHotel(), hr.getCantidadReservacion());
@@ -88,10 +84,8 @@ public class ReportesBean implements Serializable {
 	public void crearGraficoLinealHotelReservacionCostos() {
 
 		modeloBarraHotelReservacionCostos = initCategoryModelBarras();
-		modeloBarraHotelReservacionCostos.setTitle("Gafica Lineal");
+		modeloBarraHotelReservacionCostos.setTitle("Total Ventas Por Hotel");
 		modeloBarraHotelReservacionCostos.setAnimate(true);
-		modeloBarraHotelReservacionCostos.setLegendPosition("s");
-		modeloBarraHotelReservacionCostos.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
 		Axis yAxis = modeloBarraHotelReservacionCostos.getAxis(AxisType.Y);
 		// modeloLineaLibraFecha.setShowPointLabels(true);
 		modeloBarraHotelReservacionCostos.getAxes().put(AxisType.X, new CategoryAxis("Hoteles"));
@@ -106,7 +100,6 @@ public class ReportesBean implements Serializable {
 		BarChartModel model = new BarChartModel();
 
 		ChartSeries hoteReservacion = new ChartSeries();
-		hoteReservacion.setLabel("Hotel Reservacion");
 
 		for (HotelReservacionTO hr : listaHotelReservacionTO) {
 			hoteReservacion.set(hr.getNombreHotel(), hr.getCantidadReservacion());
@@ -140,6 +133,14 @@ public class ReportesBean implements Serializable {
 
 	public void setModeloLineaHotelReservacion(LineChartModel modeloLineaHotelReservacion) {
 		this.modeloLineaHotelReservacion = modeloLineaHotelReservacion;
+	}
+
+	public BarChartModel getModeloBarraHotelReservacionCostos() {
+		return modeloBarraHotelReservacionCostos;
+	}
+
+	public void setModeloBarraHotelReservacionCostos(BarChartModel modeloBarraHotelReservacionCostos) {
+		this.modeloBarraHotelReservacionCostos = modeloBarraHotelReservacionCostos;
 	}
 
 }

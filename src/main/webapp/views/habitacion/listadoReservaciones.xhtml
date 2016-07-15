@@ -47,6 +47,12 @@
 								<f:setPropertyActionListener value="#{reservacion}"
 									target="#{reservacionBean.reservacion}" />
 							</p:commandButton>
+							<p:tooltip for="btnFactura" value="Facturar" />
+							<p:commandButton id="btnFactura" update=":mensaje, :formFactura"
+								oncomplete="mostarPanelFactura('')" icon="#{msg['i.mostrar']}">
+								<f:setPropertyActionListener value="#{reservacion}"
+									target="#{reservacionBean.reservacion}" />
+							</p:commandButton>
 						</p:column>
 						<p:column headerText="Codigo.">
 							<p:outputLabel value="#{reservacion.resCodigo}" />
@@ -126,7 +132,7 @@
 									<p:ajax event="dateSelect" update="formNuevo" />
 								</p:calendar>
 
-								<p:commandButton update="tablaHabitaciones"	
+								<p:commandButton update="tablaHabitaciones"
 									icon="#{msg['i.buscar']}" immediate="true" process="@this"
 									actionListener="#{reservacionBean.cargarHabitacionesDisponibles}" />
 
@@ -316,6 +322,25 @@
 					<p:separator />
 					<p:commandButton value="#{msg['btn.cerrar']}"
 						onclick="mostarPanelMostrar('')" icon="#{msg['i.cancelar']}"
+						styleClass="RedButton" />
+				</h:form>
+			</p:panel>
+
+			<p:panel id="panelFactura" header="Factura" styleClass="DispNone">
+				<h:form id="formFactura">
+					<h:inputHidden value="#{reservacionBean.reservacion.resCodigo}" />
+					<div class="EmptyBox30"></div>
+					<p:outputLabel
+						value="¿Desea Generar la factura para la reservacion numero #{reservacionBean.reservacion.resCodigo} ?" />
+					<div class="EmptyBox30"></div>
+					<p:separator />
+					<p:commandButton value="#{msg['btn.aceptar']}"
+						update=":formDataTable,:mensaje" icon="#{msg['i.activar']}"
+						oncomplete="mostarPanelFactura('')"
+						actionListener="#{reservacionBean.generarFactura}"
+						styleClass="GreenButton" />
+					<p:commandButton value="#{msg['btn.cancelar']}"
+						onclick="mostarPanelFactura('')" icon="#{msg['i.cancelar']}"
 						styleClass="RedButton" />
 				</h:form>
 			</p:panel>

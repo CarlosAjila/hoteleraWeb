@@ -94,6 +94,14 @@ function clickCerrar() {
 	$('#btnCerrarBusqueda').click();
 }
 
+function mostarPanelFactura(id) {
+	$panelPrincipal = $('#' + id + 'panelPrincipal');
+	$panelInsertar = $('#' + id + 'panelFactura');
+	$panelPrincipal.slideToggle();
+	$panelInsertar.slideToggle();
+	return false;
+}
+
 function mostarPanelMostrar(id) {
 	$panelPrincipal = $('#' + id + 'panelPrincipal');
 	$panelInsertar = $('#' + id + 'panelMostrar');
