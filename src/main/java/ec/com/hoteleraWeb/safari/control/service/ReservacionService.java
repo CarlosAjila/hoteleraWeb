@@ -12,6 +12,9 @@ public interface ReservacionService {
 	public List<Reservacion> obtenerTodos();
 
 	@Transactional
+	public Reservacion obtenerPorId(Integer id);
+
+	@Transactional
 	public List<Reservacion> obtenerTodosPorHotel(String codigoHotel);
 
 	@Transactional

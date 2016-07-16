@@ -5,6 +5,7 @@ import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +37,7 @@ import ec.com.hoteleraWeb.safari.control.service.HabitacionService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.control.service.ReservacionService;
 import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
+import ec.com.hoteleraWeb.safari.utils.service.ReporteService;
 
 @Controller
 @Scope("session")
@@ -72,6 +74,9 @@ public class ReservacionBean implements Serializable {
 
 	@Autowired
 	private FacturaService facturaService;
+
+	@Autowired
+	private ReporteService reporteService;
 
 	private List<Reservacion> listaReservacion;
 	private Reservacion reservacion;
@@ -161,19 +166,23 @@ public class ReservacionBean implements Serializable {
 	}
 
 	public void generarFactura(Reservacion reservacion) {
-		facturaTO = facturaTOService.obtenerTotalesFactura(codigoHotel, reservacion.getResCodigo());
-		factura.setFacAnulada(false);
-		factura.setFacFecha(reservacion.getResFechaSalido());
-		factura.setFacIvaVigente(facturaTO.getIvaVigente());
-		factura.setFacMontoiva(facturaTO.getMontoIva());
-		factura.setFacSubTotalBase0(new BigDecimal("0.00"));
-		factura.setFacSubTotalBaseImponible(facturaTO.getSubtotalPagar());
-		factura.setFacTotal(facturaTO.getTotalPagar());
-		factura.setFacTotalActividad(facturaTO.getTotalActividad());
-		factura.setFacTotalHabitaciones(facturaTO.getTotalHabitacion());
-		factura.setFacTotalSuplemento(facturaTO.getTotalSuplemento());
-		factura.setFacTotalSuplementoTemporada(facturaTO.getTotalSuplementoTemporada());
-		factura.setReservacion(reservacion);
+		if (!reservacion.getResCancelada()) {
+			facturaTO = facturaTOService.obtenerTotalesFactura(codigoHotel, reservacion.getResCodigo());
+			factura.setFacAnulada(false);
+			factura.setFacFecha(reservacion.getResFechaSalido());
+			factura.setFacIvaVigente(facturaTO.getIvaVigente());
+			factura.setFacMontoiva(facturaTO.getMontoIva());
+			factura.setFacSubTotalBase0(new BigDecimal("0.00"));
+			factura.setFacSubTotalBaseImponible(facturaTO.getSubtotalPagar());
+			factura.setFacTotal(facturaTO.getTotalPagar());
+			factura.setFacTotalActividad(facturaTO.getTotalActividad());
+			factura.setFacTotalHabitaciones(facturaTO.getTotalHabitacion());
+			factura.setFacTotalSuplemento(facturaTO.getTotalSuplemento());
+			factura.setFacTotalSuplementoTemporada(facturaTO.getTotalSuplementoTemporada());
+			factura.setReservacion(reservacion);
+		} else {
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Ya se a generado una factura para esta reservacion");
+		}
 	}
 
 	public void insertarFactura() {
@@ -182,7 +191,17 @@ public class ReservacionBean implements Serializable {
 		else {
 			factura.setFacNumero(numeroFactura);
 			facturaService.insertar(factura);
+			reservacion = reservacionService.obtenerPorId(reservacion.getResCodigo());
+			reservacion.setResCancelada(true);
+			reservacionService.actualizar(reservacion);
 		}
+	}
+
+	public void imprimir() {
+		List<Factura> listaReporte = new ArrayList<Factura>();
+		listaReporte.add(factura);
+		reporteService.generarReportePDF(listaReporte, new HashMap<String, Object>(), "Factura",
+				"factura" + factura.getFacNumero());
 	}
 
 	public void insertar(ActionEvent actionEvent) {
