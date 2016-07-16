@@ -194,6 +194,7 @@ public class ReservacionBean implements Serializable {
 			reservacion = reservacionService.obtenerPorId(reservacion.getResCodigo());
 			reservacion.setResCancelada(true);
 			reservacionService.actualizar(reservacion);
+			obtenerReservacionesPorHotel();
 		}
 	}
 
