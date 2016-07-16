@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import ec.com.hoteleraWeb.safari.control.dao.FacturaDao;
 import ec.com.hoteleraWeb.safari.control.entity.Factura;
+import ec.com.hoteleraWeb.safari.control.entityAux.FacturaTO;
 
 @Service
 public class FacturaServiceImpl implements FacturaService, Serializable {
@@ -32,12 +33,14 @@ public class FacturaServiceImpl implements FacturaService, Serializable {
 	public void insertar(Factura factura) {
 		factura.setFacAnulada(false);
 		facturaDao.insertar(factura);
-		presentaMensaje(FacesMessage.SEVERITY_INFO, "Factura insertado correctamente", "cerrar", true);
+		presentaMensaje(FacesMessage.SEVERITY_INFO,
+				"Factura numero " + factura.getFacNumero() + " insertado correctamente", "cerrar", true);
 	}
 
 	public void actualizar(Factura factura) {
 		facturaDao.actualizar(factura);
-		presentaMensaje(FacesMessage.SEVERITY_INFO, "Factura modificada correctamente", "cerrar", true);
+		presentaMensaje(FacesMessage.SEVERITY_INFO,
+				"Factura numero " + factura.getFacNumero() + " modificado correctamente", "cerrar", true);
 	}
 
 	public void eliminar(Factura factura) {

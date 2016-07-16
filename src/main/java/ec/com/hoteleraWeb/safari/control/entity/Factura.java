@@ -53,7 +53,7 @@ public class Factura implements Serializable {
 	private BigDecimal facTotal;
 
 	@Column(name = "fac_total_actividad")
-	private Long facTotalActividad;
+	private BigDecimal facTotalActividad;
 
 	@Column(name = "fac_total_habitaciones")
 	private BigDecimal facTotalHabitaciones;
@@ -62,7 +62,7 @@ public class Factura implements Serializable {
 	private BigDecimal facTotalSuplemento;
 
 	@Column(name = "fac_total_suplemento_temporada")
-	private Long facTotalSuplementoTemporada;
+	private BigDecimal facTotalSuplementoTemporada;
 
 	// bi-directional many-to-one association to Reservacion
 	@ManyToOne
@@ -144,11 +144,11 @@ public class Factura implements Serializable {
 		this.facTotal = facTotal;
 	}
 
-	public Long getFacTotalActividad() {
+	public BigDecimal getFacTotalActividad() {
 		return this.facTotalActividad;
 	}
 
-	public void setFacTotalActividad(Long facTotalActividad) {
+	public void setFacTotalActividad(BigDecimal facTotalActividad) {
 		this.facTotalActividad = facTotalActividad;
 	}
 
@@ -168,11 +168,11 @@ public class Factura implements Serializable {
 		this.facTotalSuplemento = facTotalSuplemento;
 	}
 
-	public Long getFacTotalSuplementoTemporada() {
+	public BigDecimal getFacTotalSuplementoTemporada() {
 		return this.facTotalSuplementoTemporada;
 	}
 
-	public void setFacTotalSuplementoTemporada(Long facTotalSuplementoTemporada) {
+	public void setFacTotalSuplementoTemporada(BigDecimal facTotalSuplementoTemporada) {
 		this.facTotalSuplementoTemporada = facTotalSuplementoTemporada;
 	}
 

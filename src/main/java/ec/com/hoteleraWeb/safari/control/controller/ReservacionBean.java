@@ -19,14 +19,18 @@ import org.springframework.stereotype.Controller;
 import ec.com.hoteleraWeb.safari.control.entity.Actividad;
 import ec.com.hoteleraWeb.safari.control.entity.Cliente;
 import ec.com.hoteleraWeb.safari.control.entity.ClienteActividad;
+import ec.com.hoteleraWeb.safari.control.entity.Factura;
 import ec.com.hoteleraWeb.safari.control.entity.Habitacion;
 import ec.com.hoteleraWeb.safari.control.entity.HabitacionDetalle;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Reservacion;
 import ec.com.hoteleraWeb.safari.control.entity.Usuario;
+import ec.com.hoteleraWeb.safari.control.entityAux.FacturaTO;
 import ec.com.hoteleraWeb.safari.control.service.ActividadService;
 import ec.com.hoteleraWeb.safari.control.service.ClienteActividadService;
 import ec.com.hoteleraWeb.safari.control.service.ClienteService;
+import ec.com.hoteleraWeb.safari.control.service.FacturaService;
+import ec.com.hoteleraWeb.safari.control.service.FacturaTOService;
 import ec.com.hoteleraWeb.safari.control.service.HabitacionDetalleService;
 import ec.com.hoteleraWeb.safari.control.service.HabitacionService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
@@ -63,6 +67,12 @@ public class ReservacionBean implements Serializable {
 	@Autowired
 	private ClienteActividadService clienteActividadService;
 
+	@Autowired
+	private FacturaTOService facturaTOService;
+
+	@Autowired
+	private FacturaService facturaService;
+
 	private List<Reservacion> listaReservacion;
 	private Reservacion reservacion;
 	private Integer codigoHotel;
@@ -74,6 +84,9 @@ public class ReservacionBean implements Serializable {
 	private List<Actividad> listaActividadesSeleccionadas;
 	private List<HabitacionDetalle> listaHabitacionDetalle;
 	private List<ClienteActividad> listaClienteActividad;
+	private Factura factura;
+	private FacturaTO facturaTO;
+	private String numeroFactura;
 	private boolean activarTabla;
 
 	private final BigDecimal ZERO = new BigDecimal("0.00");
@@ -105,6 +118,8 @@ public class ReservacionBean implements Serializable {
 		activarTabla = true;
 		listaHabitaciones = new ArrayList<Habitacion>();
 		listaActividades = new ArrayList<Actividad>();
+		factura = new Factura();
+		facturaTO = new FacturaTO();
 	}
 
 	public void obtenerReservacionesPorHotel() {
@@ -143,6 +158,31 @@ public class ReservacionBean implements Serializable {
 		setListaHabitaciones(habitacionService.obtenerHabitacionesDisponiblre(codigoHotel,
 				reservacion.getResFechaIngreso(), reservacion.getResFechaSalido()));
 		activarTabla = false;
+	}
+
+	public void generarFactura(Reservacion reservacion) {
+		facturaTO = facturaTOService.obtenerTotalesFactura(codigoHotel, reservacion.getResCodigo());
+		factura.setFacAnulada(false);
+		factura.setFacFecha(reservacion.getResFechaSalido());
+		factura.setFacIvaVigente(facturaTO.getIvaVigente());
+		factura.setFacMontoiva(facturaTO.getMontoIva());
+		factura.setFacSubTotalBase0(new BigDecimal("0.00"));
+		factura.setFacSubTotalBaseImponible(facturaTO.getSubtotalPagar());
+		factura.setFacTotal(facturaTO.getTotalPagar());
+		factura.setFacTotalActividad(facturaTO.getTotalActividad());
+		factura.setFacTotalHabitaciones(facturaTO.getTotalHabitacion());
+		factura.setFacTotalSuplemento(facturaTO.getTotalSuplemento());
+		factura.setFacTotalSuplementoTemporada(facturaTO.getTotalSuplementoTemporada());
+		factura.setReservacion(reservacion);
+	}
+
+	public void insertarFactura() {
+		if (numeroFactura.isEmpty())
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar el numero de la factura");
+		else {
+			factura.setFacNumero(numeroFactura);
+			facturaService.insertar(factura);
+		}
 	}
 
 	public void insertar(ActionEvent actionEvent) {
@@ -324,6 +364,30 @@ public class ReservacionBean implements Serializable {
 
 	public void setActivarTabla(boolean activarTabla) {
 		this.activarTabla = activarTabla;
+	}
+
+	public String getNumeroFactura() {
+		return numeroFactura;
+	}
+
+	public void setNumeroFactura(String numeroFactura) {
+		this.numeroFactura = numeroFactura;
+	}
+
+	public Factura getFactura() {
+		return factura;
+	}
+
+	public void setFactura(Factura factura) {
+		this.factura = factura;
+	}
+
+	public FacturaTO getFacturaTO() {
+		return facturaTO;
+	}
+
+	public void setFacturaTO(FacturaTO facturaTO) {
+		this.facturaTO = facturaTO;
 	}
 
 }

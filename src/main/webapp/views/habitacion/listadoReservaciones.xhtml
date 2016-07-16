@@ -48,7 +48,9 @@
 									target="#{reservacionBean.reservacion}" />
 							</p:commandButton>
 							<p:tooltip for="btnFactura" value="Facturar" />
-							<p:commandButton id="btnFactura" update=":mensaje, :formFactura"
+							<p:commandButton id="btnFactura"
+								actionListener="#{reservacionBean.generarFactura(reservacion)}"
+								update=":mensaje, :formFactura"
 								oncomplete="mostarPanelFactura('')" icon="#{msg['i.mostrar']}">
 								<f:setPropertyActionListener value="#{reservacion}"
 									target="#{reservacionBean.reservacion}" />
@@ -328,16 +330,73 @@
 
 			<p:panel id="panelFactura" header="Factura" styleClass="DispNone">
 				<h:form id="formFactura">
-					<h:inputHidden value="#{reservacionBean.reservacion.resCodigo}" />
-					<div class="EmptyBox30"></div>
-					<p:outputLabel
-						value="¿Desea Generar la factura para la reservacion numero #{reservacionBean.reservacion.resCodigo} ?" />
-					<div class="EmptyBox30"></div>
+					<div class="divDatosIzq50">
+						<div id="datosEmpleado" class="divDatosIzq50">
+							<h:inputHidden value="#{reservacionBean.reservacion.resCodigo}" />
+
+							<div class="EmptyBox20"></div>
+
+							<p:outputLabel value="Numero Factura:"
+								styleClass="DispBlock Wid90 negrita" />
+							<p:inputMask value="#{reservacionBean.numeroFactura}"
+								mask="999-999-999999999" styleClass="DispBlock Wid50" />
+
+							<div class="EmptyBox20"></div>
+
+							<p:outputLabel value="Reservacion:"
+								styleClass="DispBlock Wid90 negrita" />
+							<p:outputLabel value="#{reservacionBean.reservacion.resCodigo}"
+								styleClass="DispBlock Wid90" />
+
+							<div class="EmptyBox20"></div>
+
+							<p:outputLabel value="Cliente:"
+								styleClass="DispBlock Wid90 negrita" />
+							<p:outputLabel
+								value="#{reservacionBean.reservacion.cliente.cliApellido} #{reservacionBean.reservacion.cliente.cliNombre}"
+								styleClass="DispBlock Wid90" />
+
+							<div class="EmptyBox20"></div>
+
+							<p:outputLabel value="SubTotal:" styleClass="Wid90 negrita" />
+							<p:outputLabel
+								value="#{reservacionBean.factura.facSubTotalBaseImponible}"
+								styleClass="Wid90">
+								<f:convertNumber pattern="#0.00" />
+							</p:outputLabel>
+
+							<p:outputLabel value="" styleClass="DispBlock Wid90 negrita" />
+
+							<p:outputLabel value="Iva:" styleClass="Wid90 negrita" />
+							<p:outputLabel value="#{reservacionBean.factura.facMontoiva}"
+								styleClass="Wid90">
+								<f:convertNumber pattern="#0.00" />
+							</p:outputLabel>
+
+							<p:outputLabel value="" styleClass="DispBlock Wid90 negrita" />
+
+							<p:outputLabel value="Abono:" styleClass="Wid90 negrita" />
+							<p:outputLabel value="#{reservacionBean.reservacion.resAbono}"
+								styleClass="Wid90">
+								<f:convertNumber pattern="#0.00" />
+							</p:outputLabel>
+
+							<p:outputLabel value="" styleClass="DispBlock Wid90 negrita" />
+
+							<p:outputLabel value="Total a Pagar:" styleClass="Wid90 negrita" />
+							<p:outputLabel value="#{reservacionBean.factura.facTotal}"
+								styleClass="Wid90">
+								<f:convertNumber pattern="#0.00" />
+							</p:outputLabel>
+						</div>
+					</div>
+
+					<div class="EmptyBox10"></div>
 					<p:separator />
 					<p:commandButton value="#{msg['btn.aceptar']}"
 						update=":formDataTable,:mensaje" icon="#{msg['i.activar']}"
 						oncomplete="mostarPanelFactura('')"
-						actionListener="#{reservacionBean.generarFactura}"
+						actionListener="#{reservacionBean.insertarFactura}"
 						styleClass="GreenButton" />
 					<p:commandButton value="#{msg['btn.cancelar']}"
 						onclick="mostarPanelFactura('')" icon="#{msg['i.cancelar']}"
