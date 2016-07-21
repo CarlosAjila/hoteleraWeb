@@ -5,6 +5,7 @@ import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +22,7 @@ import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Reservacion;
 import ec.com.hoteleraWeb.safari.control.service.FacturaService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
+import ec.com.hoteleraWeb.safari.utils.service.ReporteService;
 
 @Controller
 @Scope("session")
@@ -33,6 +35,9 @@ public class FacturaBean implements Serializable {
 
 	@Autowired
 	private FacturaService facturaService;
+
+	@Autowired
+	private ReporteService reporteService;
 
 	private List<Hotel> listaHoteles;
 	private List<Factura> listaFacturas;
@@ -65,6 +70,13 @@ public class FacturaBean implements Serializable {
 		setListaFacturas(new ArrayList<Factura>());
 		listaHoteles = new ArrayList<Hotel>();
 
+	}
+
+	public void imprimir(Factura factura) {
+		List<Factura> listaReporte = new ArrayList<Factura>();
+		listaReporte.add(factura);
+		reporteService.generarReportePDF(listaReporte, new HashMap<String, Object>(), "Factura",
+				"factura" + factura.getFacNumero());
 	}
 
 	public void obtenerHoteles() {

@@ -13,6 +13,9 @@ public interface HabitacionService {
 	public List<Habitacion> obtenerTodos();
 
 	@Transactional
+	public Habitacion obtenerPorCodigo(Integer codigo);
+
+	@Transactional
 	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel, Boolean disponibles);
 
 	@Transactional
@@ -38,7 +41,6 @@ public interface HabitacionService {
 
 	@Transactional
 
-	public List<Habitacion> obtenerHabitacionesDisponiblre(Integer codigoHotel, Date fechaIngreso,
-			Date fechaSalida);
+	public List<Habitacion> obtenerHabitacionesDisponiblre(Integer codigoHotel, Date fechaIngreso, Date fechaSalida);
 
 }

@@ -26,6 +26,10 @@ public class HabitacionServiceImpl implements HabitacionService, Serializable {
 		return habitacionDao.obtenerTodos();
 	}
 
+	public Habitacion obtenerPorCodigo(Integer codigo) {
+		return habitacionDao.obtenerPorCodigo(codigo);
+	}
+
 	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel, Boolean disponibles) {
 		return habitacionDao.obtenerTodosPorHotel(codigoHotel, disponibles);
 	}
@@ -71,8 +75,7 @@ public class HabitacionServiceImpl implements HabitacionService, Serializable {
 		return habitacionDao.obtenerPorReservacion(codigoReservacion);
 	}
 
-	public List<Habitacion> obtenerHabitacionesDisponiblre(Integer codigoHotel, Date fechaIngreso,
-			Date fechaSalida) {
+	public List<Habitacion> obtenerHabitacionesDisponiblre(Integer codigoHotel, Date fechaIngreso, Date fechaSalida) {
 		return habitacionDao.obtenerHabitacionesDisponible(codigoHotel, fechaIngreso, fechaSalida);
 	}
 

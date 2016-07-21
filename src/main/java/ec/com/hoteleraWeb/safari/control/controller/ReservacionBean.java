@@ -75,9 +75,6 @@ public class ReservacionBean implements Serializable {
 	@Autowired
 	private FacturaService facturaService;
 
-	@Autowired
-	private ReporteService reporteService;
-
 	private List<Reservacion> listaReservacion;
 	private Reservacion reservacion;
 	private Integer codigoHotel;
@@ -129,6 +126,17 @@ public class ReservacionBean implements Serializable {
 
 	public void obtenerReservacionesPorHotel() {
 		listaReservacion = reservacionService.obtenerTodosPorHotel(codigoHotel.toString());
+	}
+
+	public void cancelar() {
+		if (reservacion.getResCancelada())
+			presentaMensaje(FacesMessage.SEVERITY_ERROR,
+					"La reservacion " + reservacion.getResCodigo() + " ya esta cancelada");
+		else {
+			reservacion.setResCancelada(true);
+			reservacionService.actualizar(reservacion);
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "Se cancelo la reservacion " + reservacion.getResCodigo());
+		}
 	}
 
 	public void cargarClienteReservacion() {
@@ -186,23 +194,25 @@ public class ReservacionBean implements Serializable {
 	}
 
 	public void insertarFactura() {
-		if (numeroFactura.isEmpty())
-			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar el numero de la factura");
+		if (reservacion.getResCancelada())
+			presentaMensaje(FacesMessage.SEVERITY_ERROR,
+					"No se puede generar una factura de una reservacion cancelada");
 		else {
-			factura.setFacNumero(numeroFactura);
-			facturaService.insertar(factura);
-			reservacion = reservacionService.obtenerPorId(reservacion.getResCodigo());
-			reservacion.setResCancelada(true);
-			reservacionService.actualizar(reservacion);
-			obtenerReservacionesPorHotel();
+			if (numeroFactura.isEmpty())
+				presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar el numero de la factura");
+			else {
+				factura.setFacNumero(numeroFactura);
+				facturaService.insertar(factura);
+				reservacion = reservacionService.obtenerPorId(reservacion.getResCodigo());
+				for (HabitacionDetalle habitacionDetalle : reservacion.getHabitacionDetalles()) {
+					Habitacion habitacion = habitacionService
+							.obtenerPorCodigo(habitacionDetalle.getHabitacion().getHabCodigo());
+					habitacion.setHabDisponible(true);
+					habitacionService.actualizar(habitacion);
+				}
+				obtenerReservacionesPorHotel();
+			}
 		}
-	}
-
-	public void imprimir() {
-		List<Factura> listaReporte = new ArrayList<Factura>();
-		listaReporte.add(factura);
-		reporteService.generarReportePDF(listaReporte, new HashMap<String, Object>(), "Factura",
-				"factura" + factura.getFacNumero());
 	}
 
 	public void insertar(ActionEvent actionEvent) {

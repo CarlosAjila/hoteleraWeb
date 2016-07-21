@@ -30,6 +30,15 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 		return null;
 	}
 
+	public Habitacion obtenerPorCodigo(Integer codigo) {
+		String sql = "Select * FROM habitaciones where hab_codigo='" + codigo + "'";
+		Habitacion habitacion = new Habitacion();
+		habitacion = genericSQLDao.obtenerPorSql(sql, Habitacion.class).get(0);
+		if (habitacion != null)
+			return habitacion;
+		return null;
+	}
+
 	public List<Habitacion> obtenerTodosPorHotel(String codigoHotel, Boolean disponibles) {
 		String sql = "Select * FROM habitacion where hot_codigo='" + codigoHotel + "' ORDER BY hab_numero;";
 		if (disponibles)
@@ -87,14 +96,13 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 		return null;
 	}
 
-	public List<Habitacion> obtenerHabitacionesDisponible(Integer codigoHotel, Date fechaIngreso,
-			Date fechaSalida) {
-		String sql = "select * from habitacion as h1 "
-				+ "WHERE h1.hot_codigo = "+codigoHotel+" and h1.hab_disponible=true and h1.hab_codigo "
+	public List<Habitacion> obtenerHabitacionesDisponible(Integer codigoHotel, Date fechaIngreso, Date fechaSalida) {
+		String sql = "select * from habitacion as h1 " + "WHERE h1.hot_codigo = " + codigoHotel
+				+ " and h1.hab_disponible=true and h1.hab_codigo "
 				+ "NOT IN (Select distinct h.hab_codigo FROM habitacion as h "
 				+ "INNER JOIN habitacion_detalle as hd ON h.hab_codigo = hd.hab_codigo "
-				+ "INNER JOIN reservacion as r ON hd.res_codigo = r.res_codigo "
-				+ "WHERE h.hot_codigo = "+codigoHotel+" AND r.res_fecha_ingreso > '"+fechaIngreso+"' AND r.res_fecha_salido < '"+fechaSalida+"')";
+				+ "INNER JOIN reservacion as r ON hd.res_codigo = r.res_codigo " + "WHERE h.hot_codigo = " + codigoHotel
+				+ " AND r.res_fecha_ingreso > '" + fechaIngreso + "' AND r.res_fecha_salido < '" + fechaSalida + "')";
 		List<Habitacion> habitaciones = new ArrayList<Habitacion>();
 		habitaciones = genericSQLDao.obtenerPorSql(sql, Habitacion.class);
 		if (habitaciones != null)

@@ -8,7 +8,18 @@
 
 	<ui:define name="content">
 		<p:panel id="panelPrincipal" header="lista de Facturas">
-
+			<div class="EmptyBox10"></div>
+			<h:form id="formBusqueda">
+				<p:selectOneMenu id="comboHotel" value="#{facturaBean.codigoHotel}"
+					style="width:165px;">
+					<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+					<f:selectItems value="#{facturaBean.listaHoteles}" var="hotel"
+						itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
+					<p:ajax event="change" update=":formDataTable"
+						listener="#{facturaBean.obtenerPorHotel}" />
+				</p:selectOneMenu>
+			</h:form>
+			<div class="EmptyBox10"></div>
 			<h:form id="formDataTable">
 				<p:dataTable id="tablaFacturas" var="factura" scrollable="true"
 					rowStyleClass="#{factura.facAnulada eq false ? null:'desactivo'}"
@@ -26,7 +37,15 @@
 					</f:facet>
 
 					<p:column headerText="#{msg['lbl.gestionar']}">
-
+						<p:tooltip for="btnImprimir" value="Imprimir" />
+						<p:commandButton id="btnImprimir" ajax="false"
+							icon="ui-icon-print"
+							actionListener="#{facturaBean.imprimir(factura)}"
+							update=":mensaje, :formFactura"
+							oncomplete="mostarPanelFactura('')">
+							<f:setPropertyActionListener value="#{factura}"
+								target="#{facturaBean.factura}" />
+						</p:commandButton>
 					</p:column>
 
 					<p:column headerText="Numero" filterBy="#{factura.facNumero}">
@@ -37,7 +56,7 @@
 						<p:outputLabel value="#{factura.facFecha}" />
 					</p:column>
 					<p:column headerText="Total">
-						<p:outputLabel value="#{factura.factTotal}" />
+						<p:outputLabel value="#{factura.facTotal}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>

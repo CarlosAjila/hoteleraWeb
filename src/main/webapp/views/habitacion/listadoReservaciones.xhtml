@@ -33,6 +33,7 @@
 						paginatorPosition="bottom"
 						emptyMessage="#{msg['lbl.mensajeTabla']}">
 						<f:facet name="header">
+							<p:tooltip for="btnCancelar" value="Cancelar" />
 							<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
 							<p:commandButton update=":formNuevo"
 								actionListener="#{reservacionBean.cargarInsertar}"
@@ -52,6 +53,12 @@
 								actionListener="#{reservacionBean.generarFactura(reservacion)}"
 								update=":mensaje, :formFactura"
 								oncomplete="mostarPanelFactura('')" icon="#{msg['i.mostrar']}">
+								<f:setPropertyActionListener value="#{reservacion}"
+									target="#{reservacionBean.reservacion}" />
+							</p:commandButton>
+							<p:commandButton id="btnCancelar"
+								update=":mensaje, :formEliminar"
+								oncomplete="mostarPanelEliminar('')" icon="#{msg['i.eliminar']}">
 								<f:setPropertyActionListener value="#{reservacion}"
 									target="#{reservacionBean.reservacion}" />
 							</p:commandButton>
@@ -390,7 +397,6 @@
 							</p:outputLabel>
 						</div>
 					</div>
-
 					<div class="EmptyBox10"></div>
 					<p:separator />
 					<p:commandButton value="#{msg['btn.aceptar']}"
@@ -403,6 +409,28 @@
 						styleClass="RedButton" />
 				</h:form>
 			</p:panel>
+
+			<p:panel id="panelEliminar"
+				header="#{msg['lbl.activar']}/#{msg['lbl.desactivar']}"
+				styleClass="DispNone">
+				<h:form id="formEliminar">
+					<h:inputHidden value="#{reservacionBean.reservacion.resCodigo}" />
+					<div class="EmptyBox30"></div>
+					<p:outputLabel
+						value="¿ESTA SEGURO DE CANCELAR LA RESERVACION: #{reservacionBean.reservacion.resCodigo} ASIGNADA AL CLIENTE  #{reservacionBean.reservacion.cliente.cliApellido} #{reservacionBean.reservacion.cliente.cliNombre} ?" />
+					<div class="EmptyBox30"></div>
+					<p:separator />
+					<p:commandButton value="#{msg['btn.aceptar']}"
+						update=":formDataTable,:mensaje" icon="#{msg['i.activar']}"
+						oncomplete="mostarPanelEliminar('')"
+						actionListener="#{reservacionBean.cancelar}"
+						styleClass="GreenButton" />
+					<p:commandButton value="#{msg['btn.cancelar']}"
+						onclick="mostarPanelEliminar('')" icon="#{msg['i.cancelar']}"
+						styleClass="RedButton" />
+				</h:form>
+			</p:panel>
+
 		</div>
 	</ui:define>
 </ui:composition>
