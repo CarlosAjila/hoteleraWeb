@@ -22,6 +22,7 @@ import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Reservacion;
 import ec.com.hoteleraWeb.safari.control.service.FacturaService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
+import ec.com.hoteleraWeb.safari.control.service.ReservacionService;
 import ec.com.hoteleraWeb.safari.utils.service.ReporteService;
 
 @Controller
@@ -38,6 +39,9 @@ public class FacturaBean implements Serializable {
 
 	@Autowired
 	private ReporteService reporteService;
+
+	@Autowired
+	private ReservacionService reservacionService;
 
 	private List<Hotel> listaHoteles;
 	private List<Factura> listaFacturas;
@@ -73,6 +77,7 @@ public class FacturaBean implements Serializable {
 	}
 
 	public void imprimir(Factura factura) {
+		reservacionService.obtenerPorId(factura.getReservacion().getResCodigo());
 		List<Factura> listaReporte = new ArrayList<Factura>();
 		listaReporte.add(factura);
 		reporteService.generarReportePDF(listaReporte, new HashMap<String, Object>(), "Factura",
