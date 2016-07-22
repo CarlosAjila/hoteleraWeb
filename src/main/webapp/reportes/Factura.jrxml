@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-07-21T09:14:42 -->
+<!-- 2016-07-21T09:41:24 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Orden" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="162f49b4-7ed4-4226-8bf6-365c56ea66f3">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
@@ -24,50 +24,44 @@
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
-	<field name="facAnulada" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[facAnulada]]></fieldDescription>
+	<field name="resCodigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[resCodigo]]></fieldDescription>
 	</field>
-	<field name="facIvaVigente" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[facIvaVigente]]></fieldDescription>
+	<field name="facturas" class="java.util.List">
+		<fieldDescription><![CDATA[facturas]]></fieldDescription>
 	</field>
-	<field name="facTotal" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[facTotal]]></fieldDescription>
+	<field name="resCancelada" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[resCancelada]]></fieldDescription>
 	</field>
-	<field name="facTotalActividad" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[facTotalActividad]]></fieldDescription>
+	<field name="resInstancia" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[resInstancia]]></fieldDescription>
 	</field>
-	<field name="facSubTotalBaseImponible" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[facSubTotalBaseImponible]]></fieldDescription>
+	<field name="resFechaSalido" class="java.util.Date">
+		<fieldDescription><![CDATA[resFechaSalido]]></fieldDescription>
 	</field>
-	<field name="reservacion" class="ec.com.hoteleraWeb.safari.control.entity.Reservacion">
-		<fieldDescription><![CDATA[reservacion]]></fieldDescription>
+	<field name="cliente" class="ec.com.hoteleraWeb.safari.control.entity.Cliente">
+		<fieldDescription><![CDATA[cliente]]></fieldDescription>
 	</field>
-	<field name="facTotalSuplementoTemporada" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[facTotalSuplementoTemporada]]></fieldDescription>
+	<field name="habitacionDetalles" class="java.util.List">
+		<fieldDescription><![CDATA[habitacionDetalles]]></fieldDescription>
 	</field>
-	<field name="facMontoiva" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[facMontoiva]]></fieldDescription>
+	<field name="clienteActividads" class="java.util.List">
+		<fieldDescription><![CDATA[clienteActividads]]></fieldDescription>
 	</field>
-	<field name="facTotalHabitaciones" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[facTotalHabitaciones]]></fieldDescription>
+	<field name="resAbono" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[resAbono]]></fieldDescription>
 	</field>
-	<field name="facSubTotalBase0" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[facSubTotalBase0]]></fieldDescription>
+	<field name="resFechaIngreso" class="java.util.Date">
+		<fieldDescription><![CDATA[resFechaIngreso]]></fieldDescription>
 	</field>
-	<field name="facFecha" class="java.util.Date">
-		<fieldDescription><![CDATA[facFecha]]></fieldDescription>
+	<field name="resFechaReserva" class="java.util.Date">
+		<fieldDescription><![CDATA[resFechaReserva]]></fieldDescription>
 	</field>
-	<field name="facNumero" class="java.lang.String">
-		<fieldDescription><![CDATA[facNumero]]></fieldDescription>
-	</field>
-	<field name="facTotalSuplemento" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[facTotalSuplemento]]></fieldDescription>
+	<field name="usuario" class="ec.com.hoteleraWeb.safari.control.entity.Usuario">
+		<fieldDescription><![CDATA[usuario]]></fieldDescription>
 	</field>
 	<field name="class" class="java.lang.Class">
 		<fieldDescription><![CDATA[class]]></fieldDescription>
-	</field>
-	<field name="facCodigo" class="java.lang.Integer">
-		<fieldDescription><![CDATA[facCodigo]]></fieldDescription>
 	</field>
 	<title>
 		<band height="141" splitType="Stretch">
@@ -153,23 +147,6 @@
 				</textElement>
 				<text><![CDATA[FECHA :]]></text>
 			</staticText>
-			<textField>
-				<reportElement style="Fila" mode="Opaque" x="53" y="39" width="137" height="11" backcolor="#FFFFFF" uuid="8f4efcb6-5e92-4cb6-a27c-486067fb57cb">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box leftPadding="1">
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{facAnulada}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement mode="Opaque" x="3" y="53" width="44" height="12" backcolor="#FFFFFF" uuid="c5390c5b-4e29-45c6-95f7-79778d29b2f5">
 					<property name="local_mesure_unitwidth" value="pixel"/>
@@ -270,6 +247,10 @@
 				</box>
 				<imageExpression><![CDATA["../resources/imagenes/logo.png"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="109" y="46" width="200" height="30" uuid="a5b354fc-3896-4300-90d3-c056bc95b336"/>
+				<textFieldExpression><![CDATA[$F{facturas}.getFacNumero()]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 </jasperReport>

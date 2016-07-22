@@ -77,11 +77,11 @@ public class FacturaBean implements Serializable {
 	}
 
 	public void imprimir(Factura factura) {
-		reservacionService.obtenerPorId(factura.getReservacion().getResCodigo());
-		List<Factura> listaReporte = new ArrayList<Factura>();
-		listaReporte.add(factura);
+		reservacion = reservacionService.obtenerPorId(factura.getReservacion().getResCodigo());
+		List<Factura> listaReporte = new ArrayList<Reservacion>();
+		listaReporte.add(reservacion);
 		reporteService.generarReportePDF(listaReporte, new HashMap<String, Object>(), "Factura",
-				"factura" + factura.getFacNumero());
+				"factura " + factura.getFacNumero());
 	}
 
 	public void obtenerHoteles() {
