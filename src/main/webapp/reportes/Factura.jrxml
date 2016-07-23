@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-07-21T09:41:24 -->
+<!-- 2016-07-23T12:45:21 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Orden" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="162f49b4-7ed4-4226-8bf6-365c56ea66f3">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
@@ -24,44 +24,68 @@
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
-	<field name="resCodigo" class="java.lang.Integer">
-		<fieldDescription><![CDATA[resCodigo]]></fieldDescription>
+	<field name="cliMovil" class="java.lang.String">
+		<fieldDescription><![CDATA[cliMovil]]></fieldDescription>
 	</field>
-	<field name="facturas" class="java.util.List">
-		<fieldDescription><![CDATA[facturas]]></fieldDescription>
+	<field name="hotCodigo" class="java.lang.String">
+		<fieldDescription><![CDATA[hotCodigo]]></fieldDescription>
 	</field>
-	<field name="resCancelada" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[resCancelada]]></fieldDescription>
+	<field name="hotTelefono" class="java.lang.String">
+		<fieldDescription><![CDATA[hotTelefono]]></fieldDescription>
 	</field>
-	<field name="resInstancia" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[resInstancia]]></fieldDescription>
+	<field name="hotDireccion" class="java.lang.String">
+		<fieldDescription><![CDATA[hotDireccion]]></fieldDescription>
 	</field>
-	<field name="resFechaSalido" class="java.util.Date">
-		<fieldDescription><![CDATA[resFechaSalido]]></fieldDescription>
+	<field name="ivaVigente" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[ivaVigente]]></fieldDescription>
 	</field>
-	<field name="cliente" class="ec.com.hoteleraWeb.safari.control.entity.Cliente">
-		<fieldDescription><![CDATA[cliente]]></fieldDescription>
+	<field name="cliDireccion" class="java.lang.String">
+		<fieldDescription><![CDATA[cliDireccion]]></fieldDescription>
 	</field>
-	<field name="habitacionDetalles" class="java.util.List">
-		<fieldDescription><![CDATA[habitacionDetalles]]></fieldDescription>
+	<field name="totalSuplementoTemporada" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalSuplementoTemporada]]></fieldDescription>
 	</field>
-	<field name="clienteActividads" class="java.util.List">
-		<fieldDescription><![CDATA[clienteActividads]]></fieldDescription>
+	<field name="totalSuplemento" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalSuplemento]]></fieldDescription>
 	</field>
-	<field name="resAbono" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[resAbono]]></fieldDescription>
+	<field name="totalActividad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalActividad]]></fieldDescription>
 	</field>
-	<field name="resFechaIngreso" class="java.util.Date">
-		<fieldDescription><![CDATA[resFechaIngreso]]></fieldDescription>
+	<field name="totalAbono" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalAbono]]></fieldDescription>
 	</field>
-	<field name="resFechaReserva" class="java.util.Date">
-		<fieldDescription><![CDATA[resFechaReserva]]></fieldDescription>
+	<field name="montoIva" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[montoIva]]></fieldDescription>
 	</field>
-	<field name="usuario" class="ec.com.hoteleraWeb.safari.control.entity.Usuario">
-		<fieldDescription><![CDATA[usuario]]></fieldDescription>
+	<field name="subtotalPagar" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[subtotalPagar]]></fieldDescription>
+	</field>
+	<field name="cliNombres" class="java.lang.String">
+		<fieldDescription><![CDATA[cliNombres]]></fieldDescription>
+	</field>
+	<field name="cliTelefono" class="java.lang.String">
+		<fieldDescription><![CDATA[cliTelefono]]></fieldDescription>
+	</field>
+	<field name="hotRuc" class="java.lang.String">
+		<fieldDescription><![CDATA[hotRuc]]></fieldDescription>
+	</field>
+	<field name="totalHabitacion" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalHabitacion]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="totalPagar" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPagar]]></fieldDescription>
 	</field>
 	<field name="class" class="java.lang.Class">
 		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="hotNombre" class="java.lang.String">
+		<fieldDescription><![CDATA[hotNombre]]></fieldDescription>
+	</field>
+	<field name="cliCedula" class="java.lang.String">
+		<fieldDescription><![CDATA[cliCedula]]></fieldDescription>
 	</field>
 	<title>
 		<band height="141" splitType="Stretch">
@@ -248,8 +272,28 @@
 				<imageExpression><![CDATA["../resources/imagenes/logo.png"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="109" y="46" width="200" height="30" uuid="a5b354fc-3896-4300-90d3-c056bc95b336"/>
-				<textFieldExpression><![CDATA[$F{facturas}.getFacNumero()]]></textFieldExpression>
+				<reportElement x="109" y="46" width="110" height="18" uuid="a5b354fc-3896-4300-90d3-c056bc95b336"/>
+				<textFieldExpression><![CDATA[$F{hotTelefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="109" y="70" width="110" height="18" uuid="f4057d92-7625-484b-8a82-b1b4376c08fd"/>
+				<textFieldExpression><![CDATA[$F{cliDireccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="50" width="110" height="18" uuid="a438d620-e8c9-4f75-a60c-e4764324516c"/>
+				<textFieldExpression><![CDATA[$F{hotNombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="82" width="110" height="18" uuid="00e62d0b-7859-417f-b1a9-73098146c82b"/>
+				<textFieldExpression><![CDATA[$F{cliNombres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="50" width="110" height="18" uuid="2a7598f6-1efe-4438-adf0-a18f999d74c1"/>
+				<textFieldExpression><![CDATA[$F{hotTelefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="80" width="110" height="18" uuid="db524a76-6108-41d1-a76e-77b9abd176c2"/>
+				<textFieldExpression><![CDATA[$F{totalPagar}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

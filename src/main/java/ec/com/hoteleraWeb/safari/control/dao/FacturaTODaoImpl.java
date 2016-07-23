@@ -1,7 +1,5 @@
 package ec.com.hoteleraWeb.safari.control.dao;
 
-import java.math.BigDecimal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +8,7 @@ import ec.com.hoteleraWeb.safari.utils.dao.GenericDaoImpl;
 import ec.com.hoteleraWeb.safari.utils.dao.GenericSQLDao;
 
 @Repository
-public class FacturaTODaoImpl extends GenericDaoImpl<FacturaTO, BigDecimal> implements FacturaTODao {
+public class FacturaTODaoImpl extends GenericDaoImpl<FacturaTO, Integer> implements FacturaTODao {
 
 	@Autowired
 	private GenericSQLDao genericSQLDao;

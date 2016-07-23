@@ -11,9 +11,40 @@ import javax.persistence.Id;
 public class FacturaTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	// @Column(name = "id")
-	// private Integer id;
 	@Id
+	@Column(name = "id")
+	private Integer id;
+
+	@Column(name = "hot_codigo")
+	private String hotCodigo;
+
+	@Column(name = "hot_ruc")
+	private String hotRuc;
+
+	@Column(name = "hot_nombre")
+	private String hotNombre;
+
+	@Column(name = "hot_direccion")
+	private String hotDireccion;
+
+	@Column(name = "hot_telefono")
+	private String hotTelefono;
+
+	@Column(name = "cli_cedula")
+	private String cliCedula;
+
+	@Column(name = "cli_nombres")
+	private String cliNombres;
+
+	@Column(name = "cli_direccion")
+	private String cliDireccion;
+
+	@Column(name = "cli_telefono")
+	private String cliTelefono;
+
+	@Column(name = "cli_movil")
+	private String cliMovil;
+
 	@Column(name = "total_suplemento")
 	private BigDecimal totalSuplemento;
 
@@ -117,12 +148,92 @@ public class FacturaTO implements Serializable {
 		this.montoIva = montoIva;
 	}
 
-	// public Integer getId() {
-	// return id;
-	// }
-	//
-	// public void setId(Integer id) {
-	// this.id = id;
-	// }
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getHotCodigo() {
+		return hotCodigo;
+	}
+
+	public void setHotCodigo(String hotCodigo) {
+		this.hotCodigo = hotCodigo;
+	}
+
+	public String getHotRuc() {
+		return hotRuc;
+	}
+
+	public void setHotRuc(String hotRuc) {
+		this.hotRuc = hotRuc;
+	}
+
+	public String getHotNombre() {
+		return hotNombre;
+	}
+
+	public void setHotNombre(String hotNombre) {
+		this.hotNombre = hotNombre;
+	}
+
+	public String getHotDireccion() {
+		return hotDireccion;
+	}
+
+	public void setHotDireccion(String hotDireccion) {
+		this.hotDireccion = hotDireccion;
+	}
+
+	public String getHotTelefono() {
+		return hotTelefono;
+	}
+
+	public void setHotTelefono(String hotTelefono) {
+		this.hotTelefono = hotTelefono;
+	}
+
+	public String getCliCedula() {
+		return cliCedula;
+	}
+
+	public void setCliCedula(String cliCedula) {
+		this.cliCedula = cliCedula;
+	}
+
+	public String getCliNombres() {
+		return cliNombres;
+	}
+
+	public void setCliNombres(String cliNombres) {
+		this.cliNombres = cliNombres;
+	}
+
+	public String getCliDireccion() {
+		return cliDireccion;
+	}
+
+	public void setCliDireccion(String cliDireccion) {
+		this.cliDireccion = cliDireccion;
+	}
+
+	public String getCliTelefono() {
+		return cliTelefono;
+	}
+
+	public void setCliTelefono(String cliTelefono) {
+		this.cliTelefono = cliTelefono;
+	}
+
+	public String getCliMovil() {
+		return cliMovil;
+	}
+
+	public void setCliMovil(String cliMovil) {
+		this.cliMovil = cliMovil;
+	}
 
 }

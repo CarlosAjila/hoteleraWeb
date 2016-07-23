@@ -54,10 +54,6 @@ public class Reservacion implements Serializable {
 	@OneToMany(mappedBy = "reservacion")
 	private List<ClienteActividad> clienteActividads;
 
-	// bi-directional many-to-one association to Factura
-	@OneToMany(mappedBy = "reservacion")
-	private Factura facturas;
-
 	// bi-directional many-to-one association to HabitacionDetalle
 	@OneToMany(mappedBy = "reservacion")
 	private List<HabitacionDetalle> habitacionDetalles;
@@ -152,28 +148,6 @@ public class Reservacion implements Serializable {
 
 		return clienteActividad;
 	}
-
-	public Factura getFacturas() {
-		return this.facturas;
-	}
-
-	public void setFacturas(Factura facturas) {
-		this.facturas = facturas;
-	}
-
-//	public Factura addFactura(Factura factura) {
-//		getFacturas().add(factura);
-//		factura.setReservacion(this);
-//
-//		return factura;
-//	}
-//
-//	public Factura removeFactura(Factura factura) {
-//		getFacturas().remove(factura);
-//		factura.setReservacion(null);
-//
-//		return factura;
-//	}
 
 	public List<HabitacionDetalle> getHabitacionDetalles() {
 		return this.habitacionDetalles;

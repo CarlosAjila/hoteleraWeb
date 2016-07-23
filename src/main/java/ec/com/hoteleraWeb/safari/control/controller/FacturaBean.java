@@ -19,8 +19,9 @@ import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entity.Factura;
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
-import ec.com.hoteleraWeb.safari.control.entity.Reservacion;
+import ec.com.hoteleraWeb.safari.control.entityAux.FacturaTO;
 import ec.com.hoteleraWeb.safari.control.service.FacturaService;
+import ec.com.hoteleraWeb.safari.control.service.FacturaTOService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.control.service.ReservacionService;
 import ec.com.hoteleraWeb.safari.utils.service.ReporteService;
@@ -38,6 +39,9 @@ public class FacturaBean implements Serializable {
 	private FacturaService facturaService;
 
 	@Autowired
+	private FacturaTOService facturaServiceTO;
+
+	@Autowired
 	private ReporteService reporteService;
 
 	@Autowired
@@ -46,7 +50,7 @@ public class FacturaBean implements Serializable {
 	private List<Hotel> listaHoteles;
 	private List<Factura> listaFacturas;
 	private Factura factura;
-	private Reservacion reservacion;
+	private FacturaTO facturaTO;
 	private Integer codigoHotel;
 	private final BigDecimal ZERO = new BigDecimal("0.00");
 
@@ -70,16 +74,15 @@ public class FacturaBean implements Serializable {
 	}
 
 	public void limpiarObjetos() {
-		setReservacion(new Reservacion());
 		setListaFacturas(new ArrayList<Factura>());
 		listaHoteles = new ArrayList<Hotel>();
 
 	}
 
 	public void imprimir(Factura factura) {
-		reservacion = reservacionService.obtenerPorId(factura.getReservacion().getResCodigo());
-		List<Factura> listaReporte = new ArrayList<Reservacion>();
-		listaReporte.add(reservacion);
+		facturaTO = facturaServiceTO.obtenerTotalesFactura(codigoHotel, factura.getReservacion().getResCodigo());
+		List<FacturaTO> listaReporte = new ArrayList<FacturaTO>();
+		listaReporte.add(facturaTO);
 		reporteService.generarReportePDF(listaReporte, new HashMap<String, Object>(), "Factura",
 				"factura " + factura.getFacNumero());
 	}
@@ -133,14 +136,6 @@ public class FacturaBean implements Serializable {
 
 	public void setFactura(Factura factura) {
 		this.factura = factura;
-	}
-
-	public Reservacion getReservacion() {
-		return reservacion;
-	}
-
-	public void setReservacion(Reservacion reservacion) {
-		this.reservacion = reservacion;
 	}
 
 	public List<Factura> getListaFacturas() {
