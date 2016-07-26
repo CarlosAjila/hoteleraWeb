@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="title">-Empleados</ui:define>
+	<ui:define name="content">
+		<p:panel id="panelPrincipal"
+			header="Reporte Cliente con reservaciones canceladas">
+			<div class="EmptyBox10"></div>
+			<h:form id="formBusqueda">
+				<p:selectOneMenu id="comboHotel"
+					value="#{reportesreservacionesBean.codigoHotel}"
+					style="width:165px;">5
+					<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
+					<f:selectItems value="#{reportesreservacionesBean.listaHoteles}"
+						var="hotel" itemValue="#{hotel.hotCodigo}"
+						itemLabel="#{hotel.hotNombre}" />
+					<p:ajax event="change" update=":formDataTable"
+						listener="#{reportesreservacionesBean.obtenerClienteReservacionesCanceladas}" />
+				</p:selectOneMenu>
+
+				<p:commandLink id="btnImprimir" value="Imprimir" ajax="false"
+					styleClass="botonRonin ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left fa-print "
+					actionListener="#{reportesreservacionesBean.imprimirReservacionesCanceladas}"
+					icon="fa fa-close" />
+			</h:form>
+			<div class="EmptyBox10"></div>
+			<h:form id="formDataTable">
+				<p:dataTable id="tablaCliente" var="cliente" scrollable="true"
+					reflow="true"
+					value="#{reportesreservacionesBean.listaClienteReservacion}"
+					paginator="true" rows="10"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					paginatorPosition="bottom"
+					emptyMessage="#{msg['lbl.mensajeTabla']}">
+
+					<p:column headerText="Cédula" filterBy="#{cliente.cliCedula}">
+						<p:outputLabel value="#{cliente.cliCedula}" />
+					</p:column>
+					<p:column headerText="Apellidos Nombres"
+						filterBy="#{cliente.cliNombre} " filterMatchMode="contains">
+						<p:outputLabel value="#{cliente.cliNombre}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+
+
+	</ui:define>
+</ui:composition>

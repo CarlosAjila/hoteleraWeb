@@ -4,3 +4,4 @@
 *.project
 src/main/java/ec/com/hoteleraWeb/safari/config/SecurityConfig.java
 /bin/
+/Blank_A4.jasper

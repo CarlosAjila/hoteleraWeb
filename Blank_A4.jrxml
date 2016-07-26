@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-07-25T11:57:02 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a40b90dc-6e26-411f-9b5d-3366fd52c037">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="cliNombre" class="java.lang.String">
+		<fieldDescription><![CDATA[cliNombre]]></fieldDescription>
+	</field>
+	<field name="hotCodigo" class="java.lang.String">
+		<fieldDescription><![CDATA[hotCodigo]]></fieldDescription>
+	</field>
+	<field name="hotRuc" class="java.lang.String">
+		<fieldDescription><![CDATA[hotRuc]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="hotNombre" class="java.lang.String">
+		<fieldDescription><![CDATA[hotNombre]]></fieldDescription>
+	</field>
+	<field name="cliCedula" class="java.lang.String">
+		<fieldDescription><![CDATA[cliCedula]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="40" y="29" width="470" height="20" uuid="416a6804-3729-406e-93e4-77242c87e3ab"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE CLIENTE CON RESERVACIONESES CANCELADAS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="71" splitType="Stretch">
+			<textField>
+				<reportElement x="110" y="1" width="170" height="19" uuid="3361747f-32b6-41d1-ae60-bee32cd68eb6"/>
+				<textFieldExpression><![CDATA[$F{hotCodigo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="c739ae8c-f1f0-44ef-ba2d-d11452845ba2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Codigo Hotel]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="43" width="240" height="20" uuid="8ef80833-9c7b-4653-8ae9-ae715d8d843a"/>
+				<textFieldExpression><![CDATA[$F{hotNombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="43" width="100" height="20" uuid="696416fb-db6e-4cc0-8aaf-083db97bdd05"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Hotel]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="20" width="170" height="20" uuid="ff5c25b0-cbd8-48e8-aa45-c74fa5b61855"/>
+				<textFieldExpression><![CDATA[$F{hotRuc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="100" height="20" uuid="2661cff5-7d8a-481d-bb81-a3feef29c01f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ruc]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="7" width="250" height="17" uuid="38c91edd-c50b-4f47-af4a-ea250e7bd43b"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="5" width="100" height="20" uuid="4b3ea16e-5a3e-437a-b532-8e6ead462e56"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cedula]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="100" y="0" width="230" height="20" uuid="d67db9fb-20e2-432d-a8b4-7d95b5e8e2f4"/>
+				<textFieldExpression><![CDATA[$F{cliNombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="fe72b095-4ddd-4578-9031-395e1e730c9c"/>
+				<textFieldExpression><![CDATA[$F{cliCedula}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
