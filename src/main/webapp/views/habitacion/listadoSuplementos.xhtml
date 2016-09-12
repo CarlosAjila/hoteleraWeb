@@ -44,6 +44,13 @@
 							<p:tooltip for="btnEditar" value="#{msg['lbl.editar']}" />
 							<p:tooltip for="btnEliminar"
 								value="#{suplemento.supActivo eq true ? msg['lbl.desactivar']: msg['lbl.activar']}" />
+								<p:commandButton id="btnEliminar"
+								update=":mensaje, :formEliminar"
+								oncomplete="mostarPanelEliminar('')"
+								icon="#{suplemento.supActivo eq true ? msg['i.eliminar']: msg['i.activar']}">
+								<f:setPropertyActionListener value="#{suplemento}"
+									target="#{suplementoBean.suplemento}" />
+							</p:commandButton>
 							<p:commandButton id="btnMostrar" update=":mensaje, :formMostrar"
 								actionListener="#{suplementoBean.cargarEditar(suplemento)}"
 								oncomplete="mostarPanelMostrar('')" icon="#{msg['i.mostrar']}">
@@ -309,16 +316,16 @@
 				header="#{msg['lbl.activar']}/#{msg['lbl.desactivar']}"
 				styleClass="DispNone">
 				<h:form id="formEliminar">
-					<h:inputHidden value="#{habitacionBean.habitacion.habCodigo}" />
+					<h:inputHidden value="#{suplementoBean.suplemento.supCodigo}" />
 					<div class="EmptyBox30"></div>
 					<p:outputLabel
-						value="¿Desea #{habitacionBean.habitacion.habActivo eq true ? msg['lbl.desactivar'] : msg['lbl.activar']} la Habitacion: #{habitacionBean.habitacion.habCodigo} - #{habitacionBean.habitacion.habTipo} ?" />
+						value="¿Desea #{suplementoBean.suplemento.supActivo eq true ? msg['lbl.desactivar'] : msg['lbl.activar']} El suplemento: #{suplementoBean.suplemento.supCodigo} - #{suplementoBean.suplemento.supDetalle} ?" />
 					<div class="EmptyBox30"></div>
 					<p:separator />
 					<p:commandButton value="#{msg['btn.aceptar']}"
 						update=":formDataTable,:mensaje" icon="#{msg['i.activar']}"
 						oncomplete="mostarPanelEliminar('')"
-						actionListener="#{habitacionBean.eliminar}"
+						actionListener="#{suplementoBean.eliminar}"
 						styleClass="GreenButton" />
 					<p:commandButton value="#{msg['btn.cancelar']}"
 						onclick="mostarPanelEliminar('')" icon="#{msg['i.cancelar']}"

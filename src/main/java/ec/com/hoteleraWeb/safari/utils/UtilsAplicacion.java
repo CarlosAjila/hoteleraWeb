@@ -1,5 +1,7 @@
 package ec.com.hoteleraWeb.safari.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -46,6 +48,14 @@ public class UtilsAplicacion {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String convetirDateConFormato(Date fechaSinFormato) {
+		return new SimpleDateFormat("yyyy-MM-dd").format(fechaSinFormato);
+	}
+	
+	public static String convetirHoraConFormato(Date fechaSinFormato) {
+		return new SimpleDateFormat("HH:dd:mm").format(fechaSinFormato);
 	}
 
 	public static String paginaWeb;

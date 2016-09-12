@@ -127,7 +127,7 @@ public class SuplementoBean implements Serializable {
 	}
 
 	public void eliminar(ActionEvent actionEvent) {
-		habitacionService.eliminar(habitacion);
+		suplementoService.eliminar(suplemento);
 	}
 
 	public List<Habitacion> getListaHabitacion() {

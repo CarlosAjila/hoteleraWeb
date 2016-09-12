@@ -82,7 +82,6 @@ public class CalendarioBean implements Serializable {
 	}
 
 	public void obtenerActividadesPorHotel() {
-		System.out.println("=========================");
 		listaActividades = new ArrayList<Actividad>();
 		listaActividades = actividadService.obtenerActividadesPorHotel(codigoHotel);// hotel
 
@@ -97,6 +96,7 @@ public class CalendarioBean implements Serializable {
 	}
 
 	public void insertar(ActionEvent actionEvent) {
+		// calendario.setCalDia(UtilsAplicacion.convetirHoraConFormato(calendario));
 		calendarioService.insertar(calendario);
 		obtenerCalendarios();
 	}
