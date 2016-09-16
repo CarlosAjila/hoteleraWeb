@@ -2,7 +2,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<ui:define name="title">-Reservaciones</ui:define>
@@ -220,7 +219,7 @@
 
 							<p:outputLabel value="Abono" for="abono"
 								styleClass="DispBlock negrita" />
-							<pe:inputNumber styleClass="numeroCentrado" id="abono"
+							<p:inputNumber styleClass="numeroCentrado" id="abono"
 								required="true" requiredMessage="Debe ingresar un abono"
 								class="inputNumberWid50"
 								value="#{reservacionBean.reservacion.resAbono}"

@@ -2,7 +2,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<ui:define name="title">-Suplementos</ui:define>
@@ -112,7 +111,7 @@
 								styleClass="DispBlock Wid50" />
 							<p:outputLabel value="Precio" for="valor"
 								styleClass="DispBlock negrita" />
-							<pe:inputNumber styleClass="numeroCentrado" id="valor"
+							<p:inputNumber styleClass="numeroCentrado" id="valor"
 								required="true" requiredMessage="Debe ingresar el precio"
 								class="inputNumberWid50"
 								value="#{suplementoBean.suplemento.supValor}"
@@ -199,7 +198,7 @@
 								styleClass="DispBlock Wid50" />
 							<p:outputLabel value="Precio" for="valor"
 								styleClass="DispBlock negrita" />
-							<pe:inputNumber styleClass="numeroCentrado" id="valor"
+							<p:inputNumber styleClass="numeroCentrado" id="valor"
 								required="true" requiredMessage="Debe ingresar el precio"
 								class="inputNumberWid50"
 								value="#{suplementoBean.suplemento.supValor}"

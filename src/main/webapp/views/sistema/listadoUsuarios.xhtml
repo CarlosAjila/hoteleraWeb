@@ -61,8 +61,8 @@
 						<p:outputLabel for="comboEmpresa" value="Hotel"
 							styleClass="DispBlock" />
 						<p:selectOneMenu id="comboEmpresa" required="true"
-							requiredMessage="Debe seleccionar el Hotel"
-							value="#{usuarioBean.codigoHotel}" style="width:165px;">
+							requiredMessage="Debe seleccionar el Hotel" style="width: 80%;"
+							value="#{usuarioBean.codigoHotel}">
 							<f:selectItem itemLabel="Escoja un Hotel" itemValue="0" />
 							<f:selectItems value="#{usuarioBean.listaHoteles}" var="hotel"
 								itemValue="#{hotel.hotCodigo}" itemLabel="#{hotel.hotNombre}" />
@@ -80,25 +80,25 @@
 						</p:inputText>
 						<p:outputLabel value="Password" for="password"
 							styleClass="DispBlock" />
-						<p:inputText id="password"
+						<p:password id="password"
 							value="#{usuarioBean.usuario.usuPassword}"
 							onblur="this.value = this.value.toUpperCase()" required="true"
 							requiredMessage="Debe ingresar el Password"
 							styleClass="DispBlock Wid90">
-						</p:inputText>
+						</p:password>
 
 						<p:outputLabel for="comboRol" value="Rol" styleClass="DispBlock" />
 						<p:selectOneMenu id="comboRol" required="true"
 							requiredMessage="Debe seleccionar el Rol"
-							value="#{usuarioBean.codigoRol}" style="width:165px;">
+							value="#{usuarioBean.codigoRol}" style="width: 80%;">
 							<f:selectItem itemLabel="Escoja un Rol" itemValue="0" />
 							<f:selectItems value="#{usuarioBean.listaRoles}" var="rol"
 								itemValue="#{rol.rolId}" itemLabel="#{rol.rolNombre}" />
 							<p:ajax event="change" update=":mensaje" />
 						</p:selectOneMenu>
-						
+
 					</div>
-					
+
 				</div>
 				<div class="EmptyBox10"></div>
 				<p:separator />
