@@ -16,7 +16,9 @@ import org.springframework.stereotype.Controller;
 
 import ec.com.hoteleraWeb.safari.control.entity.Hotel;
 import ec.com.hoteleraWeb.safari.control.entity.Usuario;
+import ec.com.hoteleraWeb.safari.control.entity.UsuarioDetalle;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
+import ec.com.hoteleraWeb.safari.control.service.UsuarioDetalleService;
 import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
 import ec.com.hoteleraWeb.safari.seguridad.entity.Rol;
 import ec.com.hoteleraWeb.safari.seguridad.service.RolService;
@@ -29,6 +31,9 @@ public class UsuarioBean implements Serializable {
 
 	@Autowired
 	private UsuarioService usuarioService;
+
+	@Autowired
+	private UsuarioDetalleService usuarioDetalleService;
 
 	@Autowired
 	private HotelService hotelService;
@@ -93,7 +98,6 @@ public class UsuarioBean implements Serializable {
 	}
 
 	public void insertar() {
-		System.out.println("dfgklhkld dhfglhdl ");
 		if (codigoHotel == null || codigoHotel == 0) {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escoger un hotel");
 		} else if (usuario.getUsuNick() == null || usuario.getUsuNick().isEmpty()) {
@@ -102,8 +106,19 @@ public class UsuarioBean implements Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una contraseña");
 		} else if (codigoRol == null || codigoRol == 0) {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escoger un rol");
-		}else{
-			
+		} else {
+			UsuarioDetalle usuarioDetalle = new UsuarioDetalle();
+			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
+			usuarioDetalle.setHotel(hotel);
+			usuarioDetalle.setUsuario(usuario);
+			usuarioDetalle.setUsuDetActivo(true);
+			usuarioDetalle.setUsuDetNick(usuario.getUsuNick());
+			if (usuarioDetalleService.comprobarExistencia(usuarioDetalle))
+				presentaMensaje(FacesMessage.SEVERITY_ERROR, "EL USUARIO YA SE ENCUENTRA REGISTRADO EN ESTA EMPRESA");
+			else {
+				usuarioService.insertar(usuario);
+				usuarioDetalleService.insertar(usuarioDetalle);
+			}
 		}
 	}
 

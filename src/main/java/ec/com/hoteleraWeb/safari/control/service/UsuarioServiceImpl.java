@@ -87,17 +87,18 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 	}
 
 	public boolean insertar(Usuario usuario) {
-		boolean retorno = false;
-		if (usuarioDao.comprobarIndices(Usuario.class, "cedula", usuario.getUsuNick(),
-				String.valueOf(usuario.getUsuId())))
-			presentaMensaje(FacesMessage.SEVERITY_INFO, "LA CÉDULA YA EXISTE", "cerrar", false);
-		else {
+		List<Usuario> listaUsuarios = usuarioDao
+				.obtenerPorSql("select * from usuario where usu_nick='" + usuario.getUsuNick() + "'", Usuario.class);
+		if (listaUsuarios == null || listaUsuarios.isEmpty()) {
 			usuario.setUsuActivo(true);
 			usuario.setUsuPassword(generarClave(usuario.getUsuPassword()));
 			usuarioDao.insertar(usuario);
-			retorno = true;
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "SE INSERTO EL USUARIO: " + usuario.getUsuNombre());
+			return true;
+		} else {
+			presentaMensaje(FacesMessage.SEVERITY_INFO, "NO ESTA DISPONIBLE ESE NICK");
+			return false;
 		}
-		return retorno;
 	}
 
 	public String insertarRoles(Usuario usuario, List<String> roles) {

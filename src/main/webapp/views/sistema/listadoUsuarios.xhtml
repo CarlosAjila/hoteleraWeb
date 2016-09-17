@@ -69,6 +69,12 @@
 							<p:ajax event="change" update=":mensaje" />
 						</p:selectOneMenu>
 
+						<p:outputLabel value="Nombre" for="nombre" styleClass="DispBlock" />
+						<p:inputText id="nombre" value="#{usuarioBean.usuario.usuNombre}"
+							required="true"
+							requiredMessage="Debe ingresar el Nombre del usuario"
+							styleClass="DispBlock Wid90" />
+
 						<p:outputLabel value="Nick" for="nick" styleClass="DispBlock" />
 						<p:inputText id="nick" value="#{usuarioBean.usuario.usuNick}"
 							required="true"
@@ -78,11 +84,11 @@
 								listener="#{usuarioBean.comprobarUsuarioInsertar}"
 								update="formNuevo,:mensaje" />
 						</p:inputText>
+
 						<p:outputLabel value="Password" for="password"
 							styleClass="DispBlock" />
 						<p:password id="password"
-							value="#{usuarioBean.usuario.usuPassword}"
-							onblur="this.value = this.value.toUpperCase()" required="true"
+							value="#{usuarioBean.usuario.usuPassword}" required="true"
 							requiredMessage="Debe ingresar el Password"
 							styleClass="DispBlock Wid90">
 						</p:password>
