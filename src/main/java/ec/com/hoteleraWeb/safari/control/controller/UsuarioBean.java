@@ -1,10 +1,13 @@
 package ec.com.hoteleraWeb.safari.control.controller;
 
+import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -85,7 +88,22 @@ public class UsuarioBean implements Serializable {
 		System.out.println("dfgklhkld dhfglhdl ");
 		listaRoles = rolService.obtenerListaRol();
 		for (Rol rol : listaRoles) {
-			System.out.println("jhklfjl "+rol.getRolNombre());
+			System.out.println("jhklfjl " + rol.getRolNombre());
+		}
+	}
+
+	public void insertar() {
+		System.out.println("dfgklhkld dhfglhdl ");
+		if (codigoHotel == null || codigoHotel == 0) {
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escoger un hotel");
+		} else if (usuario.getUsuNick() == null || usuario.getUsuNick().isEmpty()) {
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un nick");
+		} else if (usuario.getUsuPassword() == null || usuario.getUsuPassword().isEmpty()) {
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar una contraseña");
+		} else if (codigoRol == null || codigoRol == 0) {
+			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escoger un rol");
+		}else{
+			
 		}
 	}
 

@@ -106,7 +106,7 @@
 					update=":formDataTable ,:mensaje, formNuevo"
 					oncomplete="comprobarInsertar(xhr, status, args, '')"
 					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
-					actionListener="#{empleadoBean.insertar}" styleClass="GreenButton" />
+					actionListener="#{usuarioBean.insertar}" styleClass="GreenButton" />
 				<p:commandButton value="#{msg['btn.cancelar']}"
 					oncomplete="mostarPanelInsertar('')" id="btnNuevolimpiar"
 					icon="#{msg['i.cancelar']}" process="@this" styleClass="RedButton" />

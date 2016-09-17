@@ -2,7 +2,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<ui:define name="title">-habitaciones</ui:define>
@@ -164,7 +163,7 @@
 								styleClass="DispBlock Wid50" />
 							<p:outputLabel value="Precio Referencial" for="precio"
 								styleClass="DispBlock negrita" />
-							<pe:inputNumber styleClass="numeroCentrado" id="precio"
+							<p:inputNumber styleClass="numeroCentrado" id="precio"
 								required="true" requiredMessage="Debe ingresar el precio"
 								class="inputNumberWid50"
 								value="#{habitacionBean.habitacion.habPrecioReferencial}"
@@ -229,7 +228,7 @@
 								styleClass="DispBlock Wid50" />
 							<p:outputLabel value="Precio Referencial" for="precio"
 								styleClass="DispBlock negrita" />
-							<pe:inputNumber styleClass="numeroCentrado" id="precio"
+							<p:inputNumber styleClass="numeroCentrado" id="precio"
 								required="true" requiredMessage="Debe ingresar el precio"
 								class="inputNumberWid50"
 								value="#{habitacionBean.habitacion.habPrecioReferencial}"
