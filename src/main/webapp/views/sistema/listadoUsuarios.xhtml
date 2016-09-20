@@ -80,9 +80,6 @@
 							required="true"
 							requiredMessage="Debe ingresar el Nick del usuario"
 							styleClass="DispBlock Wid90">
-							<p:ajax event="blur"
-								listener="#{usuarioBean.comprobarUsuarioInsertar}"
-								update="formNuevo,:mensaje" />
 						</p:inputText>
 
 						<p:outputLabel value="Password" for="password"
@@ -110,7 +107,7 @@
 				<p:separator />
 				<p:commandButton value="#{msg['btn.guardar']}"
 					update=":formDataTable ,:mensaje, formNuevo"
-					oncomplete="comprobarInsertar(xhr, status, args, '')"
+					oncomplete="mostarPanelInsertar('')"
 					id="btnNuevoAceptar" icon="#{msg['i.guardar']}"
 					actionListener="#{usuarioBean.insertar}" styleClass="GreenButton" />
 				<p:commandButton value="#{msg['btn.cancelar']}"

@@ -20,9 +20,9 @@ public class RolUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(allocationSize = 1, name = "rol_usuario_emp_rol_id_seq", sequenceName = "rol_usuario_emp_rol_id_seq")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_usuario_emp_rol_id_seq")
-	@Column(name = "emp_rol_id")
+	@SequenceGenerator(allocationSize = 1, name = "rol_usuario_rol_usu_id_seq", sequenceName = "rol_usuario_rol_usu_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_usuario_rol_usu_id_seq")
+	@Column(name = "rol_usu_id")
 	private Integer rolUsuId;
 
 	@Column(name = "rol_usul_ativo")

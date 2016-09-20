@@ -21,7 +21,9 @@ import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.control.service.UsuarioDetalleService;
 import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
 import ec.com.hoteleraWeb.safari.seguridad.entity.Rol;
+import ec.com.hoteleraWeb.safari.seguridad.entity.RolUsuario;
 import ec.com.hoteleraWeb.safari.seguridad.service.RolService;
+import ec.com.hoteleraWeb.safari.seguridad.service.RolUsuarioService;
 
 @Controller
 @Scope("session")
@@ -41,6 +43,9 @@ public class UsuarioBean implements Serializable {
 	@Autowired
 	private RolService rolService;
 
+	@Autowired
+	private RolUsuarioService rolUsuarioService;
+
 	private List<Usuario> listaUsuarios;
 
 	private List<Hotel> listaHoteles;
@@ -52,6 +57,8 @@ public class UsuarioBean implements Serializable {
 	private Integer codigoHotel;
 
 	private Integer codigoRol;
+
+	private RolUsuario rolUsuario;
 
 	public UsuarioBean() {
 	}
@@ -77,6 +84,7 @@ public class UsuarioBean implements Serializable {
 	public void limpiarObjetos() {
 		usuario = new Usuario();
 		listaRoles = new ArrayList<Rol>();
+		rolUsuario = new RolUsuario();
 		// empleado.setHotel(new Hotel());
 	}
 
@@ -113,11 +121,17 @@ public class UsuarioBean implements Serializable {
 			usuarioDetalle.setUsuario(usuario);
 			usuarioDetalle.setUsuDetActivo(true);
 			usuarioDetalle.setUsuDetNick(usuario.getUsuNick());
+			Rol rol = rolService.obtenerPorRolId(codigoRol);
+			rolUsuario.setRol(rol);
+			rolUsuario.setRolUsuId(usuario.getUsuId());
+			rolUsuario.setRolUsulAtivo(true);
+			rolUsuario.setUsuario(usuario);
 			if (usuarioDetalleService.comprobarExistencia(usuarioDetalle))
 				presentaMensaje(FacesMessage.SEVERITY_ERROR, "EL USUARIO YA SE ENCUENTRA REGISTRADO EN ESTA EMPRESA");
 			else {
 				usuarioService.insertar(usuario);
 				usuarioDetalleService.insertar(usuarioDetalle);
+				rolUsuarioService.insertar(rolUsuario);
 			}
 		}
 	}
