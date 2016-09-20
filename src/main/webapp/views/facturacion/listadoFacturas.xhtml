@@ -29,17 +29,10 @@
 					paginatorPosition="bottom"
 					emptyMessage="#{msg['lbl.mensajeTabla']}">
 
-					<f:facet name="header">
-						<p:tooltip for="btnNuevo" value="#{msg['lbl.insertar']}" />
-						<p:commandButton update="" oncomplete="mostarPanelInsertar('')"
-							action="#{facturaBean.cargarInsertar}" id="btnNuevo"
-							icon="#{msg['i.nuevo']}" />
-					</f:facet>
-
-					<p:column headerText="#{msg['lbl.gestionar']}">
+					<p:column headerText="#{msg['lbl.gestionar']}" width="10%" styleClass="TexAlCenter">
 						<p:tooltip for="btnImprimir" value="Imprimir" />
-						<p:commandButton id="btnImprimir" ajax="false"
-							icon="ui-icon-print"
+						<p:commandButton id="btnImprimir" ajax="false" 
+							style="color:white !important" icon="ui-icon-print"
 							actionListener="#{facturaBean.imprimir(factura)}"
 							update=":mensaje, :formFactura"
 							oncomplete="mostarPanelFactura('')">
@@ -48,14 +41,14 @@
 						</p:commandButton>
 					</p:column>
 
-					<p:column headerText="Numero" filterBy="#{factura.facNumero}">
+					<p:column headerText="Numero" filterBy="#{factura.facNumero}" styleClass="TexAlCenter">
 						<p:outputLabel value="#{factura.facNumero}" />
 					</p:column>
-					<p:column headerText="Fecha" filterBy="#{factura.facFecha}"
+					<p:column headerText="Fecha" filterBy="#{factura.facFecha}" styleClass="TexAlCenter"
 						filterMatchMode="contains">
 						<p:outputLabel value="#{factura.facFecha}" />
 					</p:column>
-					<p:column headerText="Total">
+					<p:column headerText="Total" styleClass="TexAlCenter">
 						<p:outputLabel value="#{factura.facTotal}" />
 					</p:column>
 				</p:dataTable>

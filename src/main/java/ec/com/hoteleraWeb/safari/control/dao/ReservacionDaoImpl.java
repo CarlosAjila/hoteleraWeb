@@ -39,6 +39,14 @@ public class ReservacionDaoImpl extends GenericDaoImpl<Reservacion, Integer> imp
 		return null;
 	}
 
+	public Reservacion obtenerPorIdHQL(Integer id) {
+		String sql = "Select r FROM Reservacion r left join fetch r.habitacionDetalles where r.resCodigo=?1";
+		Reservacion reservacion = obtenerPorHql(sql, new Object[] { id }).get(0);
+		if (reservacion != null)
+			return reservacion;
+		return null;
+	}
+
 	public List<Reservacion> obtenerTodosPorHotel(String codigoHotel) {
 		String sql = "select distinct r.* from reservacion r "
 				+ "inner join habitacion_detalle hd on r.res_codigo=hd.res_codigo "

@@ -21,7 +21,7 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 	private GenericSQLDao genericSQLDao;
 
 	public List<Habitacion> obtenerTodos() {
-		String sql = "Select * FROM habitaciones";
+		String sql = "Select * FROM habitacion";
 		List<Habitacion> habitaciones = new ArrayList<Habitacion>();
 		habitaciones = genericSQLDao.obtenerPorSql(sql, Habitacion.class);
 		if (habitaciones != null)
@@ -31,7 +31,7 @@ public class HabitacionDaoImpl extends GenericDaoImpl<Habitacion, Integer> imple
 	}
 
 	public Habitacion obtenerPorCodigo(Integer codigo) {
-		String sql = "Select * FROM habitaciones where hab_codigo='" + codigo + "'";
+		String sql = "Select * FROM habitacion where hab_codigo='" + codigo + "'";
 		Habitacion habitacion = new Habitacion();
 		habitacion = genericSQLDao.obtenerPorSql(sql, Habitacion.class).get(0);
 		if (habitacion != null)

@@ -51,7 +51,7 @@
 							<p:commandButton id="btnFactura"
 								actionListener="#{reservacionBean.generarFactura(reservacion)}"
 								update=":mensaje, :formFactura"
-								oncomplete="mostarPanelFactura('')" icon="#{msg['i.mostrar']}">
+								oncomplete="mostarPanelFactura('')" icon="fa fa-money" style="color:white;">
 								<f:setPropertyActionListener value="#{reservacion}"
 									target="#{reservacionBean.reservacion}" />
 							</p:commandButton>

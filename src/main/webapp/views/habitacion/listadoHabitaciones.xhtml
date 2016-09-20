@@ -48,7 +48,7 @@
 								<f:setPropertyActionListener value="#{habitacion}"
 									target="#{habitacionBean.habitacion}" />
 							</p:commandButton>
-							<p:commandButton id="btnEditar" update=":mensaje, :formEditar"
+							<p:commandButton id="btnEditar" update=":mensaje, :formEditar" actionListener="#{habitacionBean.cargarEditar(habitacion)}"
 								oncomplete="mostarPanelEditar('')" icon="#{msg['i.editar']}">
 								<f:setPropertyActionListener value="#{habitacion}"
 									target="#{habitacionBean.habitacion}" />

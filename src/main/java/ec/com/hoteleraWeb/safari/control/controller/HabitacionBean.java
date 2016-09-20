@@ -39,6 +39,8 @@ public class HabitacionBean implements Serializable {
 	private Integer codigoHotel;
 	private List<Hotel> listaHoteles;
 
+	private Integer numeroHabitacion;
+
 	private final BigDecimal ZERO = new BigDecimal("0.00");
 
 	public HabitacionBean() {
@@ -99,6 +101,10 @@ public class HabitacionBean implements Serializable {
 
 	}
 
+	public void cargarEditar(Habitacion habitacion) {
+		numeroHabitacion = habitacion.getHabNumero();
+	}
+
 	public void actualizar(ActionEvent actionEvent) {
 		if (codigoHotel == 0)
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un hotel");
@@ -108,9 +114,19 @@ public class HabitacionBean implements Serializable {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe ingresar un precio");
 		else if (habitacion.getHabTipo().compareTo("0") == 0)
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "Debe escojer un tipo de habitacion");
-		else if (!habitacionService.validarHabitacion(habitacion.getHabNumero().toString(), codigoHotel.toString()))
+		if (numeroHabitacion == habitacion.getHabNumero()) {
+			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
+			habitacion.setHotel(hotel);
+			habitacionService.actualizar(habitacion);
+			presentaMensaje(
+					FacesMessage.SEVERITY_INFO, "Se actualizo la habitacion con codigo: " + habitacion.getHabCodigo()
+							+ " de tipo: " + habitacion.getHabTipo() + " en el Hotel: " + hotel.getHotNombre(),
+					"cerrar", true);
+			obtenerHabitacionesPorHotel();
+			codigoHotel = hotel.getHotCodigo();
+		} else if (!habitacionService.validarHabitacion(habitacion.getHabNumero().toString(), codigoHotel.toString())) {
 			presentaMensaje(FacesMessage.SEVERITY_ERROR, "El numero de la habitacion ya existe");
-		else {
+		} else {
 			Hotel hotel = hotelService.obtenerPorCodigo(codigoHotel.toString());
 			habitacion.setHotel(hotel);
 			habitacionService.actualizar(habitacion);
@@ -121,7 +137,6 @@ public class HabitacionBean implements Serializable {
 			obtenerHabitacionesPorHotel();
 			codigoHotel = hotel.getHotCodigo();
 		}
-
 	}
 
 	public void eliminar(ActionEvent actionEvent) {

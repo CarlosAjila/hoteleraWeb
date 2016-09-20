@@ -33,6 +33,10 @@ public class ReservacionServiceImpl implements ReservacionService, Serializable 
 		return reservacionDao.obtenerPorId(id);
 	}
 
+	public Reservacion obtenerPorIdHQL(Integer id) {
+		return reservacionDao.obtenerPorIdHQL(id);
+	}
+
 	public void insertar(Reservacion reservacion) {
 		reservacionDao.insertar(reservacion);
 	}

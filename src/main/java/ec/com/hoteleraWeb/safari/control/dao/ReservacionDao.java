@@ -21,5 +21,8 @@ public interface ReservacionDao extends GenericDao<Reservacion, Integer> {
 
 	@Transactional
 	public Reservacion obtenerPorId(Integer id);
+	
+	@Transactional
+	public Reservacion obtenerPorIdHQL(Integer id);
 
 }

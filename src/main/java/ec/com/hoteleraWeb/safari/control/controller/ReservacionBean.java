@@ -5,7 +5,6 @@ import static ec.com.hoteleraWeb.safari.utils.UtilsAplicacion.presentaMensaje;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -37,7 +36,6 @@ import ec.com.hoteleraWeb.safari.control.service.HabitacionService;
 import ec.com.hoteleraWeb.safari.control.service.HotelService;
 import ec.com.hoteleraWeb.safari.control.service.ReservacionService;
 import ec.com.hoteleraWeb.safari.control.service.UsuarioService;
-import ec.com.hoteleraWeb.safari.utils.service.ReporteService;
 
 @Controller
 @Scope("session")
@@ -111,6 +109,7 @@ public class ReservacionBean implements Serializable {
 
 	public void limpiarObjetos() {
 		reservacion = new Reservacion();
+		reservacion.setHabitacionDetalles(new ArrayList<HabitacionDetalle>());
 		reservacion.setCliente(new Cliente());
 		clienteReservacion = "";
 		reservacion.setResAbono(ZERO);
@@ -203,7 +202,7 @@ public class ReservacionBean implements Serializable {
 			else {
 				factura.setFacNumero(numeroFactura);
 				facturaService.insertar(factura);
-				reservacion = reservacionService.obtenerPorId(reservacion.getResCodigo());
+				reservacion = reservacionService.obtenerPorIdHQL(reservacion.getResCodigo());
 				for (HabitacionDetalle habitacionDetalle : reservacion.getHabitacionDetalles()) {
 					Habitacion habitacion = habitacionService
 							.obtenerPorCodigo(habitacionDetalle.getHabitacion().getHabCodigo());

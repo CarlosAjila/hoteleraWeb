@@ -2,7 +2,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<ui:define name="title">-Actidades</ui:define>
@@ -207,7 +206,7 @@
 						<p:outputLabel value="Precio Actividad" for="precio"
 							styleClass="DispBlock negrita" />
 
-						<pe:inputNumber styleClass="numeroCentrado" id="precio"
+						<p:inputNumber styleClass="numeroCentrado" id="precio"
 							required="true" requiredMessage="Debe ingresar el precio"
 							class="inputNumberWid50"
 							value="#{actividadBean.actividad.actValor}"
@@ -302,7 +301,7 @@
 
 						<p:outputLabel value="Precio" for="precio"
 							styleClass="DispBlock negrita" />
-						<pe:inputNumber styleClass="numeroCentrado" id="precio"
+						<p:inputNumber styleClass="numeroCentrado" id="precio"
 							required="true" requiredMessage="Debe ingresar el precio"
 							class="inputNumberWid50"
 							value="#{actividadBean.actividad.actValor}"
